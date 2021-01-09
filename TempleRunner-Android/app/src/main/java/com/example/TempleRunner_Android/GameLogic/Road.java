@@ -8,8 +8,20 @@ public class Road {
     private List<Block> LeftRoad = null;
     private List<Block> RightRoad = null;
 
-    public Road(){
+    /** size of one blocks */
+    private int BlockSize;
 
+    // a tester pour le découpage de l'ecran
+    private final int diviseur = 6;
+
+    public Road(int screenX, int screenY){
+        BlockSize = screenX /diviseur;
+        for (int i =0;i<diviseur;i++)
+            mainRoad.add(simpleRoadBlock(screenX-(BlockSize*diviseur) ,BlockSize,screenY));
+    }
+
+    public Block simpleRoadBlock(int pos , int blockSize , int screenY){
+        return new SimpleRoadBlock(pos,blockSize,screenY);
     }
 
 }
