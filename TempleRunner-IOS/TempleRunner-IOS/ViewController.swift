@@ -13,16 +13,18 @@ class ViewController: UIViewController {
     var chatView: ChatView?
     var scoreView: ScoreView?
     var firstView: FirstView?
+    let screenSize = UIScreen.main.bounds
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
-        gameView = GameView()
-        chatView = ChatView()
-        scoreView = ScoreView()
-        firstView = FirstView()
+        chatView = ChatView(frame: screenSize)
+        scoreView = ScoreView(frame: screenSize)
+        gameView = GameView(frame: screenSize, scoreView!)
+        firstView = FirstView(frame: screenSize, chatView!, scoreView!, gameView!)
+        self.view = firstView!
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
