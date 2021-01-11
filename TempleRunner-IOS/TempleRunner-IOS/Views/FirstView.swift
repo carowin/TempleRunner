@@ -8,44 +8,46 @@
 
 import UIKit
 
+/* Vue sur la page d'accueil */
 class FirstView: UIView {
-    var chatView : ChatView?
-    var scoreView : ScoreView?
-    var gameView : GameView?
+    var vc: ViewController?
+    
     let backgroundImage = UIImageView(image: UIImage(named: "firstViewBackground"))
     let playButtonBacklight = UIImageView(image: UIImage(named: "ray-sunlight"))
     var playButtonBacklightTimer : Timer?
-    init(frame: CGRect, _ chatView : ChatView, _ scoreView : ScoreView, _ gameView : GameView) {
-        self.chatView = chatView
-        self.scoreView = scoreView
-        self.gameView = gameView
-        //play button
+    var buttonPlay = UIButton(type: .custom) //bouton play
+    
+    init(frame : CGRect, viewc : ViewController){
+        self.vc = viewc
         playButtonBacklight.frame.size.width = frame.size.width/3
         playButtonBacklight.frame.size.height = frame.size.height/4
         
         super.init(frame: frame)
-        playButtonBacklightTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(playButtonBlink), userInfo: nil, repeats: true)
-        backgroundColor = .black
-        chatView.setFirstView(firstView: self)
-        scoreView.setFirstView(firstView: self)
+        
+        buttonPlay.setImage(UIImage(named: "playButton"), for: .normal)
+        buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
         self.addSubview(backgroundImage)
-        addSubview(playButtonBacklight)
-        drawInSize(frame)
+        self.addSubview(playButtonBacklight)
+        self.addSubview(buttonPlay)
+        self.drawInSize(frame)
     }
     
+    /* fonction appelé pour dessiner la vue */
     func drawInSize(_ frame : CGRect){
         var top : CGFloat = 0;
         if (UIDevice.current.userInterfaceIdiom == .phone && frame.size.height > 812){
             top = 30
         }
-        backgroundImage.frame = CGRect(x: 0, y: top, width: frame.size.width, height: frame.size.height - top + 50)
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 50)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
+        buttonPlay.frame = CGRect(x: frame.size.width/2-50, y: frame.size.height*3/4, width: 100, height: 100)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /* fonction pour faire clignoter le rayon de soleil */
     @objc func playButtonBlink(){
         if (playButtonBacklight.isHidden){
             playButtonBacklight.isHidden = false
@@ -53,11 +55,21 @@ class FirstView: UIView {
             playButtonBacklight.isHidden = true
         }
     }
-    func display() {
-        //TO BE COMPLETED!!
+    
+    /* fonction appelé par le viewController pour afficher la page d'accueil */
+    func displayFirstView() {
+        playButtonBacklightTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(playButtonBlink), userInfo: nil, repeats: true)
+        backgroundImage.isHidden = false
+        playButtonBacklight.isHidden = false
+        buttonPlay.isHidden = false
     }
     
-    func hide() {
-        //TO BE COMPLETED!!
+    /* fonction appelé par le viewController pour cacher la vue de la table des scores */
+    func hideFirstView() {
+        playButtonBacklightTimer?.invalidate()
+        playButtonBacklightTimer = nil
+        backgroundImage.isHidden = true
+        playButtonBacklight.isHidden = true
+        buttonPlay.isHidden = true
     }
 }

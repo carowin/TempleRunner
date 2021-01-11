@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     var chatView: ChatView?
     var scoreView: ScoreView?
     var firstView: FirstView?
+    
+    
     let screenSize = UIScreen.main.bounds
     
     required init?(coder aDecoder: NSCoder) {
@@ -20,13 +22,27 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        chatView = ChatView(frame: screenSize)
-        scoreView = ScoreView(frame: screenSize)
-        gameView = GameView(frame: screenSize, scoreView!)
-        firstView = FirstView(frame: screenSize, chatView!, scoreView!, gameView!)
-        self.view = firstView!
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        chatView = ChatView(frame: screenSize, viewc: self)
+        scoreView = ScoreView(frame: screenSize, viewc: self)
+        gameView = GameView(frame: screenSize, viewc: self)
+        firstView = FirstView(frame: screenSize, viewc: self)
+        
+        self.view.addSubview(chatView!)
+        self.view.addSubview(scoreView!)
+        self.view.addSubview(gameView!)
+        self.view.addSubview(firstView!)
+        
+        chatView?.hideChatView()
+        scoreView?.hideScoreView()
+        gameView?.hideGameView()
+        firstView?.displayFirstView()
+    }
+    
+    /* Affichage du jeu lorsqu'on est sur la page d'accueil */
+    @objc func displayGameView(){
+        firstView?.hideFirstView()
+        gameView?.displayGameView()
     }
     
 
