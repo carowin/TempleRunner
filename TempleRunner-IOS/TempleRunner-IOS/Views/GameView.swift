@@ -10,4 +10,23 @@ import UIKit
 
 class GameView: UIView {
     
+    private var scoreView : ScoreView?
+    
+    init(frame: CGRect, _ scoreView : ScoreView) {
+        self.scoreView = scoreView
+        super.init(frame: frame)
+        backgroundColor = .blue
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func display() {
+        //TO BE COMPLETED!!
+    }
+    
+    func hide() {
+        //TO BE COMPLETED!!
+    }
 }

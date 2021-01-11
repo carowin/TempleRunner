@@ -10,4 +10,26 @@ import UIKit
 
 class ChatView: UIView {
     
+    private var firstView : FirstView?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .gray
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setFirstView (firstView : FirstView){
+        self.firstView = firstView
+    }
+    
+    func display() {
+        //TO BE COMPLETED!!
+    }
+    
+    func hide() {
+        //TO BE COMPLETED!!
+    }
 }
