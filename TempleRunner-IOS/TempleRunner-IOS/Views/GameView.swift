@@ -8,25 +8,45 @@
 
 import UIKit
 
+/* Vue sur le jeu */
 class GameView: UIView {
+    var vc: ViewController?
     
-    private var scoreView : ScoreView?
+    let backgroundImage = UIView()
+    private var labelEssay : UILabel?
     
-    init(frame: CGRect, _ scoreView : ScoreView) {
-        self.scoreView = scoreView
+    init(frame : CGRect, viewc : ViewController){
+        self.vc = viewc
         super.init(frame: frame)
-        backgroundColor = .blue
+        self.backgroundImage.backgroundColor = .blue
+        labelEssay = UILabel()
+        labelEssay?.text = "GAME VIEW !"
+        
+        self.addSubview(backgroundImage)
+        self.addSubview(labelEssay!)
+        
+        self.drawInSize(frame)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func display() {
-        //TO BE COMPLETED!!
+    /* fonction appelé pour dessiner la game view */
+    func drawInSize(_ frame : CGRect){
+        backgroundImage.frame = CGRect(x: 0, y: 10, width: frame.size.width, height: frame.size.height - 10 + 50)
+        labelEssay?.frame = CGRect(x: 20, y: 100, width: 100, height: 100)
     }
     
-    func hide() {
-        //TO BE COMPLETED!!
+    /* fonction appelé par le viewController pour afficher la vue du jeu */
+    func displayGameView() {
+        backgroundImage.isHidden = false
+        labelEssay?.isHidden = false
+    }
+    
+    /* fonction appelé par le viewController pour cacher la vue du jeu */
+    func hideGameView() {
+        backgroundImage.isHidden = true
+        labelEssay?.isHidden = true
     }
 }
