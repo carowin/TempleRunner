@@ -8,11 +8,14 @@
 
 import UIKit
 
+/* Vue sur la conversation entre les joueurs */
 class ChatView: UIView {
+    var vc: ViewController?
     
     private var firstView : FirstView?
     
-    override init(frame: CGRect) {
+    init(frame : CGRect, viewc : ViewController){
+        self.vc = viewc
         super.init(frame: frame)
         backgroundColor = .gray
     }
@@ -21,15 +24,18 @@ class ChatView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setFirstView (firstView : FirstView){
-        self.firstView = firstView
-    }
-    
-    func display() {
+    /* fonction appelé pour dessiner le chat view */
+    func drawInSize(_ frame : CGRect){
         //TO BE COMPLETED!!
     }
     
-    func hide() {
+    /* fonction appelé par le viewController pour afficher la vue du chat */
+    func displayChatView() {
+        //TO BE COMPLETED!!
+    }
+    
+    /* fonction appelé par le viewController pour cacher la vue du chat */
+    func hideChatView() {
         //TO BE COMPLETED!!
     }
 }

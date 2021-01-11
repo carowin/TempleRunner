@@ -8,11 +8,13 @@
 
 import UIKit
 
+/* Vue : Table de score */
 class ScoreView: UIView {
-    
+    var vc: ViewController?
     private var firstView : FirstView?
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, viewc: ViewController) {
+        self.vc = viewc
         super.init(frame: frame)
         backgroundColor = .red
     }
@@ -21,15 +23,18 @@ class ScoreView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setFirstView (firstView : FirstView){
-        self.firstView = firstView
-    }
     
-    func display() {
+    func drawInSize(_ frame : CGRect){
         //TO BE COMPLETED!!
     }
     
-    func hide() {
+    /* fonction appelé par le viewController pour afficher la vue de la table des scores */
+    func displayScoreView() {
+        //TO BE COMPLETED!!
+    }
+    
+    /* fonction appelé par le viewController pour cacher la vue de la table des scores */
+    func hideScoreView() {
         //TO BE COMPLETED!!
     }
 }
