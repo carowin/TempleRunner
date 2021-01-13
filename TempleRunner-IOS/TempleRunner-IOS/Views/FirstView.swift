@@ -59,6 +59,7 @@ class FirstView: UIView {
     /* fonction appelé par le viewController pour afficher la page d'accueil */
     func displayFirstView() {
         playButtonBacklightTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(playButtonBlink), userInfo: nil, repeats: true)
+        self.isHidden = false
         backgroundImage.isHidden = false
         playButtonBacklight.isHidden = false
         buttonPlay.isHidden = false
@@ -68,6 +69,7 @@ class FirstView: UIView {
     func hideFirstView() {
         playButtonBacklightTimer?.invalidate()
         playButtonBacklightTimer = nil
+        self.isHidden = true
         backgroundImage.isHidden = true
         playButtonBacklight.isHidden = true
         buttonPlay.isHidden = true

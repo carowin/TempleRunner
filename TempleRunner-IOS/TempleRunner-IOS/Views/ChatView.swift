@@ -31,11 +31,11 @@ class ChatView: UIView {
     
     /* fonction appelé par le viewController pour afficher la vue du chat */
     func displayChatView() {
-        //TO BE COMPLETED!!
+        self.isHidden = false
     }
     
     /* fonction appelé par le viewController pour cacher la vue du chat */
     func hideChatView() {
-        //TO BE COMPLETED!!
+        self.isHidden = true
     }
 }
