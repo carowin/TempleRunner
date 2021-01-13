@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import CoreMotion
 
 
 /* Vue sur le jeu */
 class GameView: UIView {
     var vc: ViewController?
+    let width = UIScreen.main.bounds.width
+    let height = UIScreen.main.bounds.height
     
-    let seaGif = [UIImage(named: "gameView_bckg/water-0"),UIImage(named: "gameView_bckg/water-1"),UIImage(named: "gameView_bckg/water-2"),UIImage(named: "gameView_bckg/water-3"),UIImage(named: "gameView_bckg/water-4"),UIImage(named: "gameView_bckg/water-5")] //creation d'un tableau d'image(pour inserer un gif)
-    var backgroundImage : UIImageView? //image de fond du jeu
+    private let seaGif = [UIImage(named: "gameView_bckg/water-0"),UIImage(named: "gameView_bckg/water-1"),UIImage(named: "gameView_bckg/water-2"),UIImage(named: "gameView_bckg/water-3"),UIImage(named: "gameView_bckg/water-4"),UIImage(named: "gameView_bckg/water-5")] //creation d'un tableau d'image(pour inserer un gif)
+    private var backgroundImage : UIImageView? //image de fond du jeu
     
     private var scoreLabel : UILabel? // affichage score du joueur
     private var coinsLabel : UILabel? // affichage nombre de pieces récupéré
@@ -24,17 +27,19 @@ class GameView: UIView {
     private var scoreCoins = 0 //nb coins recolté (TEMPORAIRE, peut être faire une classe Joueur)
     
     
-    let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
-    var playerRun : UIImage? //image joueur qui cours
-    let playerJump = UIImage(named: "playerMouvement/playerJump")//image du joueur qui saute
-    let playerSlide = UIImage(named: "playerMouvement/playerSlide")//image du joueur qui glisse
-    let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
-    let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
-    var playerImage : UIImageView? //icone du joueur
+    private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
+    private var playerRun : UIImage? //image joueur qui cours
+    private let playerJump = UIImage(named: "playerMouvement/playerJump")//image du joueur qui saute
+    private let playerSlide = UIImage(named: "playerMouvement/playerSlide")//image du joueur qui glisse
+    private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
+    private let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
+    private var playerImage : UIImageView? //icone du joueur
     
     
-    var updateTimer : Timer? //timer pour updater le jeu
-    var actionTime : Timer? //timer pour remettre le player en position run
+    private let cmMngr = CMMotionManager() //gestion du motion device
+    
+    private var updateTimer : Timer? //timer pour updater le jeu
+    private var actionTime : Timer? //timer pour remettre le player en position run
     
     
     
@@ -72,6 +77,13 @@ class GameView: UIView {
         swipeLeft.direction = .left
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(sender:)))
         swipeRight.direction = .right
+        self.addGestureRecognizer(swipeDown)
+        self.addGestureRecognizer(swipeUp)
+        self.addGestureRecognizer(swipeLeft)
+        self.addGestureRecognizer(swipeRight)
+        
+        cmMngr.startAccelerometerUpdates()
+        cmMngr.startDeviceMotionUpdates()
         //__________________ fin gestion des mouvements du joueur __________________
         
         self.addSubview(backgroundImage!)
@@ -79,11 +91,6 @@ class GameView: UIView {
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
         self.addSubview(coinsLabel!)
-        
-        self.addGestureRecognizer(swipeDown)
-        self.addGestureRecognizer(swipeUp)
-        self.addGestureRecognizer(swipeLeft)
-        self.addGestureRecognizer(swipeRight)
         
         self.drawInSize(frame)
     }
@@ -123,6 +130,21 @@ class GameView: UIView {
     @objc func update(){
         myScore += 1 //incrémentation du score (1points/ms à changer peut être)
         scoreLabel?.text = String(myScore)
+        
+        if cmMngr.deviceMotion !== nil {
+            let newX = (playerImage?.center.x)! + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
+            //A changer avec la limite de la route
+            if width/3<newX && newX<2*width/3 {
+                playerImage?.center.x = newX
+            }
+        }
+    }
+    
+    /* fonction appelé pour stopper le jeu*/
+    func stopGame(){
+        //TO BE COMPLETED
+        cmMngr.stopAccelerometerUpdates()
+        cmMngr.stopDeviceMotionUpdates()
     }
 
     
@@ -150,8 +172,6 @@ class GameView: UIView {
     
     /* fonction appelé pour dessiner la game view */
     func drawInSize(_ frame : CGRect){
-        let width = frame.size.width
-        let height = frame.size.height
         var top = 25
         
         //cas où c'est un iphone X ou supérieur
