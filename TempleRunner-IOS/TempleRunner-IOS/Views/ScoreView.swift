@@ -30,11 +30,11 @@ class ScoreView: UIView {
     
     /* fonction appelé par le viewController pour afficher la vue de la table des scores */
     func displayScoreView() {
-        //TO BE COMPLETED!!
+        self.isHidden = false
     }
     
     /* fonction appelé par le viewController pour cacher la vue de la table des scores */
     func hideScoreView() {
-        //TO BE COMPLETED!!
+        self.isHidden = true
     }
 }
