@@ -10,21 +10,32 @@ import Foundation
 import UIKit
 
 class Block {
-    let pos: Int
+    let x: Int
+    var y: Int
     let blockSize : Int
-    let screenY : Int
     let baseImage = UIImage(named: "pave")
     var baseView : UIImageView!
-    init(pos : Int , blockSize : Int , screenY : Int  ) {
-        self.pos=pos
+    init(x : Int ,y : Int , blockSize : Int ) {
+        self.x=x
+        self.y=y
         self.blockSize = blockSize
-        self.screenY = screenY
     }
     
     public func setView(view : UIView){
-        baseView = UIImageView(image: baseImage)
-        baseView.frame = CGRect(x: pos, y: 50, width: blockSize, height: blockSize)
+        if(baseView == nil ){
+         baseView = UIImageView(image: baseImage)
+        }
+       baseView.frame = CGRect(x: x, y: y, width: blockSize, height: blockSize)
         view.addSubview(baseView)
+    }
+    
+    public func hideBlock(value : Bool){
+        baseView.isHidden=value
+    }
+    
+    public func updatePosition(){
+        y = y + 1
+        baseView.frame = CGRect(x: x, y: y, width: blockSize, height: blockSize)
     }
     
 }

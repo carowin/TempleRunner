@@ -41,7 +41,7 @@ class GameView: UIView {
     private var updateTimer : Timer? //timer pour updater le jeu
     private var actionTime : Timer? //timer pour remettre le player en position run
     
-    private var simpleBlock = SimpleRoad(pos: 50, blockSize:150, screenY: 50)
+    private var  road : Road?
     
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
@@ -84,10 +84,11 @@ class GameView: UIView {
         
         cmMngr.startAccelerometerUpdates()
         cmMngr.startDeviceMotionUpdates()
+        road = Road(view: self)
         //__________________ fin gestion des mouvements du joueur __________________
         
         self.addSubview(backgroundImage!)
-        simpleBlock.setView(view: self)
+        road?.setRoad()
         self.addSubview(playerImage!)
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
@@ -139,6 +140,11 @@ class GameView: UIView {
                 playerImage?.center.x = newX
             }
         }
+        
+        // update roade
+        road?.updateRoad()
+        print("La   ")
+        print(road?.mainRoad.count)
     }
     
     /* fonction appelé pour stopper le jeu*/
@@ -158,6 +164,7 @@ class GameView: UIView {
         progressView?.isHidden = false
         scoreLabel?.isHidden = false
         coinsLabel?.isHidden = false
+        road?.isHidden(value : false)
     }
     
     /* fonction appelé par le viewController pour cacher la vue du jeu */
@@ -169,6 +176,7 @@ class GameView: UIView {
         progressView?.isHidden = true
         scoreLabel?.isHidden = true
         coinsLabel?.isHidden = true
+        road?.isHidden(value : true)
     }
     
     /* fonction appelé pour dessiner la game view */
