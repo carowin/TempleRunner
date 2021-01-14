@@ -41,7 +41,7 @@ class GameView: UIView {
     private var updateTimer : Timer? //timer pour updater le jeu
     private var actionTime : Timer? //timer pour remettre le player en position run
     
-    
+    private var simpleBlock = SimpleRoad(pos: 50, blockSize:150, screenY: 50)
     
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
@@ -87,6 +87,7 @@ class GameView: UIView {
         //__________________ fin gestion des mouvements du joueur __________________
         
         self.addSubview(backgroundImage!)
+        simpleBlock.setView(view: self)
         self.addSubview(playerImage!)
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
