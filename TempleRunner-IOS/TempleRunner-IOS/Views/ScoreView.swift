@@ -9,8 +9,6 @@
 import UIKit
 
 let FONT_NAME = "HanaleiFill-Regular"
-let NUMERIC_LABEL_SIZE : CGFloat = 32.0
-let ALPHA_LABEL_SIZE : CGFloat = 28.0
 let EMPTY_LABEL = "-----"
 
 let topButtonColor = UIColor (red:239.0/255.0, green:205.0/255.0, blue:100.4/255.0, alpha:1)
@@ -36,24 +34,34 @@ class ScoreView: UIView {
         self.vc = viewc
 
         super.init(frame: frame)
+
+        var sizeFontAlpha : CGFloat = 24.0;
+        var sizeFontNumeric : CGFloat = 30.0;
+        if (UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.width > 412){
+            sizeFontAlpha = 28.0
+            sizeFontNumeric = 32.0
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            sizeFontAlpha = 42.0
+            sizeFontNumeric = 38.0
+        }
         
         topScoreLabel.text = "Your high score :"
         topScoreLabel.textAlignment = .center
-        topScoreLabel.font = UIFont(name: FONT_NAME, size: ALPHA_LABEL_SIZE)
+        topScoreLabel.font = UIFont(name: FONT_NAME, size: sizeFontAlpha)
         
         topScoreLabelValue.text = EMPTY_LABEL
         topScoreLabelValue.textAlignment = .center
-        topScoreLabelValue.font = UIFont(name: FONT_NAME, size: NUMERIC_LABEL_SIZE)
+        topScoreLabelValue.font = UIFont(name: FONT_NAME, size: sizeFontNumeric)
         
         lastScoreLabel.text = "Your last score :"
         lastScoreLabel.textAlignment = .center
-        lastScoreLabel.font = UIFont(name: FONT_NAME, size: ALPHA_LABEL_SIZE)
+        lastScoreLabel.font = UIFont(name: FONT_NAME, size: sizeFontAlpha)
         
         lastScoreLabelValue.text = EMPTY_LABEL
         lastScoreLabelValue.textAlignment = .center
-        lastScoreLabelValue.font = UIFont(name: FONT_NAME, size: NUMERIC_LABEL_SIZE)
+        lastScoreLabelValue.font = UIFont(name: FONT_NAME, size: sizeFontNumeric)
 
-        let sizeButton = frame.size.width - (frame.size.width/2.5)
+        let sizeButton = frame.size.width - (frame.size.width/2.2)
         
         buttonPlayAgain.createCustomButton(title:"PLAY AGAIN", width: sizeButton)
         buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
@@ -107,19 +115,19 @@ class ScoreView: UIView {
             top = 30
         }
 
-        let reduceFrameWidth = frame.size.width - (frame.size.width/10)
-        let begingReduceFrame = (frame.size.width/10)
-        let sizeLabels = reduceFrameWidth-begingReduceFrame
+        let padding = (frame.size.width/8)
+        let reduceFrameWidth = frame.size.width - padding
+        let sizeLabels = reduceFrameWidth - padding
         let paddingButton = (frame.size.width/10)
         
-        topScoreLabel.frame = CGRect(x: begingReduceFrame, y: frame.size.height*1/10, width: sizeLabels, height: 50)
-        topScoreLabelValue.frame = CGRect(x: begingReduceFrame, y: frame.size.height*2/10+10, width: sizeLabels, height: 50)
-        lastScoreLabel.frame = CGRect(x: begingReduceFrame, y: frame.size.height*3/10, width: sizeLabels, height: 50)
-        lastScoreLabelValue.frame = CGRect(x: begingReduceFrame, y: frame.size.height*4/10+10, width: sizeLabels, height: 50)
-        backgroundImage.frame = CGRect(x: reduceFrameWidth/20, y: 0, width: reduceFrameWidth, height: frame.size.height - top + 50)
-        buttonSaveScore.frame = CGRect(x: begingReduceFrame + paddingButton, y: frame.size.height*6/10, width: sizeLabels - 2*paddingButton, height: 50)
-        buttonPlayAgain.frame = CGRect(x: begingReduceFrame + paddingButton, y: frame.size.height*7/10, width: sizeLabels - 2*paddingButton, height: 50)
-        buttonBack.frame = CGRect(x: begingReduceFrame + paddingButton, y: frame.size.height*8/10, width: sizeLabels - 2*paddingButton, height: 50)
+        topScoreLabel.frame = CGRect(x: padding, y: frame.size.height*1/10, width: sizeLabels, height: 50)
+        topScoreLabelValue.frame = CGRect(x: padding, y: frame.size.height*2/10+10, width: sizeLabels, height: 50)
+        lastScoreLabel.frame = CGRect(x: padding, y: frame.size.height*3/10, width: sizeLabels, height: 50)
+        lastScoreLabelValue.frame = CGRect(x: padding, y: frame.size.height*4/10+10, width: sizeLabels, height: 50)
+        backgroundImage.frame = CGRect(x: padding, y: 0, width: reduceFrameWidth - padding, height: frame.size.height - top + 50)
+        buttonSaveScore.frame = CGRect(x:  padding + paddingButton, y: frame.size.height*6/10, width: sizeLabels - 2*paddingButton, height: 50)
+        buttonPlayAgain.frame = CGRect(x: padding + paddingButton, y: frame.size.height*7/10, width: sizeLabels - 2*paddingButton, height: 50)
+        buttonBack.frame = CGRect(x:padding + paddingButton, y: frame.size.height*8/10, width: sizeLabels  -  2*paddingButton, height: 50)
     }
     
     /* fonction appelé par le viewController pour afficher la vue de la table des scores */
@@ -168,6 +176,12 @@ extension UIButton {
         self.layer.cornerRadius = 10
         self.setTitle(title, for: .normal)
         self.setTitleColor(.darkGray, for: .normal)
-        self.titleLabel?.font = UIFont(name: FONT_NAME, size: ALPHA_LABEL_SIZE)
+        var sizeFont : CGFloat = 24.0;
+        if (UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.width > 412){
+            sizeFont = 28.0
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            sizeFont = 42.0
+        }
+        self.titleLabel?.font = UIFont(name: FONT_NAME, size: sizeFont)
     }
 }
