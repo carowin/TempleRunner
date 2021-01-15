@@ -16,6 +16,8 @@ class FirstView: UIView {
     let playButtonBacklight = UIImageView(image: UIImage(named: "ray-sunlight"))
     var playButtonBacklightTimer : Timer?
     var buttonPlay = UIButton(type: .custom) //bouton play
+    var buttonScore = UIButton(type: .custom) //bouton score
+    var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
@@ -26,9 +28,22 @@ class FirstView: UIView {
         
         buttonPlay.setImage(UIImage(named: "playButton"), for: .normal)
         buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
+        
+        buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
+        buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreView), for: .touchUpInside)
+
+        let blurEffect = UIBlurEffect(style: .dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView?.frame = self.bounds
+        blurEffectView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView?.isHidden = true
+
+
         self.addSubview(backgroundImage)
         self.addSubview(playButtonBacklight)
         self.addSubview(buttonPlay)
+        self.addSubview(buttonScore)
+        self.addSubview(blurEffectView!)
         self.drawInSize(frame)
     }
     
@@ -38,9 +53,10 @@ class FirstView: UIView {
         if (UIDevice.current.userInterfaceIdiom == .phone && frame.size.height > 812){
             top = 30
         }
-        backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 50)
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 100)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
         buttonPlay.frame = CGRect(x: frame.size.width/2-50, y: frame.size.height*3/4, width: 100, height: 100)
+        buttonScore.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*9/10, width: 150, height: 50)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,6 +79,7 @@ class FirstView: UIView {
         backgroundImage.isHidden = false
         playButtonBacklight.isHidden = false
         buttonPlay.isHidden = false
+        buttonScore.isHidden = false
     }
     
     /* fonction appelé par le viewController pour cacher la vue de la table des scores */
@@ -73,5 +90,14 @@ class FirstView: UIView {
         backgroundImage.isHidden = true
         playButtonBacklight.isHidden = true
         buttonPlay.isHidden = true
+        buttonScore.isHidden = true
+    }
+
+    func blurFirstView (){
+        self.blurEffectView?.isHidden = false
+    }
+
+    func cleanFirstView (){
+        self.blurEffectView?.isHidden = true
     }
 }
