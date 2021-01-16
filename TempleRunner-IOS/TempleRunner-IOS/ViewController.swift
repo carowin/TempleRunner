@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     var chatView: ChatView?
     var scoreView: ScoreView?
     var firstView: FirstView?
+
+    var scoreModel : ScoreModel?
     
     
     let screenSize = UIScreen.main.bounds
@@ -27,6 +29,8 @@ class ViewController: UIViewController {
         scoreView = ScoreView(frame: screenSize, viewc: self)
         gameView = GameView(frame: screenSize, viewc: self)
         firstView = FirstView(frame: screenSize, viewc: self)
+
+        scoreModel = ScoreModel()
         
         self.view.addSubview(chatView!)
         self.view.addSubview(scoreView!)
@@ -42,9 +46,32 @@ class ViewController: UIViewController {
     /* Affichage du jeu lorsqu'on est sur la page d'accueil */
     @objc func displayGameView(){
         firstView?.hideFirstView()
+        scoreView?.hideScoreView()
         gameView?.displayGameView()
     }
     
+    /* Affichage la page des scores  */
+    @objc func displayScoreView(){
+        firstView?.blurFirstView()
+        self.view.bringSubviewToFront(scoreView!)
+        scoreView?.displayScoreView()
+        scoreView?.viewWillAppear()
+        
+    }
+
+    /* Retire la page des scores  */
+    @objc func removeScoreView(){
+        firstView?.cleanFirstView()
+        scoreView?.viewWillDisappear()
+        scoreView?.hideScoreView()
+        self.view.sendSubviewToBack(scoreView!)
+    }
+    
+    /* Sauvegarde le nouveau score dans la BDD */
+    @objc func saveScoreToBDD(){
+        // TO DO
+    }
+    
+    
 
 }
-
