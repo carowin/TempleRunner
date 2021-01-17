@@ -42,7 +42,7 @@ public class GameView extends SurfaceView implements Runnable {
          if(getHolder().getSurface().isValid()){
              Log.d("izan","Izannne");
              Canvas canvas =  getHolder().lockCanvas();
-             
+
              canvas.drawBitmap(backgroundArray[(currentBG++)%6].background, screenX,screenY, new Paint());
              getHolder().unlockCanvasAndPost(canvas);
          }
@@ -65,9 +65,8 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-
-    private class Background {
-         Bitmap background;
+    public class Background {
+        Bitmap background;
         Background(int screenX, int screenY, Resources res, int imageNumber){
             switch (imageNumber){
                 case 0:
@@ -92,4 +91,5 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
     }
+
 }
