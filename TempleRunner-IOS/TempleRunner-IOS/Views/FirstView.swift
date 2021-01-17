@@ -30,7 +30,7 @@ class FirstView: UIView {
         buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
         
         buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
-        buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreView), for: .touchUpInside)
+        buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
 
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)

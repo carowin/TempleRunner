@@ -45,23 +45,73 @@ class ViewController: UIViewController {
     
     /* Affichage du jeu lorsqu'on est sur la page d'accueil */
     @objc func displayGameView(){
-        firstView?.hideFirstView()
-        scoreView?.hideScoreView()
-        gameView?.displayGameView()
+        if(firstView!.isHidden){
+            var alert = UIAlertController( title:"End Game ?", message:"If the created new game all your progress will be lost", preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title:"YES", style: .destructive, handler: {(action) in 
+                self.firstView?.hideFirstView()
+                self.scoreView?.hideScoreView()
+                self.gameView?.cleanGameView()
+                self.gameView?.beginNewgame()
+                self.gameView?.displayGameView()
+            }))
+
+            alert.addAction(UIAlertAction(title:"NO", style: .cancel, handler: {(action) in 
+                // Do nothing
+            }))
+
+            self.present(alert, animated:true, completion:nil)
+
+        } else {
+            firstView?.hideFirstView()
+            scoreView?.hideScoreView()
+            gameView?.cleanGameView()
+            gameView?.beginNewgame()
+            gameView?.displayGameView()
+        }
     }
     
-    /* Affichage la page des scores  */
-    @objc func displayScoreView(){
+    /* Affichage la page des scores a partir de la first view  */
+    @objc func displayScoreViewFromFirstView(){
         firstView?.blurFirstView()
         self.view.bringSubviewToFront(scoreView!)
         scoreView?.displayScoreView()
+        scoreView?.hideMainMenuButton()
         scoreView?.viewWillAppear()
         
     }
 
+    /* Affichage la page des scores a partir de la game view  */
+    @objc func displayScoreViewFromGameView() {
+        gameView?.blurGameView()
+        gameView?.beginPauseGame()
+        self.view.bringSubviewToFront(scoreView!)
+        scoreModel?.setCurrentScore(val:10000) // Mock, should set to gameModel.getCurrentScore()
+        scoreModel?.setCurrentCoins(val:200) // Mock, should set to gameModel.getCurrentCoins()
+        let currentScore = scoreModel?.getCurrentScore()
+        let currentCoins = scoreModel?.getCurrentCoins()
+        scoreView?.setLabelsOnPauseGame(currentScore : currentScore!, currentCoins : currentCoins!)
+        scoreView?.displayScoreView()
+        scoreView?.displayMainMenuButton()
+        scoreView?.viewWillAppear()
+    }
+
+    /* Affichage la page principal  */
+    @objc func displayFirstView(){
+        removeScoreView()
+        gameView?.hideGameView()
+        firstView?.cleanFirstView()
+        firstView?.displayFirstView()
+    }
+
     /* Retire la page des scores  */
     @objc func removeScoreView(){
-        firstView?.cleanFirstView()
+        if(firstView!.isHidden){
+            gameView?.cleanGameView()
+            gameView?.endPauseGame()
+        } else {
+            firstView?.cleanFirstView()
+        }
         scoreView?.viewWillDisappear()
         scoreView?.hideScoreView()
         self.view.sendSubviewToBack(scoreView!)

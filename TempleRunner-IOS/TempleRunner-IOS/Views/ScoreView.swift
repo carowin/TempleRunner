@@ -22,12 +22,20 @@ class ScoreView: UIView {
     let backgroundImage = UIImageView(image: UIImage(named: "scoreViewBackground"))
     var buttonSaveScore = UIButton(type: .custom) //bouton saveScore
     var buttonPlayAgain = UIButton(type: .custom) //bouton playAgain
-    var buttonBack = UIButton() // bouton de sortie de menu
+    var buttonBack = UIButton() // bouton de sortie de score view
+    var buttonMenu = UIButton() // bouton pour aller au menu principal
 
+    /* This four labels are the only shown when the scoreView is invoke from the firstView */
     let topScoreLabel = UILabel()
     let lastScoreLabel = UILabel()
     var topScoreLabelValue = UILabel()
     var lastScoreLabelValue = UILabel()
+
+    /* This four labels are the only shown when the scoreView is invoke from the gameView */
+    let currentScoreLabel = UILabel()
+    let currentCoinsLabel = UILabel()
+    var currentScoreLabelValue = UILabel()
+    var currentCoinsLabelValue = UILabel()
     
     
     init(frame: CGRect, viewc: ViewController) {
@@ -45,25 +53,20 @@ class ScoreView: UIView {
             sizeFontNumeric = 38.0
         }
         
-        topScoreLabel.text = "Your high score :"
-        topScoreLabel.textAlignment = .center
-        topScoreLabel.font = UIFont(name: FONT_NAME, size: sizeFontAlpha)
-        
-        topScoreLabelValue.text = EMPTY_LABEL
-        topScoreLabelValue.textAlignment = .center
-        topScoreLabelValue.font = UIFont(name: FONT_NAME, size: sizeFontNumeric)
-        
-        lastScoreLabel.text = "Your last score :"
-        lastScoreLabel.textAlignment = .center
-        lastScoreLabel.font = UIFont(name: FONT_NAME, size: sizeFontAlpha)
-        
-        lastScoreLabelValue.text = EMPTY_LABEL
-        lastScoreLabelValue.textAlignment = .center
-        lastScoreLabelValue.font = UIFont(name: FONT_NAME, size: sizeFontNumeric)
+
+        topScoreLabel.createCustomLabel(text:"Your high score :", sizeFont: sizeFontAlpha)
+        topScoreLabelValue.createCustomLabel(text:EMPTY_LABEL, sizeFont: sizeFontNumeric)
+        lastScoreLabel.createCustomLabel(text:"Your last score :", sizeFont: sizeFontAlpha)
+        lastScoreLabelValue.createCustomLabel(text:EMPTY_LABEL, sizeFont: sizeFontNumeric)
+
+        currentScoreLabel.createCustomLabel(text:"Your current score :", sizeFont: sizeFontAlpha)
+        currentScoreLabelValue.createCustomLabel(text:EMPTY_LABEL, sizeFont: sizeFontNumeric)
+        currentCoinsLabel.createCustomLabel(text:"Your current coins :", sizeFont: sizeFontAlpha)
+        currentCoinsLabelValue.createCustomLabel(text:EMPTY_LABEL, sizeFont: sizeFontNumeric)
 
         let sizeButton = frame.size.width - (frame.size.width/2.2)
         
-        buttonPlayAgain.createCustomButton(title:"PLAY AGAIN", width: sizeButton)
+        buttonPlayAgain.createCustomButton(title:"NEW GAME", width: sizeButton)
         buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
 
         buttonSaveScore.createCustomButton(title:"SAVE SCORE", width: sizeButton)
@@ -72,14 +75,23 @@ class ScoreView: UIView {
         buttonBack.createCustomButton(title:"BACK", width: sizeButton)
         buttonBack.addTarget(self.superview, action: #selector(vc!.removeScoreView), for: .touchUpInside)
 
+        buttonMenu.createCustomButton(title:"MAIN MENU", width: sizeButton)
+        buttonMenu.addTarget(self.superview, action: #selector(vc!.displayFirstView), for: .touchUpInside)
+
+        
         self.addSubview(backgroundImage)
         self.addSubview(buttonPlayAgain)
         self.addSubview(buttonSaveScore)
         self.addSubview(buttonBack)
+        self.addSubview(buttonMenu)
         self.addSubview(topScoreLabel)
         self.addSubview(topScoreLabelValue)
         self.addSubview(lastScoreLabel)
         self.addSubview(lastScoreLabelValue)
+        self.addSubview(currentScoreLabel)
+        self.addSubview(currentScoreLabelValue)
+        self.addSubview(currentCoinsLabel)
+        self.addSubview(currentCoinsLabelValue)
         self.drawInSize(frame)
     }
     
@@ -124,44 +136,74 @@ class ScoreView: UIView {
         topScoreLabelValue.frame = CGRect(x: padding, y: frame.size.height*2/10+10, width: sizeLabels, height: 50)
         lastScoreLabel.frame = CGRect(x: padding, y: frame.size.height*3/10, width: sizeLabels, height: 50)
         lastScoreLabelValue.frame = CGRect(x: padding, y: frame.size.height*4/10+10, width: sizeLabels, height: 50)
+        currentScoreLabel.frame = CGRect(x: padding, y: frame.size.height*1/10, width: sizeLabels, height: 50)
+        currentScoreLabelValue.frame = CGRect(x: padding, y: frame.size.height*2/10+10, width: sizeLabels, height: 50)
+        currentCoinsLabel.frame = CGRect(x: padding, y: frame.size.height*3/10, width: sizeLabels, height: 50)
+        currentCoinsLabelValue.frame = CGRect(x: padding, y: frame.size.height*4/10+10, width: sizeLabels, height: 50)
         backgroundImage.frame = CGRect(x: padding, y: 0, width: reduceFrameWidth - padding, height: frame.size.height - top + 50)
-        buttonSaveScore.frame = CGRect(x:  padding + paddingButton, y: frame.size.height*6/10, width: sizeLabels - 2*paddingButton, height: 50)
-        buttonPlayAgain.frame = CGRect(x: padding + paddingButton, y: frame.size.height*7/10, width: sizeLabels - 2*paddingButton, height: 50)
-        buttonBack.frame = CGRect(x:padding + paddingButton, y: frame.size.height*8/10, width: sizeLabels  -  2*paddingButton, height: 50)
+        buttonPlayAgain.frame = CGRect(x: padding + paddingButton, y: frame.size.height * 7/10, width: sizeLabels - 2*paddingButton, height: 50)
+        buttonBack.frame = CGRect(x:padding + paddingButton, y: frame.size.height * 8/10, width: sizeLabels  -  2*paddingButton, height: 50)
+        buttonSaveScore.frame =  CGRect(x:padding + paddingButton, y: frame.size.height * 6/10, width: sizeLabels  -  2*paddingButton, height: 50)
+        buttonMenu.frame = CGRect(x:padding + paddingButton, y: frame.size.height * 6/10, width: sizeLabels  -  2*paddingButton, height: 50)
+           
     }
     
     /* fonction appelé par le viewController pour afficher la vue de la table des scores */
     func displayScoreView() {
         self.isHidden = false
         backgroundImage.isHidden = false
-        buttonSaveScore.isHidden = false
         buttonPlayAgain.isHidden = false
         buttonBack.isHidden = false
-        topScoreLabel.isHidden = false
-        topScoreLabelValue.isHidden = false
-        lastScoreLabel.isHidden = false
-        lastScoreLabelValue.isHidden = false
     }
     
     /* fonction appelé par le viewController pour cacher la vue de la table des scores */
     func hideScoreView() {
         self.isHidden = true
         backgroundImage.isHidden = true
-        buttonSaveScore.isHidden = true
         buttonPlayAgain.isHidden = true
         buttonBack.isHidden = true
-        topScoreLabel.isHidden = true
-        topScoreLabelValue.isHidden = true
-        lastScoreLabel.isHidden = true
-        lastScoreLabelValue.isHidden = true
     }
 
 
     // Change Last Scores Label and Top Score Label
-    func setLabelsScores (lastScore : Int, hightScore : Int){
+    func setLabelsOnFinishGame (lastScore : Int, hightScore : Int){
         lastScoreLabelValue.text = String(lastScore)
         topScoreLabelValue.text = String(hightScore)
     }
+
+     // Change Current Scores Label and Current Coins Label
+    func setLabelsOnPauseGame (currentScore : Int, currentCoins : Int){
+        currentScoreLabelValue.text = String(currentScore)
+        currentCoinsLabelValue.text = String(currentCoins)
+    }
+
+    func displayMainMenuButton() {
+        buttonSaveScore.isHidden = true
+        topScoreLabel.isHidden = true
+        topScoreLabelValue.isHidden = true
+        lastScoreLabel.isHidden = true
+        lastScoreLabelValue.isHidden = true
+        buttonMenu.isHidden = false
+        currentScoreLabel.isHidden = false
+        currentScoreLabelValue.isHidden = false
+        currentCoinsLabel.isHidden = false
+        currentCoinsLabelValue.isHidden = false
+    }
+
+    func hideMainMenuButton() {
+        buttonSaveScore.isHidden = false
+        topScoreLabel.isHidden = false
+        topScoreLabelValue.isHidden = false
+        lastScoreLabel.isHidden = false
+        lastScoreLabelValue.isHidden = false
+        buttonMenu.isHidden = true
+        currentScoreLabel.isHidden = true
+        currentScoreLabelValue.isHidden = true
+        currentCoinsLabel.isHidden = true
+        currentCoinsLabelValue.isHidden = true
+        
+    }
+
 }
 
 // Créer un button custom avec gradian peut etre utiliser dans tous les views
@@ -183,5 +225,15 @@ extension UIButton {
             sizeFont = 42.0
         }
         self.titleLabel?.font = UIFont(name: FONT_NAME, size: sizeFont)
+    }
+}
+
+// Créer un label custom avec la bonne font
+extension UILabel {
+
+    func createCustomLabel(text : String, sizeFont: CGFloat) {
+        self.text = text
+        self.textAlignment = .center
+        self.font = UIFont(name: FONT_NAME, size: sizeFont)
     }
 }
