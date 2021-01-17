@@ -1,5 +1,7 @@
 package com.sar.templerunner_android.GameLogic;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,11 @@ public class Road {
 
     public Block simpleRoadBlock(int pos , int blockSize , int screenY){
         return new SimpleRoadBlock(pos,blockSize,screenY);
+    }
+
+    public void drawOnCanvas(Canvas canvas){
+        // TO DO drawing
+
     }
 
 }

@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import com.sar.templerunner_android.GameLogic.Road;
+
 public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying = true;
@@ -18,6 +20,9 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX, screenY;
     private int currentBG =0;
 
+
+    private Road road;
+
      public GameView(Context context, int screenX, int screenY) {
         super(context);
          this.screenX = screenX;
@@ -25,6 +30,8 @@ public class GameView extends SurfaceView implements Runnable {
          backgroundArray = new Background[6];
         for(int i = 0;i<6;i++)
             backgroundArray[i]=new Background(screenX,screenY,getResources(),i);
+
+        road = new Road(screenX,screenY);
 
 
     }
@@ -44,6 +51,8 @@ public class GameView extends SurfaceView implements Runnable {
              Canvas canvas =  getHolder().lockCanvas();
 
              canvas.drawBitmap(backgroundArray[(currentBG++)%6].background, screenX,screenY, new Paint());
+
+
              getHolder().unlockCanvasAndPost(canvas);
          }
     }
