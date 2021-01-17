@@ -50,7 +50,7 @@ class ScoreView: UIView {
             sizeFontNumeric = 32.0
         }else if (UIDevice.current.userInterfaceIdiom == .pad ){
             sizeFontAlpha = 42.0
-            sizeFontNumeric = 38.0
+            sizeFontNumeric = 46.0
         }
         
 
@@ -67,7 +67,7 @@ class ScoreView: UIView {
         let sizeButton = frame.size.width - (frame.size.width/2.2)
         
         buttonPlayAgain.createCustomButton(title:"NEW GAME", width: sizeButton)
-        buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
+        buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromScoreView), for: .touchUpInside)
 
         buttonSaveScore.createCustomButton(title:"SAVE SCORE", width: sizeButton)
         buttonSaveScore.addTarget(self.superview, action: #selector(vc!.saveScoreToBDD), for: .touchUpInside)

@@ -27,7 +27,7 @@ class FirstView: UIView {
         super.init(frame: frame)
         
         buttonPlay.setImage(UIImage(named: "playButton"), for: .normal)
-        buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameView), for: .touchUpInside)
+        buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromFirstView), for: .touchUpInside)
         
         buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)

@@ -42,29 +42,37 @@ class ViewController: UIViewController {
         gameView?.hideGameView()
         firstView?.displayFirstView()
     }
-    
+
     /* Affichage du jeu lorsqu'on est sur la page d'accueil */
-    @objc func displayGameView(){
+    @objc func displayGameViewFromFirstView(){
+        firstView?.hideFirstView()
+        gameView?.cleanGameView()
+        gameView?.beginNewgame()
+        gameView?.displayGameView()
+    }
+
+    
+    /* Affichage du jeu lorsqu'on est sur la page de score ou de pause */
+    @objc func displayGameViewFromScoreView(){
         if(firstView!.isHidden){
-            var alert = UIAlertController( title:"End Game ?", message:"If the created new game all your progress will be lost", preferredStyle: .alert)
+            var alert = UIAlertController( title:"End Game ?", message:"If you created a new game all your progress will be lost", preferredStyle: .alert)
 
             alert.addAction(UIAlertAction(title:"YES", style: .destructive, handler: {(action) in 
-                self.firstView?.hideFirstView()
-                self.scoreView?.hideScoreView()
+                self.removeScoreView()
                 self.gameView?.cleanGameView()
                 self.gameView?.beginNewgame()
-                self.gameView?.displayGameView()
             }))
 
             alert.addAction(UIAlertAction(title:"NO", style: .cancel, handler: {(action) in 
                 // Do nothing
+                return
             }))
 
             self.present(alert, animated:true, completion:nil)
 
         } else {
+            self.removeScoreView()
             firstView?.hideFirstView()
-            scoreView?.hideScoreView()
             gameView?.cleanGameView()
             gameView?.beginNewgame()
             gameView?.displayGameView()

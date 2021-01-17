@@ -62,18 +62,23 @@ class GameView: UIView {
         progressView!.progressViewStyle = .bar
         progressView!.backgroundColor = .lightGray
         progressView!.progressTintColor = UIColor.yellow
+
+        var sizeFontNumeric : CGFloat = 30.0;
+        if (UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.width > 412){
+            sizeFontNumeric = 40.0
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            sizeFontNumeric = 50.0
+        }
         
         scoreLabel = UILabel()
-        scoreLabel?.text = String(myScore)
-        scoreLabel?.font = .boldSystemFont(ofSize: 25)
+        scoreLabel?.createCustomLabel(text:String(myScore), sizeFont:sizeFontNumeric)
         scoreLabel?.textColor = .white
         
         coinsLabel = UILabel()
-        coinsLabel?.text = String(scoreCoins)
-        coinsLabel?.font = .boldSystemFont(ofSize: 25)
+        coinsLabel?.createCustomLabel(text:String(scoreCoins), sizeFont:sizeFontNumeric)
         coinsLabel?.textColor = .white
 
-        tempoLabel.createCustomLabel(text:String(cptTemporisation), sizeFont: 45.0)
+        tempoLabel.createCustomLabel(text:String(cptTemporisation), sizeFont: sizeFontNumeric*1.5)
         tempoLabel.layer.borderColor = UIColor.black.cgColor
         tempoLabel.layer.borderWidth = 5.0
         tempoLabel.layer.cornerRadius = 10
@@ -180,6 +185,8 @@ class GameView: UIView {
         coinsLabel?.text = String(scoreCoins)
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
+        playerImage?.isHidden = true
+        playerPaused.isHidden = false
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
         tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
@@ -262,15 +269,18 @@ class GameView: UIView {
         
         //cas où c'est un iphone X ou supérieur
         if(UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.height >= 812) {
-            top = 40
+            top = 32
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            top = 75
         }
+
         backgroundImage!.frame = CGRect(x: 0, y: 0, width: width, height: height)
         playerImage?.center = CGPoint(x: width/2, y: 4*height/6)
         playerPaused.center = CGPoint(x: width/2, y: 4*height/6)
         progressView?.frame = CGRect(x: 0, y: top+Int(width/4), width: Int(width/4), height: 10)
         progressView?.transform = .init(rotationAngle: .pi/2*(-1))
-        scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: 20)
-        coinsLabel?.frame = CGRect(x:Int(4*width/5), y:top+30, width: Int(width/4), height: 20)
+        scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: top)
+        coinsLabel?.frame = CGRect(x:Int(4*width/5), y:2*top+10, width: Int(width/4), height: top)
         tempoLabel.frame = CGRect(x:Int(width/2-width/6), y:Int(height/2-width/6), width: Int(width/3), height: Int(width/3))
         pauseButton.frame = CGRect(x:Int(3.5*width/5), y: Int(9*height/10), width : Int(width/3.5), height: 50)
     }
