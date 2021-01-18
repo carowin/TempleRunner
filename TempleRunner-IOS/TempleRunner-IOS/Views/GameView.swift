@@ -140,11 +140,10 @@ class GameView: UIView {
                 playerImage?.center.x = newX
             }
         }
-        
         // update roade
         road?.updateRoad()
-        print("La   ")
-        print(road?.mainRoad.count)
+        //mise en place du joueur au dessu si nul ça fait boum
+        self.bringSubviewToFront(playerImage!)
     }
     
     /* fonction appelé pour stopper le jeu*/

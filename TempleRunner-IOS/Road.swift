@@ -27,6 +27,7 @@ class Road {
         self.view = view
         var n = 0
         var b = true
+        mainRoad.append(SimpleRoad(x:width/3 ,y: -blockSize ,blockSize: part))
         while(n < height){
             print(mainRoad.count)
             if(!b){
@@ -55,20 +56,34 @@ class Road {
     public func updateRoad(){
         //Filtrage des block sortie du cadre et ajout des block par dessu
         // la condition est inversé dans les filter swift , Think diffrent
-        
         let sizeBeffore = mainRoad.count
         
         mainRoad = mainRoad.filter{$0.y < height+$0.blockSize}
         
         let nb_add = sizeBeffore - mainRoad.count
-        /*for n in 0...nb_add{
-            mainRoad.append(SimpleRoad(x:width/3 ,y: 0 , blockSize: blockSize))
-        }*/
         
-        // scp -r -p  3524869@ssh.ufr-info-p6.jussieu.fr:/users/Etu9/3524869/AAAA
+       // print("nb-add " )
+       // print(nb_add)
+       // print("taille de la liste")
+       // print(mainRoad.count)
+        //print(mainRoad.capacity)
+        if(sizeBeffore != mainRoad.count){
+            for n in 0...nb_add{
+                mainRoad.append(SimpleRoad(x:width/3 ,y: -blockSize, blockSize: blockSize))
+            }
+        }
+        
+        // scp -r -p TempleRunner.zip numet@ssh.ufr-info-p6.jussieu.fr:/users/Etu9/3524869/AAAA
         //update position
+        print("dqsqd")
         for b in mainRoad {
-           b.updatePosition()
+            print(b.id,b.x,b.y)
+            b.updatePosition(view : view)
         }
     }
+    
+    //public func findBlock() -> Block {
+        //TO DO
+      
+   // }
 }

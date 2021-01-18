@@ -15,7 +15,13 @@ class Block {
     let blockSize : Int
     let baseImage = UIImage(named: "pave")
     var baseView : UIImageView!
+    static var cptID = 0
+    let id : Int
+    var speed = 10
+    
     init(x : Int ,y : Int , blockSize : Int ) {
+        id  =  Block.cptID
+        Block.cptID += 1
         self.x=x
         self.y=y
         self.blockSize = blockSize
@@ -33,8 +39,11 @@ class Block {
         baseView.isHidden=value
     }
     
-    public func updatePosition(){
-        y = y + 1
+    public func updatePosition(view : UIView){
+        if(baseView == nil){
+            self.setView(view : view)
+        }
+        y = y + speed
         baseView.frame = CGRect(x: x, y: y, width: blockSize, height: blockSize)
     }
     
