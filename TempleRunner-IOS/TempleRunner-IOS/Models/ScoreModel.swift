@@ -10,8 +10,10 @@ import UIKit
 
 class ScoreModel {
 
-    var lastScore = 0
-    var hightScore  = 0
+    private var lastScore = 0
+    private var hightScore  = 0
+    private var currentScore = 0
+    private var currentCoins = 0
 
     init(){
         // Do nothing
@@ -22,6 +24,11 @@ class ScoreModel {
         self.hightScore = hightScore
     }
 
+    init(currentScore: Int, currentCoins: Int) {
+        self.currentScore = currentScore
+        self.currentCoins = currentCoins
+    }
+
     func getLastScore() -> Int {
         return lastScore
     }
@@ -30,12 +37,28 @@ class ScoreModel {
         return hightScore
     }
 
+    func getCurrentScore() -> Int {
+        return currentScore
+    }
+
+    func getCurrentCoins() -> Int {
+        return currentCoins
+    }
+
     func setLastScore(val : Int)  {
         self.lastScore = val
     }
 
     func setHightScore(val : Int)  {
         self.hightScore = val
+    }
+
+    func setCurrentScore(val : Int)  {
+        self.currentScore = val
+    }
+
+    func setCurrentCoins(val : Int)  {
+        self.currentCoins = val
     }
 
     func updateScores() {
