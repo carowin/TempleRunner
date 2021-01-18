@@ -16,6 +16,10 @@
 		D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA2E25A36C9F0075C3F7 /* ChatView.swift */; };
 		D677DA3125A36CE60075C3F7 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA3025A36CE60075C3F7 /* GameView.swift */; };
 		D677DA3325A36D5E0075C3F7 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA3225A36D5E0075C3F7 /* ScoreView.swift */; };
+		D686095A25B03A670013AED3 /* Road.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095925B03A670013AED3 /* Road.swift */; };
+		D686095C25B03B240013AED3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095B25B03B240013AED3 /* Block.swift */; };
+		D686095E25B03F980013AED3 /* SimpleRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095D25B03F980013AED3 /* SimpleRoad.swift */; };
+		D686096025B076270013AED3 /* RoadRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095F25B076270013AED3 /* RoadRock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,10 @@
 		D677DA2E25A36C9F0075C3F7 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		D677DA3025A36CE60075C3F7 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D677DA3225A36D5E0075C3F7 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		D686095925B03A670013AED3 /* Road.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Road.swift; sourceTree = SOURCE_ROOT; };
+		D686095B25B03B240013AED3 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = SOURCE_ROOT; };
+		D686095D25B03F980013AED3 /* SimpleRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoad.swift; sourceTree = SOURCE_ROOT; };
+		D686095F25B076270013AED3 /* RoadRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadRock.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +104,10 @@
 		D677DA2B25A36C0D0075C3F7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D686095925B03A670013AED3 /* Road.swift */,
+				D686095B25B03B240013AED3 /* Block.swift */,
+				D686095D25B03F980013AED3 /* SimpleRoad.swift */,
+				D686095F25B076270013AED3 /* RoadRock.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,9 +184,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
+				D686095C25B03B240013AED3 /* Block.swift in Sources */,
 				D677DA1925A369AF0075C3F7 /* ViewController.swift in Sources */,
 				D677DA2D25A36C7D0075C3F7 /* FirstView.swift in Sources */,
+				D686095A25B03A670013AED3 /* Road.swift in Sources */,
 				D677DA1725A369AF0075C3F7 /* AppDelegate.swift in Sources */,
+				D686096025B076270013AED3 /* RoadRock.swift in Sources */,
+				D686095E25B03F980013AED3 /* SimpleRoad.swift in Sources */,
 				D677DA3125A36CE60075C3F7 /* GameView.swift in Sources */,
 				D677DA3325A36D5E0075C3F7 /* ScoreView.swift in Sources */,
 			);

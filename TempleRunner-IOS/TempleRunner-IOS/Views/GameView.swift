@@ -49,7 +49,7 @@ class GameView: UIView {
     var pauseButton = UIButton(type: .custom) //bouton score
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     
-    
+    private var  road : Road?
     
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
@@ -107,6 +107,7 @@ class GameView: UIView {
         
         cmMngr.startAccelerometerUpdates()
         cmMngr.startDeviceMotionUpdates()
+        road = Road(view: self)
         //__________________ fin gestion des mouvements du joueur __________________
 
 
@@ -120,6 +121,7 @@ class GameView: UIView {
         blurEffectView?.isHidden = true
         
         self.addSubview(backgroundImage!)
+        road?.setRoad()
         self.addSubview(playerImage!)
         self.addSubview(playerPaused)
         self.addSubview(progressView!)
@@ -175,6 +177,10 @@ class GameView: UIView {
                 playerImage?.center.x = newX
             }
         }
+        // update roade
+        road?.updateRoad()
+        //mise en place du joueur au dessu si nul ça fait boum
+        self.bringSubviewToFront(playerImage!)
     }
 
     /* fionction qui démarre le jeu */
@@ -240,7 +246,10 @@ class GameView: UIView {
         progressView?.isHidden = false
         scoreLabel?.isHidden = false
         coinsLabel?.isHidden = false
+
         pauseButton.isHidden = false
+        road?.isHidden(value : false)
+
     }
     
     /* fonction appelé par le viewController pour cacher la vue du jeu */
@@ -252,7 +261,10 @@ class GameView: UIView {
         progressView?.isHidden = true
         scoreLabel?.isHidden = true
         coinsLabel?.isHidden = true
+
+       
         pauseButton.isHidden = true
+       road?.isHidden(value : true)
     }
 
     func blurGameView (){
@@ -261,6 +273,7 @@ class GameView: UIView {
 
     func cleanGameView (){
         self.blurEffectView?.isHidden = true
+
     }
     
     /* fonction appelé pour dessiner la game view */
