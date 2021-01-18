@@ -21,14 +21,18 @@ class GameView: UIView {
     
     private var scoreLabel : UILabel? // affichage score du joueur
     private var coinsLabel : UILabel? // affichage nombre de pieces récupéré
+    private var tempoLabel = UILabel() // affiche la temporisation
+
     private var progressView : UIProgressView? //barre de progression du nombre de pieces récupérés
     
     private var myScore = 0 //score du joueur (TEMPORAIRE, peut être faire une classe Joueur)
     private var scoreCoins = 0 //nb coins recolté (TEMPORAIRE, peut être faire une classe Joueur)
+    private var cptTemporisation = 3 // compteur servant à la temporisation 
     
     
     private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
     private var playerRun : UIImage? //image joueur qui cours
+    private let playerPaused = UIImageView(image:UIImage(named: "playerMouvement/playerRun1"))
     private let playerJump = UIImage(named: "playerMouvement/playerJump")//image du joueur qui saute
     private let playerSlide = UIImage(named: "playerMouvement/playerSlide")//image du joueur qui glisse
     private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
@@ -40,6 +44,10 @@ class GameView: UIView {
     
     private var updateTimer : Timer? //timer pour updater le jeu
     private var actionTime : Timer? //timer pour remettre le player en position run
+    private var tempoTimer : Timer? //timer pour laisser 3 secondes avant de reprendre le jeu
+
+    var pauseButton = UIButton(type: .custom) //bouton score
+    var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     
     private var  road : Road?
     
@@ -54,20 +62,35 @@ class GameView: UIView {
         progressView!.progressViewStyle = .bar
         progressView!.backgroundColor = .lightGray
         progressView!.progressTintColor = UIColor.yellow
+
+        var sizeFontNumeric : CGFloat = 30.0;
+        if (UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.width > 412){
+            sizeFontNumeric = 40.0
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            sizeFontNumeric = 50.0
+        }
         
         scoreLabel = UILabel()
-        scoreLabel?.text = String(myScore)
-        scoreLabel?.font = .boldSystemFont(ofSize: 25)
+        scoreLabel?.createCustomLabel(text:String(myScore), sizeFont:sizeFontNumeric)
         scoreLabel?.textColor = .white
         
         coinsLabel = UILabel()
-        coinsLabel?.text = String(scoreCoins)
-        coinsLabel?.font = .boldSystemFont(ofSize: 25)
+        coinsLabel?.createCustomLabel(text:String(scoreCoins), sizeFont:sizeFontNumeric)
         coinsLabel?.textColor = .white
+
+        tempoLabel.createCustomLabel(text:String(cptTemporisation), sizeFont: sizeFontNumeric*1.5)
+        tempoLabel.layer.borderColor = UIColor.black.cgColor
+        tempoLabel.layer.borderWidth = 5.0
+        tempoLabel.layer.cornerRadius = 10
+        tempoLabel.layer.backgroundColor = UIColor.darkGray.cgColor
+        tempoLabel.alpha = 0.8
+        tempoLabel.isHidden = true
+
         
         //__________________ gestion des mouvements du joueur __________________
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
         playerImage = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
+        playerImage?.isHidden = true
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(sender:)))
         swipeDown.direction = .down
@@ -86,13 +109,27 @@ class GameView: UIView {
         cmMngr.startDeviceMotionUpdates()
         road = Road(view: self)
         //__________________ fin gestion des mouvements du joueur __________________
+
+
+        pauseButton.createCustomButton(title:"PAUSE", width: (width/3.5))
+        pauseButton.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromGameView), for: .touchUpInside)
+
+        let blurEffect = UIBlurEffect(style: .dark)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView?.frame = self.bounds
+        blurEffectView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView?.isHidden = true
         
         self.addSubview(backgroundImage!)
         road?.setRoad()
         self.addSubview(playerImage!)
+        self.addSubview(playerPaused)
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
         self.addSubview(coinsLabel!)
+        self.addSubview(tempoLabel)
+        self.addSubview(pauseButton)
+        self.addSubview(blurEffectView!)
         
         self.drawInSize(frame)
     }
@@ -145,6 +182,22 @@ class GameView: UIView {
         //mise en place du joueur au dessu si nul ça fait boum
         self.bringSubviewToFront(playerImage!)
     }
+
+    /* fionction qui démarre le jeu */
+    func beginNewgame() {
+        myScore = 0
+        scoreCoins = 0
+        scoreLabel?.text = String(myScore)
+        coinsLabel?.text = String(scoreCoins)
+        updateTimer?.invalidate()
+        tempoTimer?.invalidate()
+        playerImage?.isHidden = true
+        playerPaused.isHidden = false
+        cptTemporisation = 3
+        tempoLabel.text = String(cptTemporisation)
+        tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
+        tempoLabel.isHidden = false
+    }
     
     /* fonction appelé pour stopper le jeu*/
     func stopGame(){
@@ -153,17 +206,50 @@ class GameView: UIView {
         cmMngr.stopDeviceMotionUpdates()
     }
 
+    /* fonction applé pour pauser le jeu */
+    func beginPauseGame (){
+        updateTimer?.invalidate()
+        playerImage?.isHidden = true
+        playerPaused.isHidden = false
+    }
+
+    /* fonction applé pour pauser le jeu */
+    func endPauseGame (){
+        tempoTimer?.invalidate()
+        cptTemporisation = 3
+        tempoLabel.text = String(cptTemporisation)
+        tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
+        tempoLabel.isHidden = false
+    }
+
+    /* fonction de temporisation avant de reprendre le jeu aprés pause */
+    @objc func temporisation() {
+        if(cptTemporisation == 0) {
+            tempoTimer!.invalidate()
+            tempoLabel.isHidden = true
+            cptTemporisation = 3
+            tempoLabel.text = String(cptTemporisation)
+            playerPaused.isHidden = true
+            playerImage?.isHidden = false 
+            updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        } else {
+            cptTemporisation-=1
+            tempoLabel.text = String(cptTemporisation)
+        }
+    }
+
     
     /* fonction appelé par le viewController pour afficher la vue du jeu */
     func displayGameView() {
-        updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         self.isHidden = false
         backgroundImage!.isHidden = false
-        playerImage?.isHidden = false
         progressView?.isHidden = false
         scoreLabel?.isHidden = false
         coinsLabel?.isHidden = false
+
+        pauseButton.isHidden = false
         road?.isHidden(value : false)
+
     }
     
     /* fonction appelé par le viewController pour cacher la vue du jeu */
@@ -175,7 +261,19 @@ class GameView: UIView {
         progressView?.isHidden = true
         scoreLabel?.isHidden = true
         coinsLabel?.isHidden = true
-        road?.isHidden(value : true)
+
+       
+        pauseButton.isHidden = true
+       road?.isHidden(value : true)
+    }
+
+    func blurGameView (){
+        self.blurEffectView?.isHidden = false
+    }
+
+    func cleanGameView (){
+        self.blurEffectView?.isHidden = true
+
     }
     
     /* fonction appelé pour dessiner la game view */
@@ -184,13 +282,19 @@ class GameView: UIView {
         
         //cas où c'est un iphone X ou supérieur
         if(UIDevice.current.userInterfaceIdiom == .phone && UIScreen.main.bounds.height >= 812) {
-            top = 40
+            top = 32
+        }else if (UIDevice.current.userInterfaceIdiom == .pad ){
+            top = 75
         }
+
         backgroundImage!.frame = CGRect(x: 0, y: 0, width: width, height: height)
         playerImage?.center = CGPoint(x: width/2, y: 4*height/6)
+        playerPaused.center = CGPoint(x: width/2, y: 4*height/6)
         progressView?.frame = CGRect(x: 0, y: top+Int(width/4), width: Int(width/4), height: 10)
         progressView?.transform = .init(rotationAngle: .pi/2*(-1))
-        scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: 20)
-        coinsLabel?.frame = CGRect(x:Int(4*width/5), y:top+30, width: Int(width/4), height: 20)
+        scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: top)
+        coinsLabel?.frame = CGRect(x:Int(4*width/5), y:2*top+10, width: Int(width/4), height: top)
+        tempoLabel.frame = CGRect(x:Int(width/2-width/6), y:Int(height/2-width/6), width: Int(width/3), height: Int(width/3))
+        pauseButton.frame = CGRect(x:Int(3.5*width/5), y: Int(9*height/10), width : Int(width/3.5), height: 50)
     }
 }
