@@ -100,24 +100,27 @@ class ScoreView: UIView {
     }
 
 
-    func viewWillAppear() {
-        let screenRect = UIScreen.main.bounds
-        let screenWidth = screenRect.size.width
-        let screenHeight = screenRect.size.height
-        let translate = CABasicAnimation(keyPath: "position")
-        translate.fromValue = [screenWidth/2,-screenHeight]
-        translate.toValue = [screenWidth/2,0]
-        self.layer.add(translate, forKey:nil)
+      func viewWillAppear() {
+       
+        let padding = (UIScreen.main.bounds.width/8)
+        let reduceFrameWidth = UIScreen.main.bounds.width - padding
+        self.transform = CGAffineTransform.identity
+        self.frame = CGRect(x: 0, y: 0, width: reduceFrameWidth - padding, height: 0 - UIScreen.main.bounds.height)
+       
+        UIView.animate(withDuration: 1, animations: {
+            self.transform = CGAffineTransform(translationX:0, y: UIScreen.main.bounds.height)
+        }) { _ in
+            // Do Nothing
+        }
     }
 
     func viewWillDisappear() {
-        let screenRect = UIScreen.main.bounds
-        let screenWidth = screenRect.size.width
-        let screenHeight = screenRect.size.height
-        let translate = CABasicAnimation(keyPath: "position")
-        translate.fromValue = [screenWidth/2,0]
-        translate.toValue =  [screenWidth/2,-screenHeight]
-        self.layer.add(translate, forKey:nil)
+       
+        UIView.animate(withDuration: 1, animations: {
+            self.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
+        }) { _ in
+            self.hideScoreView()
+        }
     }
     
     
