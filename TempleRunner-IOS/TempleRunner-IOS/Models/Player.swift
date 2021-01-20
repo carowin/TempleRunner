@@ -28,9 +28,6 @@ class Player {
     private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
     private let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
     private let playerPaused = UIImage(named: "playerMouvement/playerRun1")//image du joueur en pause
-
-    let width = UIScreen.main.bounds.width
-    let height = UIScreen.main.bounds.height
     
     
     init() {
@@ -38,9 +35,11 @@ class Player {
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
         
         player = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
-    
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height
         posX = width/2
         posY = 4*height/6
+        player!.center = CGPoint(x: posX!, y: posY!)
     }
     
     
@@ -127,12 +126,6 @@ class Player {
     
     /* ajout du player dans la game view et positionne le player */
     func addToView(view : UIView){
-        player!.center = CGPoint(x: posX!, y: posY!)
-        if UIDevice.current.userInterfaceIdiom == .pad{
-            
-        }else{
-            
-        }
         view.addSubview(player!)
     }
 }
