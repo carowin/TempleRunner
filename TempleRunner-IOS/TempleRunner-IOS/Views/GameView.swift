@@ -130,6 +130,7 @@ class GameView: UIView {
         self.addSubview(tempoLabel)
         self.addSubview(pauseButton)
         self.addSubview(blurEffectView!)
+
         
         self.drawInSize(frame)
     }
@@ -181,6 +182,9 @@ class GameView: UIView {
         road?.updateRoad()
         //mise en place du joueur au dessu si nul ça fait boum
         self.bringSubviewToFront(playerImage!)
+        self.bringSubviewToFront(playerPaused)
+        self.bringSubviewToFront(tempoLabel)
+        self.bringSubviewToFront(blurEffectView!)
     }
 
     /* fionction qui démarre le jeu */
