@@ -121,8 +121,6 @@ class ViewController: UIViewController {
             firstView?.cleanFirstView()
         }
         scoreView?.viewWillDisappear()
-        scoreView?.hideScoreView()
-        self.view.sendSubviewToBack(scoreView!)
     }
     
     /* Sauvegarde le nouveau score dans la BDD */
