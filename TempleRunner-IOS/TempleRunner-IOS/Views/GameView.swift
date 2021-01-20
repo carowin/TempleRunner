@@ -11,7 +11,7 @@ import CoreMotion
 
 
 /* Vue sur le jeu */
-class GameView: UIView {
+class GameView: UIView, UIGestureRecognizerDelegate {
     var vc: ViewController?
     let width = UIScreen.main.bounds.width
     let height = UIScreen.main.bounds.height
@@ -24,21 +24,10 @@ class GameView: UIView {
     private var tempoLabel = UILabel() // affiche la temporisation
 
     private var progressView : UIProgressView? //barre de progression du nombre de pieces récupérés
-    
-    private var myScore = 0 //score du joueur (TEMPORAIRE, peut être faire une classe Joueur)
-    private var scoreCoins = 0 //nb coins recolté (TEMPORAIRE, peut être faire une classe Joueur)
+
     private var cptTemporisation = 3 // compteur servant à la temporisation 
     
-    
-    private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
-    private var playerRun : UIImage? //image joueur qui cours
-    private let playerPaused = UIImageView(image:UIImage(named: "playerMouvement/playerRun1"))
-    private let playerJump = UIImage(named: "playerMouvement/playerJump")//image du joueur qui saute
-    private let playerSlide = UIImage(named: "playerMouvement/playerSlide")//image du joueur qui glisse
-    private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
-    private let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
-    private var playerImage : UIImageView? //icone du joueur
-    
+    private var myPlayer = Player() //ajout d'un player dans le jeu
     
     private let cmMngr = CMMotionManager() //gestion du motion device
     
@@ -71,11 +60,11 @@ class GameView: UIView {
         }
         
         scoreLabel = UILabel()
-        scoreLabel?.createCustomLabel(text:String(myScore), sizeFont:sizeFontNumeric)
+        scoreLabel?.createCustomLabel(text:String(myPlayer.getCurrentScore()), sizeFont:sizeFontNumeric)
         scoreLabel?.textColor = .white
         
         coinsLabel = UILabel()
-        coinsLabel?.createCustomLabel(text:String(scoreCoins), sizeFont:sizeFontNumeric)
+        coinsLabel?.createCustomLabel(text:String(myPlayer.getCurrentCoinsScore()), sizeFont:sizeFontNumeric)
         coinsLabel?.textColor = .white
 
         tempoLabel.createCustomLabel(text:String(cptTemporisation), sizeFont: sizeFontNumeric*1.5)
@@ -88,9 +77,7 @@ class GameView: UIView {
 
         
         //__________________ gestion des mouvements du joueur __________________
-        playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
-        playerImage = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
-        playerImage?.isHidden = true
+        myPlayer.hidePlayer()
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(sender:)))
         swipeDown.direction = .down
@@ -100,6 +87,10 @@ class GameView: UIView {
         swipeLeft.direction = .left
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(sender:)))
         swipeRight.direction = .right
+        swipeDown.delegate = self
+        swipeUp.delegate = self
+        swipeLeft.delegate = self
+        swipeRight.delegate = self
         self.addGestureRecognizer(swipeDown)
         self.addGestureRecognizer(swipeUp)
         self.addGestureRecognizer(swipeLeft)
@@ -119,11 +110,9 @@ class GameView: UIView {
         blurEffectView?.frame = self.bounds
         blurEffectView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurEffectView?.isHidden = true
-        
         self.addSubview(backgroundImage!)
         road?.setRoad()
-        self.addSubview(playerImage!)
-        self.addSubview(playerPaused)
+        self.addSubview(myPlayer.getView())
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
         self.addSubview(coinsLabel!)
@@ -143,60 +132,60 @@ class GameView: UIView {
     @objc func swipeHandler(sender : UISwipeGestureRecognizer){
         print("swipe detect")
         if sender.direction == .down { //down=joueur glisse
-            actionTime = Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            playerImage?.image = playerSlide
+            actionTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
+            myPlayer.setState(state: "SLIDING")
         }
         if sender.direction == .up { // up=joueur saute
-            actionTime = Timer.scheduledTimer(timeInterval: 0.8, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            playerImage?.image = playerJump
+            actionTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
+            myPlayer.setState(state: "JUMPING")
         }
         if sender.direction == .left { //left=tourne à gauche
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            playerImage?.image = playerLeft
+            myPlayer.setState(state: "LEFT")
         }
         if sender.direction == .right { //right=tourne à droite
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            playerImage?.image = playerRight
+            myPlayer.setState(state: "RIGHT")
         }
     }
     
     /* appelé par le timer pour mettre le player en position running */
     @objc func resetRunningMode(){
         actionTime!.invalidate()
-        playerImage?.image = playerRun
+        myPlayer.setState(state: "RUNNING")
     }
     
     /* fonction update appelé toute les 0.1sec, gère l'avancé du jeu */
     @objc func update(){
-        myScore += 1 //incrémentation du score (1points/ms à changer peut être)
-        scoreLabel?.text = String(myScore)
+        myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
+        scoreLabel!.text = String(myPlayer.getCurrentScore())
         
         if cmMngr.deviceMotion !== nil {
-            let newX = (playerImage?.center.x)! + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
+            let newX = myPlayer.getPosition().x + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
             //A changer avec la limite de la route
             if width/3<newX && newX<2*width/3 {
-                playerImage?.center.x = newX
+                myPlayer.setPosX(val: newX)
             }
         }
         // update roade
         road?.updateRoad()
         //mise en place du joueur au dessu si nul ça fait boum
-        self.bringSubviewToFront(playerImage!)
-        self.bringSubviewToFront(playerPaused)
+        self.bringSubviewToFront(myPlayer.getView())
+        //self.bringSubviewToFront(playerPaused)
         self.bringSubviewToFront(tempoLabel)
         self.bringSubviewToFront(blurEffectView!)
     }
 
     /* fionction qui démarre le jeu */
     func beginNewgame() {
-        myScore = 0
-        scoreCoins = 0
-        scoreLabel?.text = String(myScore)
-        coinsLabel?.text = String(scoreCoins)
+        myPlayer.resetScore()
+        myPlayer.resetCoinsScore()
+        scoreLabel?.text = String(myPlayer.getCurrentScore())
+        coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
-        playerImage?.isHidden = true
-        playerPaused.isHidden = false
+        myPlayer.displayPlayer()
+        myPlayer.setState(state: "PAUSE")
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
         tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
@@ -213,8 +202,7 @@ class GameView: UIView {
     /* fonction applé pour pauser le jeu */
     func beginPauseGame (){
         updateTimer?.invalidate()
-        playerImage?.isHidden = true
-        playerPaused.isHidden = false
+        myPlayer.setState(state: "PAUSE")
     }
 
     /* fonction applé pour pauser le jeu */
@@ -228,13 +216,12 @@ class GameView: UIView {
 
     /* fonction de temporisation avant de reprendre le jeu aprés pause */
     @objc func temporisation() {
-        if(cptTemporisation == 0) {
+        if(cptTemporisation == 0) {
             tempoTimer!.invalidate()
             tempoLabel.isHidden = true
             cptTemporisation = 3
             tempoLabel.text = String(cptTemporisation)
-            playerPaused.isHidden = true
-            playerImage?.isHidden = false 
+            myPlayer.setState(state: "RUNNING")
             updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         } else {
             cptTemporisation-=1
@@ -261,7 +248,7 @@ class GameView: UIView {
         updateTimer?.invalidate()
         self.isHidden = true
         backgroundImage!.isHidden = true
-        playerImage?.isHidden = true
+        myPlayer.hidePlayer()
         progressView?.isHidden = true
         scoreLabel?.isHidden = true
         coinsLabel?.isHidden = true
@@ -280,6 +267,10 @@ class GameView: UIView {
 
     }
     
+    func getPlayer() -> Player {
+        return myPlayer
+    }
+    
     /* fonction appelé pour dessiner la game view */
     func drawInSize(_ frame : CGRect){
         var top = 25
@@ -292,13 +283,21 @@ class GameView: UIView {
         }
 
         backgroundImage!.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        playerImage?.center = CGPoint(x: width/2, y: 4*height/6)
-        playerPaused.center = CGPoint(x: width/2, y: 4*height/6)
         progressView?.frame = CGRect(x: 0, y: top+Int(width/4), width: Int(width/4), height: 10)
         progressView?.transform = .init(rotationAngle: .pi/2*(-1))
         scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: top)
         coinsLabel?.frame = CGRect(x:Int(4*width/5), y:2*top+10, width: Int(width/4), height: top)
         tempoLabel.frame = CGRect(x:Int(width/2-width/6), y:Int(height/2-width/6), width: Int(width/3), height: Int(width/3))
         pauseButton.frame = CGRect(x:Int(3.5*width/5), y: Int(9*height/10), width : Int(width/3.5), height: 50)
+    }
+    
+    //__________________ GestureRecognizer DELEGATE __________________
+    
+    //permet de désactiver les swipes lorsqu'on ne joue pas encore
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if myPlayer.getCurrentState() == "PAUSE"{
+            return false
+        }
+        return true
     }
 }
