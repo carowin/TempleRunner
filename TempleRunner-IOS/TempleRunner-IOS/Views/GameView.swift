@@ -40,6 +40,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     private var  road : Road?
     
+    //pour savoir si le jeux est perdu
+    private var isLost = false
+    
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
         super.init(frame: frame)
@@ -271,6 +274,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         return myPlayer
     }
     
+    
     /* fonction appelé pour dessiner la game view */
     func drawInSize(_ frame : CGRect){
         var top = 25
@@ -300,4 +304,6 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         }
         return true
     }
+    
+    
 }

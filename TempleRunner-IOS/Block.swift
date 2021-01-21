@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 
 class Block {
-    let x: Int
+    var x: Int
     var y: Int
     let blockSize : Int
+    let blockWidth = UIScreen.main.bounds.width
     let baseImage = UIImage(named: "pave")
     var baseView : UIImageView!
     static var cptID = 0
@@ -31,7 +32,7 @@ class Block {
         if(baseView == nil ){
          baseView = UIImageView(image: baseImage)
         }
-       baseView.frame = CGRect(x: x, y: y, width: blockSize, height: blockSize)
+        baseView.frame = CGRect(x: x, y: y, width:Int(blockWidth/3), height: blockSize)
         view.addSubview(baseView)
     }
     
@@ -44,7 +45,11 @@ class Block {
             self.setView(view : view)
         }
         y = y + speed
-        baseView.frame = CGRect(x: x, y: y, width: blockSize, height: blockSize)
+        baseView.frame = CGRect(x: x, y: y, width: Int(blockWidth/3), height: blockSize)
+    }
+    
+    public func setPosY(y: Int){
+        self.y = y
     }
     
 }

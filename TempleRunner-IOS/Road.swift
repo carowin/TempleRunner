@@ -10,14 +10,15 @@ import Foundation
 import UIKit
 
 class Road {
-    var mainRoad = [Block]()
+    var mainRoad = [Block]() // stock les simpleroad
+    var tabRoadRock = [Block]() // nombre de bloc dans le road
     var height : Int
     var width : Int
     // pour diviser l'ecran et road
     let hei_dvid = 10
     var wid_dvid = 3
     var view : UIView
-    private let blockSize: Int
+    private let blockSize: Int //hauteur du bloc
     
     init(view : UIView){
         height = Int(view.frame.height)
@@ -26,16 +27,12 @@ class Road {
         blockSize = part
         self.view = view
         var n = 0
-        var b = true
         mainRoad.append(SimpleRoad(x:width/3 ,y: -blockSize ,blockSize: part))
+        for _ in 0...2{
+            tabRoadRock.append(RoadRock(x:width/3 ,y: -blockSize,blockSize: part))
+        }
         while(n < height){
-            print(mainRoad.count)
-            if(!b){
-                mainRoad.append(SimpleRoad(x:width/3 ,y: n,blockSize: part))
-            }else{
-                mainRoad.append(RoadRock(x:width/3 ,y: n,blockSize: part))
-               b = false
-            }
+            mainRoad.append(SimpleRoad(x:width/3 ,y: n,blockSize: part))
             n+=part
         }
     }
@@ -56,29 +53,19 @@ class Road {
     public func updateRoad(){
         //Filtrage des block sortie du cadre et ajout des block par dessu
         // la condition est inversé dans les filter swift , Think diffrent
-        let sizeBeffore = mainRoad.count
-        
-        mainRoad = mainRoad.filter{$0.y < height+$0.blockSize}
-        
-        let nb_add = sizeBeffore - mainRoad.count
-        
-       // print("nb-add " )
-       // print(nb_add)
-       // print("taille de la liste")
-       // print(mainRoad.count)
-        //print(mainRoad.capacity)
-        if(sizeBeffore != mainRoad.count){
-            for n in 0...nb_add{
-                mainRoad.append(SimpleRoad(x:width/3 ,y: -blockSize, blockSize: blockSize))
+        for i in 0...mainRoad.count-1{
+           if mainRoad[i].y > height{
+                mainRoad[i].setPosY(y: -blockSize)
+                var elem = mainRoad.remove(at: i)
+            
+            // generation obstacle en fonction d'une valeur random
+                let randomRock = Int.random(in: 0...4)
+                if randomRock == 3 {
+                    
+                }
+                mainRoad.append(elem)
             }
-        }
-        
-        // scp -r -p TempleRunner.zip numet@ssh.ufr-info-p6.jussieu.fr:/users/Etu9/3524869/AAAA
-        //update position
-        print("dqsqd")
-        for b in mainRoad {
-            print(b.id,b.x,b.y)
-            b.updatePosition(view : view)
+            mainRoad[i].updatePosition(view : view)
         }
     }
     
