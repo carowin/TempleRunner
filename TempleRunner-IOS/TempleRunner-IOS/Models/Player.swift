@@ -38,7 +38,7 @@ class Player {
         let width = UIScreen.main.bounds.width
         let height = UIScreen.main.bounds.height
         posX = width/2
-        posY = 4*height/6
+        posY = height - width/3
         player!.center = CGPoint(x: posX!, y: posY!)
     }
     
