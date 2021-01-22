@@ -12,10 +12,10 @@ class RoadRock : Block {
     let rocherImage = UIImage(named: "rocher")
     override init(x : Int ,y : Int , blockSize : Int ) {
         super.init(x: x, y: y, blockSize: blockSize)
+        super.baseView = UIImageView(image: rocherImage)
     }
     
    override public func setView(view : UIView){
-        super.baseView = UIImageView(image: rocherImage)
         super.setView(view: view)
     }
 }
