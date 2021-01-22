@@ -20,12 +20,17 @@ class Block {
     let id : Int
     var speed = 10
     
+    var obstaclePresent : Bool //signal la presence d'obstacle sur le block
+    var coinPresent : Bool //signale la presence de pices sur le block
+    
     init(x : Int ,y : Int , blockSize : Int ) {
         id  =  Block.cptID
         Block.cptID += 1
         self.x=x
         self.y=y
         self.blockSize = blockSize
+        obstaclePresent = false
+        coinPresent = false
     }
     
     public func setView(view : UIView){
@@ -51,5 +56,23 @@ class Block {
     public func setPosY(y: Int){
         self.y = y
     }
+    
+    
+    public func changeObstaclePresent(){
+        if obstaclePresent {
+            obstaclePresent = false
+        }else {
+            obstaclePresent = true
+        }
+    }
+    
+    public func changeCoinPresent(){
+        if coinPresent {
+            coinPresent = false
+        }else {
+            coinPresent = true
+        }
+    }
+    
     
 }
