@@ -15,6 +15,11 @@ class ScoreModel {
     private var currentScore = 0
     private var currentCoins = 0
 
+    let urlFetch = "http://templerunnerpmm.pythonanywhere.com/chat/fetch"
+    struct Response: Codable {
+        let value: String
+    }
+
     init(){
         // Do nothing
     }
@@ -27,6 +32,43 @@ class ScoreModel {
     init(currentScore: Int, currentCoins: Int) {
         self.currentScore = currentScore
         self.currentCoins = currentCoins
+    }
+
+
+
+    func fetchScore() {
+        let task = URLSession.shared.dataTask(with: URL(string:urlFetch)!, completionHandler: {data, response, error in 
+        
+            if let error = error {
+                print("Error accessing url: \(error)")
+                return
+            }     
+
+            guard let httpResponse = response as? HTTPURLResponse,(200...299).contains(httpResponse.statusCode) else {
+                print("Error with the response, unexpected status code: \(response)")
+                return
+            }  
+
+
+            var result: Response?
+
+            do {
+                result = try JSONDecoder().decode(Response.self, from: data!)
+            }
+            catch {
+                print("enable to aprse data")
+            }
+
+            guard let json = result else {
+                print("data is nil")
+                return 
+            }
+
+            self.hightScore = Int(json.value)!
+        
+        })
+
+        task.resume()
     }
 
     func getLastScore() -> Int {
@@ -62,6 +104,9 @@ class ScoreModel {
     }
 
     func updateScores() {
+        if(currentScore != 0){
+            lastScore = currentScore
+        }
         if lastScore > hightScore {
             hightScore = lastScore
         } 
