@@ -127,8 +127,9 @@ class ViewController: UIViewController {
     }
     
     /* Sauvegarde le nouveau score dans la BDD */
-    @objc func saveScoreToBDD(){
-        // TO DO
+    @objc func fetchScoreFromBDD(){
+        scoreModel?.fetchScore()
+        scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
     }
     
     

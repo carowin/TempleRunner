@@ -70,7 +70,7 @@ class ScoreView: UIView {
         buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromScoreView), for: .touchUpInside)
 
         buttonSaveScore.createCustomButton(title:"SAVE SCORE", width: sizeButton)
-        buttonSaveScore.addTarget(self.superview, action: #selector(vc!.saveScoreToBDD), for: .touchUpInside)
+        buttonSaveScore.addTarget(self.superview, action: #selector(vc!.fetchScoreFromBDD), for: .touchUpInside)
         
         buttonBack.createCustomButton(title:"BACK", width: sizeButton)
         buttonBack.addTarget(self.superview, action: #selector(vc!.removeScoreView), for: .touchUpInside)
