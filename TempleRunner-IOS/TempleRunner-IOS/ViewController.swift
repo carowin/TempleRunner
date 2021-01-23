@@ -81,8 +81,11 @@ class ViewController: UIViewController {
     
     /* Affichage la page des scores a partir de la first view  */
     @objc func displayScoreViewFromFirstView(){
+        firstView?.displayFirstView()
         firstView?.blurFirstView()
         self.view.bringSubviewToFront(scoreView!)
+        scoreModel?.updateScores()
+        scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
         scoreView?.displayScoreView()
         scoreView?.hideMainMenuButton()
         scoreView?.viewWillAppear()

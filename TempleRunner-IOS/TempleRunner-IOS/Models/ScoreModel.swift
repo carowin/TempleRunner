@@ -15,6 +15,11 @@ class ScoreModel {
     private var currentScore = 0
     private var currentCoins = 0
 
+    let urlFetch = "http://127.0.0.1:8000/chat/fetch"
+    struct Response: Codable {
+        let value: String
+    }
+
     init(){
         // Do nothing
     }
@@ -27,6 +32,36 @@ class ScoreModel {
     init(currentScore: Int, currentCoins: Int) {
         self.currentScore = currentScore
         self.currentCoins = currentCoins
+    }
+
+
+
+    func fetchScore() {
+        URLSession.shared.dataTask(with: URL(string:urlFetch)!, completionHandler: {data, response, error in 
+        
+            guard let data = data, error = nil else {
+                print("error when fetching score")
+            }
+
+            var result: Response?
+
+            do {
+                result = try JSONDecoder().decode(Response.self, from: data)
+            }
+            catch {
+                print("enable to aprse data")
+            }
+
+            guard let json = result else {
+                print("data is nil")
+                return 
+            }
+
+            self.hightScore = Int(data.value)
+        
+        })
+
+        task.resume()
     }
 
     func getLastScore() -> Int {
@@ -62,6 +97,9 @@ class ScoreModel {
     }
 
     func updateScores() {
+        if(currentScore != 0){
+            lastScore = currentScore
+        }
         if lastScore > hightScore {
             hightScore = lastScore
         } 
