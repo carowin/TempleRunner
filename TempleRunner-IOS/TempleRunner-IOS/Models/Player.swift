@@ -14,7 +14,7 @@ class Player {
     private var player : UIImageView?
     private var posX : CGFloat? //position X du player
     private var posY : CGFloat? //position Y du player
-    //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE"]
+    //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE","LOSE"]
     private var state : String?
     private var score = 0 //score actuel du joueur
     private var coinsScore = 0 //nombre de pièces récupérés
@@ -28,6 +28,7 @@ class Player {
     private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
     private let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
     private let playerPaused = UIImage(named: "playerMouvement/playerRun1")//image du joueur en pause
+    private let playerLose = UIImage(named: "playerMouvement/playerLose")//image du joueur en paus
     
     
     init() {
@@ -100,6 +101,8 @@ class Player {
             player!.image! = playerRight!
         case "PAUSE":
             player!.image! = playerPaused!
+        case "LOSE":
+            player!.image! = playerLose!
         default:
             player!.image! = playerRun!
         }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 class RoadRock : Block {
     let rocherImage = UIImage(named: "rocher")
-    override init(x : Int ,y : Int , blockSize : Int ) {
+    override init(x : CGFloat ,y : CGFloat , blockSize : CGFloat ) {
         super.init(x: x, y: y, blockSize: blockSize)
         super.baseView = UIImageView(image: rocherImage)
     }

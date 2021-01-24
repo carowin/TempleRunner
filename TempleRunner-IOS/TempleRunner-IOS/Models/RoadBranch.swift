@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 class RoadBranch : Block {
     let rocherImage = UIImage(named: "branch")
-    override init(x : Int ,y : Int , blockSize : Int ) {
+    
+    override init(x: CGFloat ,y: CGFloat ,blockSize: CGFloat){
         super.init(x: x, y: y, blockSize: blockSize)
         super.baseView = UIImageView(image: rocherImage)
     }

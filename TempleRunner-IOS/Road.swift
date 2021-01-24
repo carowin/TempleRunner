@@ -9,94 +9,133 @@
 import Foundation
 import UIKit
 
-/*
- Génération du chemin, le principe est le suivant :
-    Au départ on crée le nombre d'obstacles que l'ont souhaite utiliser elles seront placées hors de l'écran, lorsqu'on les utilisera on les fera descendre
-    Puis lorsque le jeu commence, on set la mainRoad.
-    Dès qu'un bloc sort de la vue du jeu alors on le replace en haut en dehors de la vue de l'app
- */
+
+
 class Road {
-    var mainRoad = [Block]() // stock le road affiché
-    var tabObstacles = [Block]() //Stocke tous les obstacles que l'on souhaite utiliser
-    var obstacleInRoad = [Block]() //stock tous les obstacles qui sont sur le road
-    var height = Int(UIScreen.main.bounds.height)
-    var width = Int(UIScreen.main.bounds.width)
+    
+    var mainRoad = [Block]() //stock le road pavé de base
+    var tabObstacles = [Block]() //stock tous les obstacles dispo
+    var obstacleInRoad = [Block]() //stock les obstacles qui sont utilisés pour le road
+    var height = UIScreen.main.bounds.height
+    var width = UIScreen.main.bounds.width
     // pour diviser l'ecran et road
     let hei_dvid = 10 //nombre de bloc
     var wid_dvid = 3
     var view : UIView
-    private let blockSize: Int //hauteur du bloc
+    private let blockSize: CGFloat //hauteur du bloc
     
-    var chosenValue = 0 //1 chance sur 5 d'avoir un obstacle, valeur choisie pour le random
+    var chosenValue = 3 //1 chance sur 5 d'avoir un obstacle, valeur choisie pour le random
     
     init(view : UIView){
         self.view = view
-        blockSize = height/hei_dvid
-        var n = 0
-        //mainRoad.append(SimpleRoad(x:width/3 ,y: -blockSize ,blockSize: blockSize))
+        blockSize = height/CGFloat(hei_dvid)
+        var incrY = CGFloat(0)
+        /*------------------- Stockage et Créations des obstacles ---------------------*/
         for _ in 0...2{
-            tabObstacles.append(RoadRock(x:0 ,y: -blockSize,blockSize: blockSize))
+            //tabObstacles.append(RoadRock(x:CGFloat(0) ,y: -blockSize ,blockSize: blockSize))
+            tabObstacles.append(RoadRock(x:width/3 ,y: -blockSize ,blockSize: blockSize))
         }
         for _ in 0...2{
-            tabObstacles.append(RoadBranch(x:0 ,y: -blockSize,blockSize: blockSize))
+            //tabObstacles.append(RoadBranch(x:CGFloat(0) ,y: -blockSize ,blockSize: blockSize))
+            tabObstacles.append(RoadBranch(x:width/3 ,y: -blockSize ,blockSize: blockSize))
         }
-        for _ in 0...hei_dvid+1{
-            mainRoad.append(SimpleRoad(x:width/3 ,y: n,blockSize: blockSize))
-            n+=blockSize
+        
+        /*------------------------ Initialisation du chemin ---------------------------*/
+        for _ in 0...hei_dvid{
+            mainRoad.append(SimpleRoad(x:width/3 ,y: CGFloat(incrY),blockSize: blockSize))
+            incrY += blockSize
         }
     }
     
+    
+    /* ajout de chaques blocs du road dans la gameView */
     public func setRoad(){
         for b in mainRoad {
             b.setView(view: view)
         }
     }
     
+    /* ajout des obstacles dans la gameView */
+    public func setObstacles(){
+        for obst in tabObstacles{
+            obst.setView(view: view)
+        }
+    }
+    
+    
+    /* dans le cas d'une nouvelle partie on reset le road de départ ==>
+            on retire tous les obstacles present sur le road et on les replace en dehors de l'écran*/
+    public func resetRoad(){
+        if obstacleInRoad.count>0{
+            for i in 0...obstacleInRoad.count-1{
+                obstacleInRoad[i].setPosY(y: -blockSize)
+                tabObstacles.append(obstacleInRoad[i])
+            }
+            obstacleInRoad.removeAll()
+        }
+    }
+    
+    /* cache le road */
     public func isHidden(value : Bool){
         for b in mainRoad {
             b.hideBlock(value : value)
         }
     }
     
+    
     //eventuelement ajouter une vitesse par la suite
+    /* Fonction appelée dans GameView pour update le road affiché */
     public func updateRoad(){
         //Filtrage des block sortie du cadre et ajout des block par dessus
-        print(tabObstacles.count)
-        print(obstacleInRoad.count)
-        for i in 0...mainRoad.count-1{
-            if mainRoad[i].y > height{ //cas où block est sortie du cadre
-                if(mainRoad[i].baseView.subviews.count != 0){
-                    let obstacle = obstacleInRoad.remove(at: 0)
-                    tabObstacles.append(obstacle)
-                    obstacle.baseView.removeFromSuperview()
-                }
+        for i in 0...mainRoad.count-1{//pour chq elem de la road
+            if mainRoad[i].y > height{ //sortis du cadre?
                 mainRoad[i].setPosY(y: -blockSize) //repositionne en haut
                 let elem = mainRoad.remove(at: i)
-                
                 mainRoad.append(elem)
-                if (mainRoad[mainRoad.count-2].baseView.subviews.count == 0){ //si le bloc d'avant n'a pas d'obstacle
-                    generateObstacle(block: elem.baseView)
-                }
+                generateObstacle()
             }
             mainRoad[i].updatePosition(view : view)
+        }
+        if obstacleInRoad.count>0{
+            let obstF = obstacleInRoad.first
+            if(obstF!.y > height){//sortis du cadre?
+                obstF?.setPosY(y: -blockSize)//repositionne en haut
+                obstacleInRoad.remove(at: 0)//on le retire du tableau
+                tabObstacles.append(obstF!)//rajoute dans le tab de tous les obst
+            }
+            for obst in obstacleInRoad{
+                obst.updatePosition(view: view)
+            }
         }
     }
     
     
-    /*
-     Génération des obstacles ==>
+    /* Génération des obstacles ==>
      On genere une valeur aléatoire, si cette valeur généré correspond à la valeur attendue alors:
             -on tire aléatoirement un obstacle dans notre tableau d'obstacle
-            -on ajoute cet obstacle dans le tableau indiquant l'ensemble des obstacles présents dans la road
-            -on ajoute cette obstacle dans la vue du bloc et on la draw
-     */
-    public func generateObstacle(block: UIImageView){
-        let randomObstacle = Int.random(in: 0...3)
-        if randomObstacle == chosenValue {
-            if( tabObstacles.count > 0){
-                let getObstacle = tabObstacles.remove(at: Int.random(in: 0...(tabObstacles.count-1)))
-                obstacleInRoad.append(getObstacle)
-                getObstacle.setView(view: block)
+            -on ajoute cet obstacle dans le tableau des obstacles utilisés */
+    public func generateObstacle(){
+        let randomObstacle = Int.random(in: 0...5)
+        if randomObstacle==chosenValue && tabObstacles.count>0 {
+            if (obstacleInRoad.count>0 && obstacleInRoad.last!.y>blockSize) || (obstacleInRoad.count==0){
+                let obst = tabObstacles.remove(at: Int.random(in: 0...(tabObstacles.count-1)))
+                obstacleInRoad.append(obst)
+            }
+        }
+    }
+    
+    /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
+    public func detectCollision(player: Player){
+        var res = false
+        for obst in obstacleInRoad{//pour chaque obstacle présent
+            if ((obst as? RoadRock) != nil) {//c'est un rock
+                res = obst.detectCollision(player: player, state: "JUMPING")
+            } else if ((obst as? RoadBranch) != nil) {//c'est une branche
+                res = obst.detectCollision(player: player, state: "SLIDING")
+            }
+            if res == true{//cas où collision
+                let v = view as! GameView
+                v.stopGame()
             }
         }
     }

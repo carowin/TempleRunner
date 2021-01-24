@@ -115,6 +115,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         blurEffectView?.isHidden = true
         self.addSubview(backgroundImage!)
         road?.setRoad()
+        road?.setObstacles()
         self.addSubview(myPlayer.getView())
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
@@ -135,11 +136,11 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     @objc func swipeHandler(sender : UISwipeGestureRecognizer){
         print("swipe detect")
         if sender.direction == .down { //down=joueur glisse
-            actionTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
+            actionTime = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: "SLIDING")
         }
         if sender.direction == .up { // up=joueur saute
-            actionTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
+            actionTime = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: "JUMPING")
         }
         if sender.direction == .left { //left=tourne à gauche
@@ -172,6 +173,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         }
         // update roade
         road?.updateRoad()
+        road?.detectCollision(player: myPlayer)
+
         //mise en place du joueur au dessu si nul ça fait boum
         self.bringSubviewToFront(myPlayer.getView())
         //self.bringSubviewToFront(playerPaused)
@@ -183,6 +186,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     func beginNewgame() {
         myPlayer.resetScore()
         myPlayer.resetCoinsScore()
+        road?.resetRoad()
         scoreLabel?.text = String(myPlayer.getCurrentScore())
         coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
         updateTimer?.invalidate()
@@ -200,6 +204,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         //TO BE COMPLETED
         cmMngr.stopAccelerometerUpdates()
         cmMngr.stopDeviceMotionUpdates()
+        vc?.displayScoreViewFromGameView()
     }
 
     /* fonction applé pour pauser le jeu */
@@ -267,7 +272,6 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
     func cleanGameView (){
         self.blurEffectView?.isHidden = true
-
     }
     
     func getPlayer() -> Player {
@@ -299,7 +303,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     //permet de désactiver les swipes lorsqu'on ne joue pas encore
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if myPlayer.getCurrentState() == "PAUSE"{
+        if myPlayer.getCurrentState() == "PAUSE" || myPlayer.getCurrentState() == "LOSE"{
             return false
         }
         return true

@@ -10,17 +10,17 @@ import Foundation
 import UIKit
 
 class Block {
-    var x: Int
-    var y: Int
-    let blockSize : Int
+    var x: CGFloat
+    var y: CGFloat
+    let blockSize : CGFloat
     let blockWidth = UIScreen.main.bounds.width
     let baseImage = UIImage(named: "pave")
     var baseView : UIImageView!
     static var cptID = 0
     let id : Int
-    var speed = 10
+    var speed = CGFloat(10)
     
-    init(x : Int ,y : Int , blockSize : Int ) {
+    init(x : CGFloat ,y : CGFloat , blockSize : CGFloat ) {
         id  =  Block.cptID
         Block.cptID += 1
         self.x=x
@@ -32,7 +32,7 @@ class Block {
         if(baseView == nil ){
          baseView = UIImageView(image: baseImage)
         }
-        baseView.frame = CGRect(x: x, y: y, width:Int(blockWidth/3), height: blockSize)
+        baseView.frame = CGRect(x: x, y: y, width:blockWidth/3, height: blockSize)
         view.addSubview(baseView)
     }
     
@@ -45,11 +45,24 @@ class Block {
             self.setView(view : view)
         }
         y = y + speed
-        baseView.frame = CGRect(x: x, y: y, width: Int(blockWidth/3), height: blockSize)
+        baseView.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: blockWidth/3, height: blockSize)
     }
     
-    public func setPosY(y: Int){
+    public func setPosY(y: CGFloat){
         self.y = y
+        baseView.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: blockWidth/3, height: blockSize)
+    }
+    
+    /* detection de collisions entre joueur et obstacle. On passe en parametre l'etat attendu selon
+     l'obstacle détecté. On verifie si le joueur se trouve bien dans cet etat lorsqu'il rencontre cet obstacle*/
+    public func detectCollision(player:Player, state: String) -> Bool{
+        if y+blockSize/10<player.getPosition().y && player.getPosition().y<y+blockSize{
+            if player.getCurrentState() != state{
+                player.setState(state: "LOSE")
+                return true
+            }
+        }
+        return false
     }
     
 }
