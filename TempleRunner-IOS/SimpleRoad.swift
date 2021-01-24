@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 class SimpleRoad : Block {
-    override init(x : Int ,y : Int , blockSize : Int ) {
+    override init(x : CGFloat ,y : CGFloat , blockSize : CGFloat ) {
         super.init(x: x, y: y, blockSize: blockSize)
     }
 }
