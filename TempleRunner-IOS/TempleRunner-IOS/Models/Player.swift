@@ -18,6 +18,7 @@ class Player {
     private var state : String?
     private var score = 0 //score actuel du joueur
     private var coinsScore = 0 //nombre de pièces récupérés
+    private var lifePoints = 2 // niveau de vie du joueur
 
     
     //----------------------- gestion des images du player -----------------------
@@ -60,6 +61,10 @@ class Player {
     func getImage() -> UIImage {
         return player!.image!
     }
+
+    func getLifePoints() -> Int {
+        return lifePoints
+    }
     
     /* retourne un tuple (x,y) representant la position du player(centre)*/
     func getPosition() -> (x:CGFloat, y:CGFloat) {
@@ -79,11 +84,19 @@ class Player {
     func incrementCoinsScore() {
         coinsScore = coinsScore + 1
     }
+
+     func decrementLifePoints() {
+        if(lifePoints != 0){
+            lifePoints = lifePoints - 1
+        }
+    }
     
     func setPosX(val:CGFloat){
         self.posX = val
         player!.center.x = posX!
     }
+
+    
     
     /*appelée pour changer l'etat du joueur, et l'image associée */
     func setState(state:String){
@@ -114,6 +127,10 @@ class Player {
     
     func resetCoinsScore(){
         self.coinsScore = 0
+    }
+
+    func resetLifePoints(){
+        self.lifePoints = 2
     }
     
     

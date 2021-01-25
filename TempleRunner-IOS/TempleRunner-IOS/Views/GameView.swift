@@ -26,30 +26,12 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     private var progressView : UIProgressView? //barre de progression du nombre de pieces récupérés
 
     private var cptTemporisation = 3 // compteur servant à la temporisation 
-    
-
-    
-    private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
-    private var playerRun : UIImage? //image joueur qui cours
-
-    private let monsterRunGif = [UIImage(named: "monsterLeft"),UIImage(named: "monsterCenter"),UIImage(named: "monsterRight")]//gif du monstre en train de courir
-    private var monsterImage : UIImageView? //image monster qui cours
-
-
-    private let playerPaused = UIImageView(image:UIImage(named: "playerMouvement/playerRun1"))
-    private let monsterPaused = UIImageView(image:UIImage(named: "monsterCenter"))
-    
-    
-    private let playerJump = UIImage(named: "playerMouvement/playerJump")//image du joueur qui saute
-    private let playerSlide = UIImage(named: "playerMouvement/playerSlide")//image du joueur qui glisse
-    private let playerLeft = UIImage(named: "playerMouvement/playerLeft")//image du joueur tourne à gauche
-    private let playerRight = UIImage(named: "playerMouvement/playerRight")//image du joueur tourne à droite
-    private var playerImage : UIImageView? //icone du joueur
 
     private let clawDeathScreen = UIImageView(image:UIImage(named: "claw"))
     
     
     private var myPlayer = Player() //ajout d'un player dans le jeu
+    private var myMonster = Monster() //ajout d'un monster dans le jeu
     
     private let cmMngr = CMMotionManager() //gestion du motion device
     
@@ -102,13 +84,10 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         tempoLabel.layer.backgroundColor = UIColor.darkGray.cgColor
         tempoLabel.alpha = 0.8
         tempoLabel.isHidden = true
-
-        monsterImage = UIImageView(image: UIImage.animatedImage(with: monsterRunGif as! [UIImage], duration: 0.6))
-        monsterImage?.isHidden = true
-
         
         //__________________ gestion des mouvements du joueur __________________
         myPlayer.hidePlayer()
+        myMonster.hideMonster()
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeHandler(sender:)))
         swipeDown.direction = .down
@@ -145,16 +124,11 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         
         self.addSubview(backgroundImage!)
         road?.setRoad()
-        self.addSubview(playerImage!)
-        self.addSubview(monsterImage!)
-        self.addSubview(playerPaused)
-        self.addSubview(monsterPaused)
-
         self.addSubview(backgroundImage!)
         road?.setRoad()
         road?.setObstacles()
         self.addSubview(myPlayer.getView())
-
+        self.addSubview(myMonster.getView())
         self.addSubview(progressView!)
         self.addSubview(scoreLabel!)
         self.addSubview(coinsLabel!)
@@ -192,25 +166,24 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    /* appelé par le timer pour mettre le player en position running */
+    /* appelé par le timer pour mettre le player et le monster en position running */
     @objc func resetRunningMode(){
         actionTime!.invalidate()
         myPlayer.setState(state: "RUNNING")
+        myMonster.setState(state: "RUNNING")
     }
 
     
     /* fonction update appelé toute les 0.1sec, gère l'avancé du jeu */
     @objc func update(){
 
-        myScore += 1 //incrémentation du score (1points/ms à changer peut être)
-        scoreLabel?.text = String(myScore)
-
-        if(myScore % 50 == 0){
-            life = life - 1
-            self.updatePosMonster()
-        }
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
+
+         if(myPlayer.getCurrentScore() % 50 == 0){
+            myPlayer.getLifePoints()
+            self.updatePosMonster()
+        }
         
         if cmMngr.deviceMotion !== nil {
             let newX = myPlayer.getPosition().x + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
@@ -225,13 +198,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         //mise en place du joueur au dessu si nul ça fait boum
 
-        self.bringSubviewToFront(monsterImage!)
-        self.bringSubviewToFront(monsterPaused)
-        self.bringSubviewToFront(playerImage!)
-        self.bringSubviewToFront(playerPaused)
-
         self.bringSubviewToFront(myPlayer.getView())
-        //self.bringSubviewToFront(playerPaused)
+        self.bringSubviewToFront(myMonster.getView())
 
         self.bringSubviewToFront(tempoLabel)
         self.bringSubviewToFront(blurEffectView!)
@@ -240,31 +208,21 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
     /* fionction qui démarre le jeu */
     func beginNewgame() {
-
-        myScore = 0
-        scoreCoins = 0
-        life = 2
-        scoreLabel?.text = String(myScore)
-        coinsLabel?.text = String(scoreCoins)
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
-        monsterImage?.center = CGPoint(x: width/2, y: 17*height/18)
-        monsterPaused.center = CGPoint(x: width/2, y: 17*height/18)
-        self.monsterImage?.transform = .identity
-        playerImage?.isHidden = true
-        playerPaused.isHidden = false
-        monsterImage?.isHidden = true
-        monsterPaused.isHidden = false
-        clawDeathScreen.isHidden = true
         myPlayer.resetScore()
         myPlayer.resetCoinsScore()
-        road?.resetRoad()
+        myPlayer.resetLifePoints()
         scoreLabel?.text = String(myPlayer.getCurrentScore())
         coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
-        updateTimer?.invalidate()
-        tempoTimer?.invalidate()
+        myMonster.setPosX(val:17*height/18)
+        myMonster.resetTransform()
+        clawDeathScreen.isHidden = true
+        road?.resetRoad()
         myPlayer.displayPlayer()
+        myMonster.displayMonster()
         myPlayer.setState(state: "PAUSE")
+        myMonster.setState(state: "PAUSE")
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
         tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
@@ -283,12 +241,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     /* fonction applé pour pauser le jeu */
     func beginPauseGame (){
         updateTimer?.invalidate()
-        playerImage?.isHidden = true
-        playerPaused.isHidden = false
-        monsterImage?.isHidden = true
-        monsterPaused.isHidden = false
         myPlayer.setState(state: "PAUSE")
-
+        myMonster.setState(state: "PAUSE")
     }
 
     /* fonction applé pour pauser le jeu */
@@ -306,12 +260,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             tempoTimer!.invalidate()
             tempoLabel.isHidden = true
             cptTemporisation = 3
-            tempoLabel.text = String(cptTemporisation)
-            playerPaused.isHidden = true
-            playerImage?.isHidden = false
-            monsterPaused.isHidden = true
-            monsterImage?.isHidden = false  
+            tempoLabel.text = String(cptTemporisation)  
             myPlayer.setState(state: "RUNNING")
+            myMonster.setState(state: "RUNNING")
             updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         } else {
             cptTemporisation-=1
@@ -339,6 +290,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         self.isHidden = true
         backgroundImage!.isHidden = true
         myPlayer.hidePlayer()
+        myMonster.hideMonster()
         progressView?.isHidden = true
         scoreLabel?.isHidden = true
         coinsLabel?.isHidden = true
@@ -355,25 +307,24 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     }
 
      func updatePosMonster(){
-        if(life == 2){
-            monsterImage?.center = CGPoint(x: width/2, y: 17*height/18)
-            monsterPaused.center = CGPoint(x: width/2, y: 17*height/18)
-        } else if(life == 1){
+        if(myPlayer.getLifePoints() == 2){
+            myMonster.setPosX(val:17*height/18)
+        } else if(myPlayer.getLifePoints() == 1){
             UIView.animate(withDuration: 1, animations: {
-                self.monsterImage?.transform = CGAffineTransform(translationX:0, y: -2*self.height/18)
+                self.myMonster.translateImage(val:-2*self.height/18)
             }) { _ in
-                self.monsterPaused.center = CGPoint(x: self.width/2, y: 15*self.height/18)
+                self.myMonster.setPosX(val:15*self.height/18)
             }
 
         } else {
             UIView.animate(withDuration: 1, animations: {
-                self.monsterImage?.transform = CGAffineTransform(translationX:0, y: -4*self.height/18)
+                self.myMonster.translateImage(val:-4*self.height/18)
             }) { _ in
-                self.monsterPaused.center = CGPoint(x: self.width/2, y: 13*self.height/18)
+                self.myMonster.setPosX(val:13*self.height/18)
                 self.clawDeathScreen.isHidden = false
                 self.beginPauseGame()
                 Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)
-                self.monsterImage?.transform = .identity
+                self.myMonster.resetTransform()
             }
         }
     }
