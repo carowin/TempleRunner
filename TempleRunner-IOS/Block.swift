@@ -23,6 +23,8 @@ class Block {
     var obstaclePresent : Bool //signal la presence d'obstacle sur le block
     var coinPresent : Bool //signale la presence de pices sur le block
     
+    var tagId : Int //indique le tag de la view
+    
     init(x : Int ,y : Int , blockSize : Int ) {
         id  =  Block.cptID
         Block.cptID += 1
@@ -31,12 +33,17 @@ class Block {
         self.blockSize = blockSize
         obstaclePresent = false
         coinPresent = false
+        tagId = 0
     }
     
-    public func setView(view : UIView){
+    public func setView(view : UIView) {
         if(baseView == nil ){
          baseView = UIImageView(image: baseImage)
         }
+        //test view avec tag
+        baseView.tag = tagId
+        tagId += 1
+        
         baseView.frame = CGRect(x: x, y: y, width:Int(blockWidth/3), height: blockSize)
         view.addSubview(baseView)
     }
@@ -58,21 +65,14 @@ class Block {
     }
     
     
-    public func changeObstaclePresent(){
-        if obstaclePresent {
-            obstaclePresent = false
-        }else {
-            obstaclePresent = true
-        }
+    public func changeObstaclePresent(bool : Bool){
+        obstaclePresent = bool
     }
     
-    public func changeCoinPresent(){
-        if coinPresent {
-            coinPresent = false
-        }else {
-            coinPresent = true
-        }
+    public func changeCoinPresent(bool : Bool){
+        coinPresent = bool
     }
+    
     
     
 }

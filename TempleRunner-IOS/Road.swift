@@ -21,6 +21,7 @@ class Road {
     var obstacleInRoad = [Block]() //stock tous les obstacles qui sont sur le road
     
     var tabRoadCoin = [Block]() //stock les pièces
+    var CoinInRoad = [Block]() //stock les tags des pieces qui sont sur le road
     var nbCoin = 0 //nombre de pièces sur le chemin
     var maxCoin = 5
     
@@ -45,6 +46,8 @@ class Road {
         for _ in 0...maxCoin{
             tabRoadCoin.append(RoadCoin(x:0 ,y: -blockSize,blockSize: blockSize))
         }
+        
+        
         
         while(n < height){
             mainRoad.append(SimpleRoad(x:width/3 ,y: n,blockSize: blockSize))
@@ -72,8 +75,23 @@ class Road {
                 mainRoad[i].setPosY(y: -blockSize) //repositionne en haut
                 let elem = mainRoad.remove(at: i)
                 //remove ou hide les pièces ?
+                if elem.coinPresent {
+                    let getCoin = CoinInRoad.remove(at :0)
+                    getCoin.baseView.removeFromSuperview()
+                }
                 
-                //elem.baseView.isHidden = true
+                /*if(nbCoin == maxCoin){
+                  
+                 
+                    //getCoin.hideBlock(value: true)
+                    //
+                 
+                    if CoinInRoad.count == 0 {
+                        nbCoin = -1
+
+                    }
+                }*/
+                
                 mainRoad.append(elem)
                 //generateObstacle(block: elem.baseView)
                 generateCoin(block: elem.baseView, i : i)
@@ -98,57 +116,19 @@ class Road {
     
     
     public func generateCoin(block : UIImageView, i : Int){
-        //s'il n'y a pas d'obstacle alors essayer de mettre des pièces
-
-        /*
-        //s'il n'y a pas de pièce que le block qui va apparaitre
-        if !mainRoad[i].coinPresent && nbCoin < maxCoin {
-            let randomCoin = Int.random(in: 0...3)
-            if randomCoin == 3 {
-                
-                tabRoadCoin[0].setView(view: block)
-                nbCoin += 1
-                
-            }
-        }
-        
-        
-        //si le block qui va apparaitre a une piece et qu'il faut encore en faire apparaitre
-        if mainRoad[0].coinPresent && nbCoin < maxCoin {
-            tabRoadCoin[0].setView(view: block)
-            nbCoin += 1
-        }
-        */
-        //print("nbCoin = " + String(nbCoin))//toujours à 5 mais toujours des pièces visible en boucle
         
         let randomObstacle = Int.random(in: 0...3)
         
-        //NO : hide tout !!!
-        if !mainRoad[i].baseView.isHidden {
-            mainRoad[i].baseView.isHidden = true
-        }
         
-        
-        if  nbCoin < maxCoin {
+        if  nbCoin < maxCoin  && nbCoin != -1{
             let getCoin = tabRoadCoin.remove(at: 0)
-            //CoinInRoad.append(getCoin)
+            //getCoin.baseView.tag = CoinInRoad[nbCoin]
+            CoinInRoad.append(getCoin)
             getCoin.setView(view: block)
             
-            mainRoad[i].changeCoinPresent() //signaler qu'il y a une piece sur le block
+            mainRoad[i].changeCoinPresent(bool : true)
             nbCoin += 1
-            /*
-            //réinitialiser
-            if(nbCoin == 5 ){
-                nbCoin = 0
-            }*/
         }
-        
-        if mainRoad[i].coinPresent {
-            
-        }
-        
-        
-        
         
     }
     
