@@ -53,16 +53,8 @@ class Block {
         baseView.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: blockWidth/3, height: blockSize)
     }
     
-    /* detection de collisions entre joueur et obstacle. On passe en parametre l'etat attendu selon
-     l'obstacle détecté. On verifie si le joueur se trouve bien dans cet etat lorsqu'il rencontre cet obstacle*/
-    public func detectCollision(player:Player, state: String) -> Bool{
-        if y+blockSize/10<player.getPosition().y && player.getPosition().y<y+blockSize{
-            if player.getCurrentState() != state{
-                player.setState(state: "LOSE")
-                return true
-            }
-        }
-        return false
+    public func detectCollision(player:Player) -> Bool{
+        return true
     }
     
 }
