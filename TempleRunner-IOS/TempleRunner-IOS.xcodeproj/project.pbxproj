@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A152F9DE25BEDE47004C1425 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152F9DD25BEDE47004C1425 /* Monster.swift */; };
 		A180B38625B8545B00774DBC /* HanaleiFill-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */; };
 		A180B38925B8546700774DBC /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38825B8546700774DBC /* ScoreModel.swift */; };
 		A180B38B25B874B400774DBC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38A25B874B400774DBC /* Player.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A152F9DD25BEDE47004C1425 /* Monster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HanaleiFill-Regular.ttf"; sourceTree = "<group>"; };
 		A180B38825B8546700774DBC /* ScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
 		A180B38A25B874B400774DBC /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = "TempleRunner-IOS/Models/Player.swift"; sourceTree = SOURCE_ROOT; };
@@ -42,10 +44,10 @@
 		D677DA2E25A36C9F0075C3F7 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		D677DA3025A36CE60075C3F7 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D677DA3225A36D5E0075C3F7 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
-		D686095925B03A670013AED3 /* Road.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Road.swift; sourceTree = SOURCE_ROOT; };
-		D686095B25B03B240013AED3 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = SOURCE_ROOT; };
-		D686095D25B03F980013AED3 /* SimpleRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRoad.swift; sourceTree = SOURCE_ROOT; };
-		D686095F25B076270013AED3 /* RoadRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadRock.swift; sourceTree = SOURCE_ROOT; };
+		D686095925B03A670013AED3 /* Road.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Road.swift; path = "TempleRunner-IOS/Models/Road.swift"; sourceTree = SOURCE_ROOT; };
+		D686095B25B03B240013AED3 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Block.swift; path = "TempleRunner-IOS/Models/Block.swift"; sourceTree = SOURCE_ROOT; };
+		D686095D25B03F980013AED3 /* SimpleRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleRoad.swift; path = "TempleRunner-IOS/Models/SimpleRoad.swift"; sourceTree = SOURCE_ROOT; };
+		D686095F25B076270013AED3 /* RoadRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoadRock.swift; path = "TempleRunner-IOS/Models/RoadRock.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,13 @@
 			isa = PBXGroup;
 			children = (
 				A180B38825B8546700774DBC /* ScoreModel.swift */,
+				D686095925B03A670013AED3 /* Road.swift */,
+				D686095B25B03B240013AED3 /* Block.swift */,
+				D686095D25B03F980013AED3 /* SimpleRoad.swift */,
+				D686095F25B076270013AED3 /* RoadRock.swift */,
+				A1F4DDAA25BB889700445DBE /* RoadBranch.swift */,
+				A180B38A25B874B400774DBC /* Player.swift */,
+				A152F9DD25BEDE47004C1425 /* Monster.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -118,26 +127,12 @@
 		D677DA2925A36BE90075C3F7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D677DA2B25A36C0D0075C3F7 /* Model */,
 				D677DA2C25A36C7D0075C3F7 /* FirstView.swift */,
 				D677DA2E25A36C9F0075C3F7 /* ChatView.swift */,
 				D677DA3025A36CE60075C3F7 /* GameView.swift */,
 				D677DA3225A36D5E0075C3F7 /* ScoreView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		D677DA2B25A36C0D0075C3F7 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D686095925B03A670013AED3 /* Road.swift */,
-				D686095B25B03B240013AED3 /* Block.swift */,
-				D686095D25B03F980013AED3 /* SimpleRoad.swift */,
-				D686095F25B076270013AED3 /* RoadRock.swift */,
-				A1F4DDAA25BB889700445DBE /* RoadBranch.swift */,
-				A180B38A25B874B400774DBC /* Player.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +213,7 @@
 				D686095C25B03B240013AED3 /* Block.swift in Sources */,
 				D677DA1925A369AF0075C3F7 /* ViewController.swift in Sources */,
 				A180B38B25B874B400774DBC /* Player.swift in Sources */,
+				A152F9DE25BEDE47004C1425 /* Monster.swift in Sources */,
 				D677DA2D25A36C7D0075C3F7 /* FirstView.swift in Sources */,
 				D686095A25B03A670013AED3 /* Road.swift in Sources */,
 				D677DA1725A369AF0075C3F7 /* AppDelegate.swift in Sources */,
