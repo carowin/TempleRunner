@@ -70,7 +70,7 @@ class Road {
     //eventuelement ajouter une vitesse par la suite
     public func updateRoad(){
         //Filtrage des block sortie du cadre et ajout des block par dessus
-        for i in 0...mainRoad.count-1{
+        for i in 0...mainRoad.count-1 {
             if mainRoad[i].y > height{ //cas où block est sortie du cadre
                 mainRoad[i].setPosY(y: -blockSize) //repositionne en haut
                 let elem = mainRoad.remove(at: i)
