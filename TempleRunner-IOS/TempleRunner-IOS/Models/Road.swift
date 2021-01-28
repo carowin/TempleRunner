@@ -25,6 +25,14 @@ class Road {
     private let blockSize: CGFloat //hauteur du bloc
     
     var chosenValue = 3 //1 chance sur 5 d'avoir un obstacle, valeur choisie pour le random
+
+    
+    var tabRoadCoin = [Coin]() //stock les pièces
+    var nbCoin = 0 //nombre de pièces sur le chemin
+    var maxCoin = 5
+    var coinEncCours = true //mettre une séquence de pièces
+    
+    private var timerCoin : Timer? // quand rappeler les pièces 
     
     init(view : UIView){
         self.view = view
@@ -62,7 +70,6 @@ class Road {
         }
     }
     
-    
     /* dans le cas d'une nouvelle partie on reset le road de départ ==>
             on retire tous les obstacles present sur le road et on les replace en dehors de l'écran*/
     public func resetRoad(){
@@ -93,6 +100,35 @@ class Road {
                 let elem = mainRoad.remove(at: i)
                 mainRoad.append(elem)
                 generateObstacle()
+                
+                if elem.coinPresent { //si il y a une pièce sur le block qui va sortir nettoyer
+                    elem.coin?.removeCoin()
+                    elem.changeCoinPresent(bool: false)
+                }
+                
+                if coinEncCours { //vérifier si il faut finir une séquence de Coin
+                    generateCoins(block: elem)
+                }
+                
+                var tmp = i - 1
+                if tmp == -1 {
+                    tmp = mainRoad.count - 1
+                }
+                
+                //si il n'y a pas de séquence et s'assurer qu'il y a bien un écart entre 2 séquences de coins
+                if !coinEncCours && !mainRoad[tmp].coinPresent {
+                    
+                    let randomCoin = Int.random(in: 0...10)
+                    print("random" + String(randomCoin))
+                    
+                    if randomCoin == 1{
+                        nbCoin = 0
+                        generateCoins(block: elem)
+                        coinEncCours = true
+                        
+                    }
+                }
+                
             }
             mainRoad[i].updatePosition(view : view)
         }
@@ -124,6 +160,31 @@ class Road {
         }
     }
     
+    public func generateCoins(block : Block){
+            if  nbCoin < maxCoin && nbCoin != -1{
+                let randomPosition = Int.random(in: 0...2)
+                if randomPosition == 0 {
+                    block.setCoin(position: "gauche")
+                }
+                if randomPosition == 1 {
+                    block.setCoin(position: "milieu")
+                }
+                if randomPosition == 2 {
+                    block.setCoin(position: "droite")
+                }
+                
+            
+                block.changeCoinPresent(bool : true)
+                nbCoin += 1
+            }
+        
+            if nbCoin == maxCoin {
+                nbCoin = -1
+                coinEncCours = false
+            }
+        
+    }
+    
     /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
     public func detectCollision(player: Player){
         var res = false
@@ -133,10 +194,11 @@ class Road {
             } else if ((obst as? RoadBranch) != nil) {//c'est une branche
                 res = obst.detectCollision(player: player, state: "SLIDING")
             }
+            /*
             if res == true{//cas où collision
                 let v = view as! GameView
                 v.stopGame()
-            }
+            }*/
         }
     }
     

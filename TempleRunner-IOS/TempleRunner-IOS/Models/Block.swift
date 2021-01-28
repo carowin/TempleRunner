@@ -20,12 +20,18 @@ class Block {
     let id : Int
     var speed = CGFloat(10)
     
+    var coinPresent : Bool //signale la presence de pices sur le block
+    var coin : Coin?
+    
     init(x : CGFloat ,y : CGFloat , blockSize : CGFloat ) {
         id  =  Block.cptID
         Block.cptID += 1
         self.x=x
         self.y=y
         self.blockSize = blockSize
+        coinPresent = false
+
+        
     }
     
     public func setView(view : UIView){
@@ -65,4 +71,13 @@ class Block {
         return false
     }
     
+    
+    public func changeCoinPresent(bool : Bool){
+        coinPresent = bool
+    }
+    
+    
+    public func  setCoin(position: String){
+        coin = Coin(block: self, position: position)
+    }
 }
