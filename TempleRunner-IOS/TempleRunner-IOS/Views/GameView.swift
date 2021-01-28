@@ -150,27 +150,27 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         print("swipe detect")
         if sender.direction == .down { //down=joueur glisse
             actionTime = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            myPlayer.setState(state: "SLIDING")
+            myPlayer.setState(state: .SLIDING)
         }
         if sender.direction == .up { // up=joueur saute
             actionTime = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            myPlayer.setState(state: "JUMPING")
+            myPlayer.setState(state: .JUMPING)
         }
         if sender.direction == .left { //left=tourne à gauche
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            myPlayer.setState(state: "LEFT")
+            myPlayer.setState(state: .LEFT)
         }
         if sender.direction == .right { //right=tourne à droite
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
-            myPlayer.setState(state: "RIGHT")
+            myPlayer.setState(state: .RIGHT)
         }
     }
     
     /* appelé par le timer pour mettre le player et le monster en position running */
     @objc func resetRunningMode(){
         actionTime!.invalidate()
-        myPlayer.setState(state: "RUNNING")
-        myMonster.setState(state: "RUNNING")
+        myPlayer.setState(state: .RUNNING)
+        myMonster.setState(state: .RUNNING)
     }
 
     
@@ -221,8 +221,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         road?.resetRoad()
         myPlayer.displayPlayer()
         myMonster.displayMonster()
-        myPlayer.setState(state: "PAUSE")
-        myMonster.setState(state: "PAUSE")
+        myPlayer.setState(state: .PAUSE)
+        myMonster.setState(state: .PAUSE)
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
         tempoTimer =  Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(temporisation), userInfo: nil, repeats: true)
@@ -241,8 +241,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     /* fonction applé pour pauser le jeu */
     func beginPauseGame (){
         updateTimer?.invalidate()
-        myPlayer.setState(state: "PAUSE")
-        myMonster.setState(state: "PAUSE")
+        myPlayer.setState(state: .PAUSE)
+        myMonster.setState(state: .PAUSE)
     }
 
     /* fonction applé pour pauser le jeu */
@@ -261,8 +261,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             tempoLabel.isHidden = true
             cptTemporisation = 3
             tempoLabel.text = String(cptTemporisation)  
-            myPlayer.setState(state: "RUNNING")
-            myMonster.setState(state: "RUNNING")
+            myPlayer.setState(state: .RUNNING)
+            myMonster.setState(state: .RUNNING)
             updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         } else {
             cptTemporisation-=1
@@ -361,7 +361,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     //permet de désactiver les swipes lorsqu'on ne joue pas encore
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if myPlayer.getCurrentState() == "PAUSE" || myPlayer.getCurrentState() == "LOSE"{
+        if myPlayer.getCurrentState() == .PAUSE || myPlayer.getCurrentState() == .LOSE{
             return false
         }
         return true

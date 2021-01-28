@@ -15,7 +15,7 @@ class Player {
     private var posX : CGFloat? //position X du player
     private var posY : CGFloat? //position Y du player
     //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE","LOSE"]
-    private var state : String?
+    private var state : StatePlayer?
     private var score = 0 //score actuel du joueur
     private var coinsScore = 0 //nombre de pièces récupérés
     private var lifePoints = 2 // niveau de vie du joueur
@@ -33,7 +33,7 @@ class Player {
     
     
     init() {
-        self.state = "RUNNING"
+        self.state = .RUNNING
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
         
         player = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
@@ -54,7 +54,7 @@ class Player {
         return coinsScore
     }
     
-    func getCurrentState() -> String {
+    func getCurrentState() -> StatePlayer {
         return state!
     }
 
@@ -99,22 +99,22 @@ class Player {
     
     
     /*appelée pour changer l'etat du joueur, et l'image associée */
-    func setState(state:String){
+    func setState(state:StatePlayer){
         self.state = state
         switch state{
-        case "RUNNING":
+        case .RUNNING:
             player!.image! = playerRun!
-        case "JUMPING":
+        case .JUMPING:
             player!.image! = playerJump!
-        case "SLIDING":
+        case .SLIDING:
             player!.image! = playerSlide!
-        case "LEFT":
+        case .LEFT:
             player!.image! = playerLeft!
-        case "RIGHT":
+        case .RIGHT:
             player!.image! = playerRight!
-        case "PAUSE":
+        case .PAUSE:
             player!.image! = playerPaused!
-        case "LOSE":
+        case .LOSE:
             player!.image! = playerLose!
         default:
             player!.image! = playerRun!
