@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A139C05A25C2CC7800B251A3 /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139C05925C2CC7800B251A3 /* States.swift */; };
 		A152F9DE25BEDE47004C1425 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152F9DD25BEDE47004C1425 /* Monster.swift */; };
 		A180B38625B8545B00774DBC /* HanaleiFill-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */; };
 		A180B38925B8546700774DBC /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38825B8546700774DBC /* ScoreModel.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A139C05925C2CC7800B251A3 /* States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
 		A152F9DD25BEDE47004C1425 /* Monster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HanaleiFill-Regular.ttf"; sourceTree = "<group>"; };
 		A180B38825B8546700774DBC /* ScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
@@ -61,6 +63,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A139C05825C2CC6000B251A3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				A139C05925C2CC7800B251A3 /* States.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		A180B38425B8545B00774DBC /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 		D677DA1525A369AF0075C3F7 /* TempleRunner-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				A139C05825C2CC6000B251A3 /* Util */,
 				A180B38725B8546700774DBC /* Models */,
 				A180B38425B8545B00774DBC /* Font */,
 				D677DA2925A36BE90075C3F7 /* Views */,
@@ -207,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A139C05A25C2CC7800B251A3 /* States.swift in Sources */,
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
 				A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */,
 				A180B38925B8546700774DBC /* ScoreModel.swift in Sources */,

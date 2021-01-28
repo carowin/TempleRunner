@@ -128,11 +128,7 @@ class Road {
     public func detectCollision(player: Player){
         var res = false
         for obst in obstacleInRoad{//pour chaque obstacle présent
-            if ((obst as? RoadRock) != nil) {//c'est un rock
-                res = obst.detectCollision(player: player, state: "JUMPING")
-            } else if ((obst as? RoadBranch) != nil) {//c'est une branche
-                res = obst.detectCollision(player: player, state: "SLIDING")
-            }
+            res = obst.detectCollision(player: player)
             if res == true{//cas où collision
                 let v = view as! GameView
                 v.stopGame()

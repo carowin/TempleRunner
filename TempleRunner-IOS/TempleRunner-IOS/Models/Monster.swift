@@ -15,7 +15,7 @@ class Monster {
     private var posX : CGFloat? //position X du monstre
     private var posY : CGFloat? //position Y du monstre
     //état courant du joueur ["RUNNING","PAUSE"]
-    private var state : String?
+    private var state : StateMonster?
 
     
     //----------------------- gestion des images du monstre -----------------------
@@ -26,7 +26,7 @@ class Monster {
     
     init() {
         monsterRun = UIImage.animatedImage(with: monsterRunGif as! [UIImage], duration: 0.4)
-        self.state = "RUNNING"
+        self.state = .RUNNING
         monster = UIImageView(image: UIImage.animatedImage(with: monsterRunGif as! [UIImage], duration: 0.4))
         let width = UIScreen.main.bounds.width
         let height = UIScreen.main.bounds.height
@@ -38,7 +38,7 @@ class Monster {
     
     //----------------------- GETTER -----------------------
     
-    func getCurrentState() -> String {
+    func getCurrentState() -> StateMonster {
         return state!
     }
 
@@ -74,12 +74,12 @@ class Monster {
     
     
     /*appelée pour changer l'etat du joueur, et l'image associée */
-    func setState(state:String){
+    func setState(state:StateMonster){
         self.state = state
         switch state{
-        case "RUNNING":
+        case .RUNNING:
             monster!.image! = monsterRun!
-        case "PAUSE":
+        case .PAUSE:
             monster!.image! = monsterPaused!
         default:
             monster!.image! = monsterRun!
