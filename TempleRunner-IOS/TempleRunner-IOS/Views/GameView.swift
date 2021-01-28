@@ -124,8 +124,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         
         self.addSubview(backgroundImage!)
         road?.setRoad()
-        self.addSubview(backgroundImage!)
-        road?.setRoad()
+        road?.setSideRoad()
         road?.setObstacles()
         self.addSubview(myPlayer.getView())
         self.addSubview(myMonster.getView())

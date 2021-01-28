@@ -16,6 +16,8 @@ class Road {
     var mainRoad = [Block]() //stock le road pavé de base
     var tabObstacles = [Block]() //stock tous les obstacles dispo
     var obstacleInRoad = [Block]() //stock les obstacles qui sont utilisés pour le road
+    var leftRoad : Block //pour le changement de direction gauche
+    var rightRoad : Block //pour le changement de direction droite
     var height = UIScreen.main.bounds.height
     var width = UIScreen.main.bounds.width
     // pour diviser l'ecran et road
@@ -32,11 +34,7 @@ class Road {
         var incrY = CGFloat(0)
         /*------------------- Stockage et Créations des obstacles ---------------------*/
         for _ in 0...2{
-            //tabObstacles.append(RoadRock(x:CGFloat(0) ,y: -blockSize ,blockSize: blockSize))
             tabObstacles.append(RoadRock(x:width/3 ,y: -blockSize ,blockSize: blockSize))
-        }
-        for _ in 0...2{
-            //tabObstacles.append(RoadBranch(x:CGFloat(0) ,y: -blockSize ,blockSize: blockSize))
             tabObstacles.append(RoadBranch(x:width/3 ,y: -blockSize ,blockSize: blockSize))
         }
         
@@ -45,6 +43,8 @@ class Road {
             mainRoad.append(SimpleRoad(x:width/3 ,y: CGFloat(incrY),blockSize: blockSize))
             incrY += blockSize
         }
+        leftRoad = IntersectionRoad(x:0,y: 0,blockSize: blockSize)
+        rightRoad = IntersectionRoad(x:2*width/3 ,y: 0,blockSize: blockSize)
     }
     
     
@@ -53,6 +53,11 @@ class Road {
         for b in mainRoad {
             b.setView(view: view)
         }
+    }
+    
+    public func setSideRoad(){
+        leftRoad.setView(view: view)
+        rightRoad.setView(view: view)
     }
     
     /* ajout des obstacles dans la gameView */
@@ -132,6 +137,15 @@ class Road {
             if res == true{//cas où collision
                 let v = view as! GameView
                 v.stopGame()
+            }
+        }
+    }
+
+    
+    private func hideBack( y : CGFloat){
+        for b in mainRoad {
+            if(b.y < y ){
+                b.hideBlock(value: true)
             }
         }
     }
