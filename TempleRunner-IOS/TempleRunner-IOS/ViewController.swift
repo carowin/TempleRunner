@@ -91,6 +91,7 @@ class ViewController: UIViewController {
         scoreView?.viewWillAppear()
         
     }
+    
 
     /* Affichage la page des scores a partir de la game view  */
     @objc func displayScoreViewFromGameView() {

@@ -33,9 +33,16 @@ class Road {
         blockSize = height/CGFloat(hei_dvid)
         var incrY = CGFloat(0)
         /*------------------- Stockage et Créations des obstacles ---------------------*/
-        for _ in 0...2{
+        for i in 0...2{
             tabObstacles.append(RoadRock(x:width/3 ,y: -blockSize ,blockSize: blockSize))
             tabObstacles.append(RoadBranch(x:width/3 ,y: -blockSize ,blockSize: blockSize))
+            
+            //ajout des sideRock
+            if(i%2 == 0){
+                tabObstacles.append(SideRock(x:width/3 ,y: -blockSize ,blockSize: blockSize, rockPosition: RockPosition.LEFT))
+            }else {
+                tabObstacles.append(SideRock(x:width/3 ,y: -blockSize ,blockSize: blockSize, rockPosition: RockPosition.RIGHT))
+            }
         }
         
         /*------------------------ Initialisation du chemin ---------------------------*/

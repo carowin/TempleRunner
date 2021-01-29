@@ -31,7 +31,9 @@ class FirstView: UIView {
         
         buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
-
+        
+        
+       
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView?.frame = self.bounds
@@ -44,7 +46,7 @@ class FirstView: UIView {
         self.addSubview(buttonPlay)
         self.addSubview(buttonScore)
         self.addSubview(blurEffectView!)
-        self.drawInSize(frame)
+         self.drawInSize(frame)
     }
     
     /* fonction appelé pour dessiner la vue */
@@ -57,6 +59,8 @@ class FirstView: UIView {
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
         buttonPlay.frame = CGRect(x: frame.size.width/2-50, y: frame.size.height*3/4, width: 100, height: 100)
         buttonScore.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*9/10, width: 150, height: 50)
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,7 +84,7 @@ class FirstView: UIView {
         playButtonBacklight.isHidden = false
         buttonPlay.isHidden = false
         buttonScore.isHidden = false
-    }
+        }
     
     /* fonction appelé par le viewController pour cacher la vue de la table des scores */
     func hideFirstView() {
@@ -91,7 +95,7 @@ class FirstView: UIView {
         playButtonBacklight.isHidden = true
         buttonPlay.isHidden = true
         buttonScore.isHidden = true
-    }
+      }
 
     func blurFirstView (){
         self.blurEffectView?.isHidden = false
