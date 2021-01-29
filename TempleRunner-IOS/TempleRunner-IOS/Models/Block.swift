@@ -44,7 +44,7 @@ class Block {
         if(baseView == nil){
             self.setView(view : view)
         }
-        y = y + speed
+        y = incrementSpeed(y: y)
         baseView.frame = CGRect(x: CGFloat(x), y: CGFloat(y), width: blockWidth/3, height: blockSize)
     }
     
@@ -55,6 +55,20 @@ class Block {
     
     public func detectCollision(player:Player) -> Bool{
         return true
+    }
+    
+    private func incrementSpeed(y : CGFloat) -> CGFloat {
+        switch CurrentDifficulty.getDiff() {
+        case .EASY:
+            return y + 10
+        case .MEDIUM:
+            return y + 20
+        case .HARD:
+            return y + 30
+        default:
+            return y + 40
+        }
+        
     }
     
 }
