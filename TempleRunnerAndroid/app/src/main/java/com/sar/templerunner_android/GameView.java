@@ -98,7 +98,6 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
 
-
     public static class Background {
         Bitmap background;
         Paint paint;
