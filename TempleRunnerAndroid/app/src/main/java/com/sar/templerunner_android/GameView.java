@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.sar.templerunner_android.GameLogic.Road;
 
-public class GameView extends SurfaceView implements Runnable , SurfaceHolder.Callback {
+public class GameView extends SurfaceView implements Runnable{
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -51,16 +51,22 @@ public class GameView extends SurfaceView implements Runnable , SurfaceHolder.Ca
     }
     Paint  p = new Paint(Color.YELLOW);
     private void drawBackgroud(){
+        Log.d("myTag", "This is my message");
          if(getHolder().getSurface().isValid()){
+             Log.d("myTag", "This is my message  " +1);
              Canvas canvas =  getHolder().lockCanvas();
-             // canvas.drawColor(Color.WHITE);
+             canvas.drawColor(Color.WHITE);
              Rect r = new Rect();
-             r.bottom=screenX/2;
              r.left=screenX/2;
-             r.top=screenX/2;
-             r.right =screenX/2;
+             r.right =screenX/2+50;
+             r.bottom=screenX/2+50;
 
-              p.setStrokeWidth(10);
+             r.top=screenX/2;
+
+
+             p.setStrokeWidth(10);
+             canvas.drawRect(r,p);
+
 
              canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
              currentBG++;
@@ -90,24 +96,6 @@ public class GameView extends SurfaceView implements Runnable , SurfaceHolder.Ca
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void surfaceCreated(@NonNull SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
-    }
-
-
-
 
 
 
