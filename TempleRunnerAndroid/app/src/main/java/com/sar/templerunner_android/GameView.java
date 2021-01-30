@@ -49,24 +49,14 @@ public class GameView extends SurfaceView implements Runnable{
                 sleep();
             }
     }
-    Paint  p = new Paint(Color.YELLOW);
+
     private void drawBackgroud(){
         Log.d("myTag", "This is my message");
          if(getHolder().getSurface().isValid()){
              Log.d("myTag", "This is my message  " +1);
              Canvas canvas =  getHolder().lockCanvas();
              canvas.drawColor(Color.WHITE);
-             Rect r = new Rect();
-             r.left=screenX/2;
-             r.right =screenX/2+50;
-             r.bottom=screenX/2+50;
-
-             r.top=screenX/2;
-
-
-             p.setStrokeWidth(10);
-             canvas.drawRect(r,p);
-
+             road.upDateRoad(canvas);
 
              canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
              currentBG++;
