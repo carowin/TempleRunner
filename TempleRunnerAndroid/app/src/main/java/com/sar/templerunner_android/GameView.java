@@ -9,11 +9,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import androidx.annotation.NonNull;
 
 import com.sar.templerunner_android.GameLogic.Road;
 
-public class GameView extends SurfaceView implements Runnable {
+public class GameView extends SurfaceView implements Runnable , SurfaceHolder.Callback {
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -43,6 +46,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
             while (isPlaying){
                 drawBackgroud();
+                sleep();
             }
     }
     Paint  p = new Paint(Color.YELLOW);
@@ -78,6 +82,32 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
+
+    private void sleep(){
+        try {
+            Thread.sleep(17);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+
+    }
+
+
+
 
 
 

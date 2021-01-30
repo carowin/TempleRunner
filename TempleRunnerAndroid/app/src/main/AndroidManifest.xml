@@ -11,9 +11,12 @@
         android:theme="@style/Theme.TempleRunnerAndroid">
         <activity android:name=".GameActivity"
             android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"
             ></activity>
         <activity android:name=".ScoreActivity"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".MainActivity"
             android:theme="@style/Theme.Design.NoActionBar"
             android:screenOrientation="portrait">
