@@ -51,9 +51,8 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     private void drawBackgroud(){
-        Log.d("myTag", "This is my message");
          if(getHolder().getSurface().isValid()){
-             Log.d("myTag", "This is my message  " +1);
+
              Canvas canvas =  getHolder().lockCanvas();
              canvas.drawColor(Color.WHITE);
              road.upDateRoad(canvas);
