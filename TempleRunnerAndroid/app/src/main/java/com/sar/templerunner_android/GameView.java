@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -16,9 +17,10 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying = true;
 
-    private Background backgroundArray[];
-    private int screenX, screenY;
+    private final Background[] backgroundArray;
+    private final int screenX, screenY;
     private int currentBG =0;
+    private final int  nbBackground;
 
 
     private Road road;
@@ -28,8 +30,9 @@ public class GameView extends SurfaceView implements Runnable {
          this.screenX = screenX;
          this.screenY = screenY;
          backgroundArray = new Background[6];
-        for(int i = 0;i<6;i++)
-            backgroundArray[i]=new Background(screenX,screenY,getResources(),i);
+         nbBackground = backgroundArray.length;
+        for(int i = 0;i<nbBackground;i++)
+            backgroundArray[i]= new Background(screenX, screenY, getResources(), i);
 
         road = new Road(screenX,screenY);
 
@@ -41,18 +44,22 @@ public class GameView extends SurfaceView implements Runnable {
             while (isPlaying){
                 drawBackgroud();
             }
-        //Log.d("izan","Izannne");
-
     }
-
+    Paint  p = new Paint(Color.YELLOW);
     private void drawBackgroud(){
          if(getHolder().getSurface().isValid()){
-             Log.d("izan","Izannne");
              Canvas canvas =  getHolder().lockCanvas();
+             // canvas.drawColor(Color.WHITE);
+             Rect r = new Rect();
+             r.bottom=screenX/2;
+             r.left=screenX/2;
+             r.top=screenX/2;
+             r.right =screenX/2;
 
-             canvas.drawBitmap(backgroundArray[(currentBG++)%6].background, screenX,screenY, new Paint());
+              p.setStrokeWidth(10);
 
-
+             canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
+             currentBG++;
              getHolder().unlockCanvasAndPost(canvas);
          }
     }
@@ -74,8 +81,9 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-    public class Background {
+    public static class Background {
         Bitmap background;
+        Paint paint;
         Background(int screenX, int screenY, Resources res, int imageNumber){
             switch (imageNumber){
                 case 0:
@@ -97,6 +105,7 @@ public class GameView extends SurfaceView implements Runnable {
                     background= BitmapFactory.decodeResource(res,R.drawable.water_5);
             }
             background = Bitmap.createScaledBitmap(background,screenX,screenY,false);
+            this.paint = new Paint();
         }
 
     }
