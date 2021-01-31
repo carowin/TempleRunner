@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 public class GameActivity extends AppCompatActivity {
@@ -17,9 +18,7 @@ public class GameActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Point p = new Point();
         getWindowManager().getDefaultDisplay().getSize(p);
-
         gameViewThread = new GameView(this, p.x,p.y);
-        gameViewThread.resume();
         setContentView(gameViewThread);
     }
 

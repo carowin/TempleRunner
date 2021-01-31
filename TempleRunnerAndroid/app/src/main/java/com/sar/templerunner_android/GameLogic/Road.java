@@ -1,34 +1,33 @@
 package com.sar.templerunner_android.GameLogic;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Road {
     private List<Block> mainRoad = new ArrayList<>();
-    private List<Block> LeftRoad = null;
-    private List<Block> RightRoad = null;
 
     /** size of one blocks */
     private int BlockSize;
 
     // a tester pour le découpage de l'ecran
-    private final int diviseur = 6;
+    private final int diviseur = 10;
 
     public Road(int screenX, int screenY){
-        BlockSize = screenX /diviseur;
-        for (int i =0;i<diviseur;i++)
-            mainRoad.add(simpleRoadBlock(screenX-(BlockSize*diviseur) ,BlockSize,screenY));
+        Log.d("myTag", "X = " +screenX);
+        Log.d("myTag", "Y = " +screenY);
+        BlockSize = screenY /diviseur;
+        for (int pos =0;pos<screenY;pos+=BlockSize)
+            mainRoad.add(new SimpleRoad(screenX,screenY, pos,BlockSize, Color.YELLOW));
     }
 
-    public Block simpleRoadBlock(int pos , int blockSize , int screenY){
-        return new SimpleRoadBlock(pos,blockSize,screenY);
+
+    public void upDateRoad(Canvas c){
+        for (Block b : mainRoad) {
+            b.updatePosition(c);
+        }
     }
-
-    public void drawOnCanvas(Canvas canvas){
-        // TO DO drawing
-
-    }
-
 }
