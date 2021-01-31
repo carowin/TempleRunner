@@ -19,7 +19,12 @@ class IntersectionRoad : Block {
         super.setView(view: view)
     }
     
+    /* détecte si le joueur a dépassé l'intersection */
     public override func detectCollision(player:Player) -> Bool{
+        if player.getPosition().y<y{
+            player.setState(state: .LOSE)
+            return true
+        }
         return false
     }
 }

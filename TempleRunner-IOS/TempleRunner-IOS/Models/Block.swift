@@ -20,12 +20,15 @@ class Block {
     let id : Int
     var speed = CGFloat(10)
     
+    var obstaclePresent : Bool //signale la presence d'obstacle sur le block
+    
     init(x : CGFloat ,y : CGFloat , blockSize : CGFloat ) {
         id  =  Block.cptID
         Block.cptID += 1
         self.x=x
         self.y=y
         self.blockSize = blockSize
+        obstaclePresent = false
     }
     
     public func setView(view : UIView){
