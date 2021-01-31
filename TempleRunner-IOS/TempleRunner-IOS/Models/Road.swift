@@ -44,7 +44,7 @@ class Road {
 
         /*------------------- Stockage et Créations des obstacles ---------------------*/
 
-        for _ in 0...2{
+        for i in 0...2{
             tabObstacles.append(RoadRock(x:0 ,y:0 ,blockSize: blockSize))
             tabObstacles.append(RoadBranch(x:0 ,y:0 ,blockSize: blockSize))
             
