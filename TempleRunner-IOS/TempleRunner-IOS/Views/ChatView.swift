@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import UserNotifications
 
 /* Vue sur la conversation entre les joueurs */
 class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource{
     var vc: ViewController?
     private var messages = [CellInfos]()
-    
-    
-    let stackView = UIStackView()
-    let sendButton = UIButton()
-    let textField = UITextField()
-    var tableView : UITableView?
-    var keyBoardShown = false
+    private var chatRefresh : Timer?
+    private let chatModel = ChatModel()
+    private let stackView = UIStackView()
+    private let sendButton = UIButton()
+    private let textField = UITextField()
+    private var tableView : UITableView?
+    private var keyBoardShown = false
     private var firstView : FirstView?
     
     init(frame : CGRect, viewc : ViewController){
@@ -28,9 +29,10 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
             if i%2 == 0 {
                 messages.append(CellInfos(name: "Me", message: String(format: "Zoubir radi says that this message is very very very very very very long message %d", arguments: [i])))
             } else {
-                messages.append(CellInfos(name: "Other", message: String(format: "Other says that this message is very very very very very very long message %d %d", arguments: [i])))
+                messages.append(CellInfos(name: "Other", message: String(format: "Other says that this message is very very very very very very long message %d", arguments: [i])))
             }
         }
+        
         
         //self.title = "Group Chat"
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height - 80), style: .plain)
@@ -52,7 +54,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
         sendButton.layer.cornerRadius = 50
         
         textField.backgroundColor = UIColor(red: 135/225.0, green: 206/255.0, blue: 235/255.0, alpha: 0.4)
-        textField.placeholder = "Enter you message..."
+        textField.placeholder = " Enter you message..."
         textField.layer.cornerRadius = 30
         //textField.frame.size.width = 100
         stackView.addArrangedSubview(textField)
@@ -64,6 +66,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
         stackView.frame = CGRect(x: 0, y: frame.height - 80, width: frame.size.width
             , height: 60)
         super.init(frame: frame)
+        chatRefresh = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(fetchMessages), userInfo: nil, repeats: true)
         self.backgroundColor = .white
         sendButton.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
         
@@ -75,7 +78,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
         addSubview(tableView!)
         addSubview(stackView)
         
-        
+        tableView?.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: false)
         //keyboar handling
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardAppers), name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardDisappers), name: UIWindow.keyboardWillHideNotification, object: nil)
@@ -123,11 +126,16 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     /* fonction appelé par le viewController pour afficher la vue du chat */
     func displayChatView() {
         self.isHidden = false
+        tableView!.isHidden = false
+        stackView.isHidden = false
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     /* fonction appelé par le viewController pour cacher la vue du chat */
     func hideChatView() {
         self.isHidden = true
+        tableView!.isHidden = true
+        stackView.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -149,8 +157,9 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
                 cell?.message.backgroundColor = UIColor.init(red: 69/255.0, green: 90/255.0, blue: 100/255.0, alpha: 0.5)
             }
         }
-        cell?.message.text = messages[indexPath.row].message
-        cell?.name.text = messages[indexPath.row].name
+        cell!.stackView.frame.size.height = 0
+        cell!.message.text = messages[indexPath.row].message
+        cell!.name.text = messages[indexPath.row].name
         //cell!.sizeThatFits(CGSize(width: UIScreen.main.bounds.width, height: messages[indexPath.row].size))
         messages[indexPath.row].size = cell!.reSize()
         print("mysize", messages[indexPath.row].size)
@@ -158,17 +167,8 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        /*if indexPath.row % 2 == 0{
-         return 100
-         }else {
-         return 60
-         }*/
-        print("forrow ", messages[indexPath.row].size)
+        //print("forrow ", messages[indexPath.row].size)
         return messages[indexPath.row].size
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        //Notification.use
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
@@ -189,12 +189,30 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     @objc func sendMessage() {
         textField.resignFirstResponder()
         if textField.text != "" {
-            // send web
+            chatModel.storeMessage(sender: "Zoubir", message: textField.text!)
             messages.append(CellInfos(name: "Me", message: textField.text!))
         }
         
-        textField.text = ""
+        //textField.text = ""
         tableView?.reloadData()
         tableView?.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
+    }
+    
+    @objc func fetchMessages(){
+        let size = chatModel.fetchMessagesSize()
+        print(size)
+        if size > messages.count {
+            //there is new messages
+            //notification
+            let center = UNUserNotificationCenter.current()
+            let n = UNMutableNotificationContent()
+            n.title = "You have a new message"
+            n.body = "There is " + String(size - messages.count) + " new message"
+            n.categoryIdentifier = "TempleRunnerMessage"
+            n.sound = UNNotificationSound.default
+            n.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
+            let nr = UNNotificationRequest(identifier: UUID().uuidString, content: n, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false))
+            center.add(nr, withCompletionHandler: nil)
+        }
     }
 }
