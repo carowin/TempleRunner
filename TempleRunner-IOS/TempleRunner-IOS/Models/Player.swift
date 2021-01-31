@@ -19,7 +19,7 @@ class Player {
     private var score = 0 //score actuel du joueur
     private var coinsScore = 0 //nombre de pièces récupérés
     private var lifePoints = 2 // niveau de vie du joueur
-
+    
     
     //----------------------- gestion des images du player -----------------------
     private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir

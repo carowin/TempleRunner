@@ -22,3 +22,34 @@ enum StateMonster {
     case RUNNING
     case PAUSE
 }
+
+enum RockPosition {
+    case LEFT
+    case RIGHT
+}
+
+enum Difficulty  {
+    case EASY
+    case MEDIUM
+    case HARD
+    case IMPOSSIBLE
+}
+
+struct CurrentDifficulty {
+    private static var lvl  = Difficulty.EASY
+    public static func getNextLvl(){
+        switch lvl {
+        case .EASY:
+            lvl = Difficulty.MEDIUM
+        case .MEDIUM:
+            lvl = Difficulty.HARD
+        case .HARD:
+            lvl = Difficulty.IMPOSSIBLE
+        default:
+            lvl = Difficulty.EASY
+        }
+    }
+    public static func getDiff() -> Difficulty {
+        return lvl
+    }
+}

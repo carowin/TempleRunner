@@ -43,9 +43,17 @@ class Road {
         screenOriginX = height-width
 
         /*------------------- Stockage et Créations des obstacles ---------------------*/
+
         for _ in 0...2{
             tabObstacles.append(RoadRock(x:0 ,y:0 ,blockSize: blockSize))
             tabObstacles.append(RoadBranch(x:0 ,y:0 ,blockSize: blockSize))
+            
+            //ajout des sideRock
+            if(i%2 == 0){
+                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.LEFT))
+            }else {
+                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.RIGHT))
+            }
         }
         
         /*------------------------ Initialisation du chemin ---------------------------*/
