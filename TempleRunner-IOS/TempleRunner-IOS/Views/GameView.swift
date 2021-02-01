@@ -181,8 +181,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
 
-         if(myPlayer.getCurrentScore() % 50 == 0){
-            myPlayer.getLifePoints()
+         if(myPlayer.getCurrentScore() % 20 == 0){
+            myPlayer.decrementLifePoints()
             self.updatePosMonster()
         }
         
@@ -216,7 +216,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.resetLifePoints()
         scoreLabel?.text = String(myPlayer.getCurrentScore())
         coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
-        myMonster.setPosX(val:17*height/18)
+        myMonster.setPosY(val:17*height/18)
         myMonster.resetTransform()
         clawDeathScreen.isHidden = true
         road?.resetRoad()
@@ -309,19 +309,18 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
      func updatePosMonster(){
         if(myPlayer.getLifePoints() == 2){
-            myMonster.setPosX(val:17*height/18)
+            myMonster.setPosY(val:height)
         } else if(myPlayer.getLifePoints() == 1){
             UIView.animate(withDuration: 1, animations: {
-                self.myMonster.translateImage(val:-2*self.height/18)
+                self.myMonster.translateImage(val:-1*self.height/18)
             }) { _ in
-                self.myMonster.setPosX(val:15*self.height/18)
+                self.myMonster.setPosY(val:15*self.height/18)
             }
 
         } else {
             UIView.animate(withDuration: 1, animations: {
-                self.myMonster.translateImage(val:-4*self.height/18)
+                self.myMonster.translateImage(val:-3*self.height/18)
             }) { _ in
-                self.myMonster.setPosX(val:13*self.height/18)
                 self.clawDeathScreen.isHidden = false
                 self.beginPauseGame()
                 Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)
