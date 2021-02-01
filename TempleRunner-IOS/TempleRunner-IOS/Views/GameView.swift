@@ -180,6 +180,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
+        
+        coinsLabel!.text = String(myPlayer.getCurrentCoinsScore())
 
          if(myPlayer.getCurrentScore() % 50 == 0){
             myPlayer.getLifePoints()
@@ -196,6 +198,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         // update roade
         road?.updateRoad()
         road?.detectCollision(player: myPlayer)
+        road?.detectionCoin(player: myPlayer)
 
         //mise en place du joueur au dessu si nul ça fait boum
 
