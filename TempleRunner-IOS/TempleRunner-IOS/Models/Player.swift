@@ -40,7 +40,7 @@ class Player {
         let width = UIScreen.main.bounds.width
         let height = UIScreen.main.bounds.height
         posX = width/2
-        posY = height - width/3
+        posY = height - width/2
         player!.center = CGPoint(x: posX!, y: posY!)
     }
     

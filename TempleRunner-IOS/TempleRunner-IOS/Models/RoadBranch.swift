@@ -20,11 +20,17 @@ class RoadBranch : Block {
     }
     
     public override func detectCollision(player:Player) -> Bool{
-        if y+blockSize/10<player.getPosition().y && player.getPosition().y<y+blockSize{
-            if player.getCurrentState() != .SLIDING{
-                player.setState(state: .LOSE)
-                return true
+        var posY : CGFloat
+        if super.baseView.superview != nil{
+            posY = (super.baseView.superview?.frame.origin.y)!
+            if posY<player.getPosition().y && player.getPosition().y<posY+blockSize{
+                if player.getCurrentState() != .SLIDING{
+                    print(posY-blockSize," < ", player.getPosition().y," < ",posY)
+                    player.setState(state: .LOSE)
+                    return true
+                }
             }
         }
-        return false    }
+        return false
+    }
 }

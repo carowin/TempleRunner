@@ -17,7 +17,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     let height = UIScreen.main.bounds.height
     
     private let seaGif = [UIImage(named: "gameView_bckg/water-0"),UIImage(named: "gameView_bckg/water-1"),UIImage(named: "gameView_bckg/water-2"),UIImage(named: "gameView_bckg/water-3"),UIImage(named: "gameView_bckg/water-4"),UIImage(named: "gameView_bckg/water-5")] //creation d'un tableau d'image(pour inserer un gif)
-    private var backgroundImage : UIImageView? //image de fond du jeu
+    var backgroundImage : UIImageView? //image de fond du jeu
     
     private var scoreLabel : UILabel? // affichage score du joueur
     private var coinsLabel : UILabel? // affichage nombre de pieces récupéré
@@ -50,8 +50,11 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     //pour savoir si le jeux est perdu
     private var isLost = false
     
-    init(frame : CGRect, viewc : ViewController){
+    private var bigFrame : CGFloat
+    
+    init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
+        bigFrame = 2*(height-width)+width
         super.init(frame: frame)
     
         backgroundImage = UIImageView(image: UIImage.animatedImage(with: seaGif as! [UIImage], duration: 2.0))
@@ -125,7 +128,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         self.addSubview(backgroundImage!)
         road?.setRoad()
         road?.setSideRoad()
-        road?.setObstacles()
+        //road?.setObstacles()
         self.addSubview(myPlayer.getView())
         self.addSubview(myMonster.getView())
         self.addSubview(progressView!)
@@ -146,7 +149,6 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     //methode qui detecte le type de swipe qui a été effectué
     @objc func swipeHandler(sender : UISwipeGestureRecognizer){
-        print("swipe detect")
         if sender.direction == .down { //down=joueur glisse
             actionTime = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: .SLIDING)
@@ -346,7 +348,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         self.updatePosMonster()
 
-        backgroundImage!.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        backgroundImage!.frame = CGRect(x:-(height-width), y:0, width:bigFrame, height:bigFrame)
         progressView?.frame = CGRect(x: 0, y: top+Int(width/4), width: Int(width/4), height: 10)
         progressView?.transform = .init(rotationAngle: .pi/2*(-1))
         scoreLabel?.frame = CGRect(x:Int(4*width/5), y:top, width: Int(width/4), height: top)
