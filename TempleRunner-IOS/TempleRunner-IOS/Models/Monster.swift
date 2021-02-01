@@ -58,9 +58,9 @@ class Monster {
     
     //----------------------- SETTER -----------------------
     
-    func setPosX(val:CGFloat){
-        self.posX = val
-        monster!.center.x = posX!
+    func setPosY(val:CGFloat){
+        self.posY = val
+        monster!.center.y = posY!
     }
 
     func translateImage(val:CGFloat){

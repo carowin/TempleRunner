@@ -14,6 +14,7 @@ class ScoreModel {
     private var hightScore  = 0
     private var currentScore = 0
     private var currentCoins = 0
+    
 
     let urlFetch = "http://templerunnerpmm.pythonanywhere.com/chat/fetch"
     struct Response: Codable {
@@ -111,5 +112,7 @@ class ScoreModel {
             hightScore = lastScore
         } 
     }
+    
+    
 
 }
