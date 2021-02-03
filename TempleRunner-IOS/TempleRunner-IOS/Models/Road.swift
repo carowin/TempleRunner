@@ -55,9 +55,9 @@ class Road {
             
             //ajout des sideRock
             if(i%2 == 0){
-                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.LEFT))
+                tabObstacles.append(SideBranch(x:0 ,y: 0 ,blockSize: blockSize/3, rockPosition: RockPosition.LEFT))
             }else {
-                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.RIGHT))
+                tabObstacles.append(SideBranch(x:0 ,y: 0 ,blockSize: blockSize/3, rockPosition: RockPosition.RIGHT))
             }
         }
         
@@ -241,10 +241,11 @@ class Road {
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
             if res == true{//cas où collision
-                view.stopGame()
+                player.setState(state: .LOSE)
             }
         }
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
+
             view.stopGame()
         }*/
     }
@@ -260,6 +261,9 @@ class Road {
                     elem.changeCoinPresent(bool: false)
                 }
             }
+
+           
+
         }
     }
     

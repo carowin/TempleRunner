@@ -16,6 +16,7 @@ enum StatePlayer {
     case RIGHT
     case PAUSE
     case LOSE
+    case KILL
 }
 
 enum StateMonster {

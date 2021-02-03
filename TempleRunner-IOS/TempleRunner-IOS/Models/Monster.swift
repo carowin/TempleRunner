@@ -15,7 +15,7 @@ class Monster {
     private var posX : CGFloat? //position X du monstre
     private var posY : CGFloat? //position Y du monstre
     //état courant du joueur ["RUNNING","PAUSE"]
-    private var state : StateMonster?
+    private var state :  StateMonster?
 
     
     //----------------------- gestion des images du monstre -----------------------
@@ -28,11 +28,14 @@ class Monster {
         monsterRun = UIImage.animatedImage(with: monsterRunGif as! [UIImage], duration: 0.4)
         self.state = .RUNNING
         monster = UIImageView(image: UIImage.animatedImage(with: monsterRunGif as! [UIImage], duration: 0.4))
+        monster?.isHidden = false
         let width = UIScreen.main.bounds.width
         let height = UIScreen.main.bounds.height
-        posX = width/2
-        posY = 17*height/18 //17*height/18
-        monster!.center = CGPoint(x: posX!, y: posY!)
+        let imageWidth = width/2.5
+        let imageHeight = height/4.5
+        posX = width/2 - imageWidth/2
+        posY = height-(100+imageHeight)  //17*height/18
+        monster!.frame =  CGRect(x:posX!, y: posY!, width : imageWidth, height: imageHeight)
     }
     
     
@@ -58,9 +61,9 @@ class Monster {
     
     //----------------------- SETTER -----------------------
     
-    func setPosX(val:CGFloat){
-        self.posX = val
-        monster!.center.x = posX!
+    func setPosY(val:CGFloat){
+        self.posY = val
+        monster!.center.y = posY!
     }
 
     func translateImage(val:CGFloat){
@@ -97,7 +100,7 @@ class Monster {
         monster!.isHidden = false
     }
     
-    /* ajout du monstre dans la game view et positionne le monwtre */
+    /* ajout du monstre dans la game view et positionne le monstre */
     func addToView(view : UIView){
         view.addSubview(monster!)
     }
