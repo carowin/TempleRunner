@@ -54,7 +54,7 @@ class Coin {
             
             if posY < player.getPosition().y && player.getPosition().y < posY+block.blockSize{
 
-                //détection même quand pas possible
+                //détection même quand pas possible à gauche 
                 
                 if self.position == "gauche" && playerG < posX + block.blockSize/3 {
                     print("COORD PIECE : ", posX,",",  posX + block.blockSize/3 )
