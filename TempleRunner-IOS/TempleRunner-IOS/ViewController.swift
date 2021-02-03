@@ -153,6 +153,15 @@ class ViewController: UIViewController {
         
     }
     
+    /* Affichage la page des chats a partir de la first view  */
+    @objc func displayChatViewFromFirstView(){
+        firstView?.displayFirstView()
+        firstView?.blurFirstView()
+        self.view.bringSubviewToFront(chatView!)
+        
+        chatView?.displayChatView()
+        
+    }
 
     /* Affichage la page des scores a partir de la game view  */
     @objc func displayScoreViewFromGameView() {
@@ -194,6 +203,8 @@ class ViewController: UIViewController {
         //scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
     }
     
-    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
 
 }

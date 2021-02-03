@@ -17,6 +17,8 @@ class FirstView: UIView {
     var playButtonBacklightTimer : Timer?
     var buttonPlay = UIButton(type: .custom) //bouton play
     var buttonScore = UIButton(type: .custom) //bouton score
+    var buttonChat = UIButton(type: .custom) //bouton chat
+    var buttonSize : CGFloat!
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     var identifierPlayer : UILabel?
     
@@ -31,10 +33,14 @@ class FirstView: UIView {
         buttonPlay.alpha = 0.3
         buttonPlay.backgroundColor = .red
         
-        buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
+        buttonSize = frame.size.width/2 - 2*30
+        buttonSize = (buttonSize > 150 ? 150 : buttonSize)
+        
+        buttonScore.createCustomButton(title:"SCORES", width: CGFloat(buttonSize))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
         
-        
+        buttonChat.createCustomButton(title:"CHAT", width: CGFloat(buttonSize))
+        buttonChat.addTarget(self.superview, action: #selector(vc!.displayChatViewFromFirstView), for: .touchUpInside)
        
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -51,6 +57,7 @@ class FirstView: UIView {
         self.addSubview(playButtonBacklight)
         self.addSubview(buttonPlay)
         self.addSubview(buttonScore)
+        self.addSubview(buttonChat)
         self.addSubview(blurEffectView!)
         self.addSubview(identifierPlayer!)
         self.drawInSize(frame)
@@ -67,7 +74,7 @@ class FirstView: UIView {
         buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*3.05/4, width: frame.size.width/2.5, height: frame.size.height/12)
         buttonScore.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*9/10, width: 150, height: 50)
         identifierPlayer?.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*3/10, width: 150, height: 50)
-        
+            
     }
     
     required init?(coder aDecoder: NSCoder) {
