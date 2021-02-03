@@ -52,11 +52,16 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     private var bigFrame : CGFloat
     
+    private var actualCoinCharge : Float
+    
+    
+    
     init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
         bigFrame = 2*(height-width)+width
+        actualCoinCharge=0
         super.init(frame: frame)
-    
+        
         backgroundImage = UIImageView(image: UIImage.animatedImage(with: seaGif as! [UIImage], duration: 2.0))
         
         progressView = UIProgressView(progressViewStyle: .bar)
@@ -138,10 +143,17 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         self.addSubview(pauseButton)
         self.addSubview(blurEffectView!)
         self.addSubview(clawDeathScreen)
-
+        
+        //gestion de la double tape
+        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tap.numberOfTapsRequired = 2
+        self.addGestureRecognizer(tap)
+        
+        
         
         self.drawInSize(frame)
     }
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -180,9 +192,10 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
+         setProgressBar(amount : 1)
 
-         if(myPlayer.getCurrentScore() % 50 == 0){
-            myPlayer.getLifePoints()
+         if(myPlayer.getCurrentScore() % 20 == 0){
+            myPlayer.decrementLifePoints()
             self.updatePosMonster()
         }
         
@@ -216,7 +229,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.resetLifePoints()
         scoreLabel?.text = String(myPlayer.getCurrentScore())
         coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
-        myMonster.setPosX(val:17*height/18)
+        myMonster.setPosY(val:17*height/18)
         myMonster.resetTransform()
         clawDeathScreen.isHidden = true
         road?.resetRoad()
@@ -309,19 +322,21 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
      func updatePosMonster(){
         if(myPlayer.getLifePoints() == 2){
-            myMonster.setPosX(val:17*height/18)
+
+            myMonster.setPosY(val:height)
+
         } else if(myPlayer.getLifePoints() == 1){
             UIView.animate(withDuration: 1, animations: {
-                self.myMonster.translateImage(val:-2*self.height/18)
+                self.myMonster.translateImage(val:-1*self.height/18)
             }) { _ in
-                self.myMonster.setPosX(val:15*self.height/18)
+                self.myMonster.setPosY(val:15*self.height/18)
             }
 
         } else {
             UIView.animate(withDuration: 1, animations: {
-                self.myMonster.translateImage(val:-4*self.height/18)
+                self.myMonster.translateImage(val:-3*self.height/18)
             }) { _ in
-                self.myMonster.setPosX(val:13*self.height/18)
+                
                 self.clawDeathScreen.isHidden = false
                 self.beginPauseGame()
                 Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)
@@ -368,5 +383,20 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         return true
     }
     
+    // gestionDoubleTape
+    @objc func doubleTapped() {
+        print(actualCoinCharge)
+        if(actualCoinCharge >= 100.0){
+            actualCoinCharge = 0
+            progressView?.progress=0
+        }
+    }
     
+    //------------------ Gestion de l'activation du super pouvoir -----------------------------------
+    /** a la division car ont doit ajouter a chaque ajout d'une piece il
+*/
+    public func setProgressBar(amount :Float){
+        actualCoinCharge = actualCoinCharge + amount
+        progressView?.setProgress( actualCoinCharge/100, animated: true)
+    }
 }

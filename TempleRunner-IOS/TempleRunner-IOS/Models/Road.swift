@@ -50,9 +50,9 @@ class Road {
             
             //ajout des sideRock
             if(i%2 == 0){
-                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.LEFT))
+                tabObstacles.append(SideBranch(x:0 ,y: 0 ,blockSize: blockSize/3, rockPosition: RockPosition.LEFT))
             }else {
-                tabObstacles.append(SideRock(x:0 ,y: 0 ,blockSize: blockSize, rockPosition: RockPosition.RIGHT))
+                tabObstacles.append(SideBranch(x:0 ,y: 0 ,blockSize: blockSize/3, rockPosition: RockPosition.RIGHT))
             }
         }
         
