@@ -33,8 +33,9 @@ class FirstView: UIView {
         buttonPlay.alpha = 0.3
         buttonPlay.backgroundColor = .red
         
-        buttonSize = frame.size.width/2 - 2*30
-        buttonSize = (buttonSize > 150 ? 150 : buttonSize)
+        //buttonSize = frame.size.width/2 - 2*30
+        //buttonSize = (buttonSize > 150 ? 150 : buttonSize)
+        buttonSize = 150
         
         buttonScore.createCustomButton(title:"SCORES", width: CGFloat(buttonSize))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
@@ -71,8 +72,9 @@ class FirstView: UIView {
         }
         backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 100)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
-        buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*3.05/4, width: frame.size.width/2.5, height: frame.size.height/12)
-        buttonScore.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*9/10, width: 150, height: 50)
+        buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*3.25/4, width: frame.size.width/2.5, height: frame.size.height/12)
+        buttonScore.frame = CGRect(x: frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
+        buttonChat.frame = CGRect(x: 3*frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
         identifierPlayer?.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*3/10, width: 150, height: 50)
             
     }
