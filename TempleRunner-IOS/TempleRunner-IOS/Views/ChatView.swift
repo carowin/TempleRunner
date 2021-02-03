@@ -86,12 +86,12 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     
     /* fonction qui repositionne la stackView et la tableView quand le keybeard apparu */
     @objc func keyBoardAppers (notif : Notification) {
-        print("keyboard handler :", notif.name)
+        //print("keyboard handler :", notif.name)
         if !keyBoardShown {
             keyBoardShown = true
             if let userinfo = notif.userInfo {
                 let keyboardFrame = userinfo[UIWindow.keyboardFrameEndUserInfoKey]! as! CGRect
-                print(keyboardFrame)
+                //print(keyboardFrame)
                 stackView.frame = CGRect(x: 0, y: stackView.frame.minY - keyboardFrame.height, width: stackView.frame.width, height: stackView.frame.height)
                 tableView!.frame = CGRect(x: 0, y: tableView!.frame.minY - keyboardFrame.height, width: tableView!.frame.width, height: tableView!.frame.height)
                 tableView?.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
@@ -106,7 +106,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
             keyBoardShown = false
             if let userinfo = notif.userInfo {
                 let keyboardFrame = userinfo[UIWindow.keyboardFrameBeginUserInfoKey]! as! CGRect
-                print(keyboardFrame)
+                //print(keyboardFrame)
                 stackView.frame = CGRect(x: 0, y: stackView.frame.minY + keyboardFrame.height, width: stackView.frame.width, height: stackView.frame.height)
                 tableView!.frame = CGRect(x: 0, y: tableView!.frame.minY + keyboardFrame.height, width: tableView!.frame.width, height: tableView!.frame.height)
                 tableView?.scrollToRow(at: IndexPath(row: messages.count - 1, section: 0), at: .bottom, animated: true)
@@ -162,7 +162,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
         cell!.name.text = messages[indexPath.row].name
         //cell!.sizeThatFits(CGSize(width: UIScreen.main.bounds.width, height: messages[indexPath.row].size))
         messages[indexPath.row].size = cell!.reSize()
-        print("mysize", messages[indexPath.row].size)
+        //print("mysize", messages[indexPath.row].size)
         return cell!
     }
     
@@ -200,7 +200,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     
     @objc func fetchMessages(){
         let size = chatModel.fetchMessagesSize()
-        print(size)
+        //print(size)
         if size > messages.count {
             //there is new messages
             //notification

@@ -194,7 +194,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         scoreLabel!.text = String(myPlayer.getCurrentScore())
          setProgressBar(amount : 1)
 
-         if(myPlayer.getCurrentScore() % 20 == 0){
+         if(myPlayer.getCurrentScore() % 120 == 0){
             myPlayer.decrementLifePoints()
             self.updatePosMonster()
         }
@@ -209,6 +209,18 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         // update roade
         road?.updateRoad()
         road?.detectCollision(player: myPlayer)
+
+        if(myPlayer.getCurrentState() == .LOSE){
+            //clawDeathScreen.isHidden = false
+            updateTimer?.invalidate()
+            myMonster.hideMonster()
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)    
+        } else if (myPlayer.getCurrentState() == .KILL){
+            clawDeathScreen.isHidden = false
+            updateTimer?.invalidate()
+            myMonster.hideMonster()
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)    
+        }
 
         //mise en place du joueur au dessu si nul ça fait boum
 
@@ -255,6 +267,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     /* fonction applé pour pauser le jeu */
     func beginPauseGame (){
         updateTimer?.invalidate()
+        tempoTimer?.invalidate()
         myPlayer.setState(state: .PAUSE)
         myMonster.setState(state: .PAUSE)
     }
@@ -277,6 +290,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             tempoLabel.text = String(cptTemporisation)  
             myPlayer.setState(state: .RUNNING)
             myMonster.setState(state: .RUNNING)
+            self.vc?.scoreView?.hideScoreView()
             updateTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         } else {
             cptTemporisation-=1
@@ -329,7 +343,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             UIView.animate(withDuration: 1, animations: {
                 self.myMonster.translateImage(val:-1*self.height/18)
             }) { _ in
-                self.myMonster.setPosY(val:15*self.height/18)
+                self.myMonster.setPosY(val:17*self.height/18)
             }
 
         } else {
@@ -337,9 +351,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
                 self.myMonster.translateImage(val:-3*self.height/18)
             }) { _ in
                 
-                self.clawDeathScreen.isHidden = false
-                self.beginPauseGame()
-                Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)
+                self.myPlayer.setState(state: .KILL)
                 self.myMonster.resetTransform()
             }
         }
@@ -385,7 +397,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     // gestionDoubleTape
     @objc func doubleTapped() {
-        print(actualCoinCharge)
+        //print(actualCoinCharge)
         if(actualCoinCharge >= 100.0){
             actualCoinCharge = 0
             progressView?.progress=0

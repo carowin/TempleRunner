@@ -180,11 +180,11 @@ class Road {
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
             if res == true{//cas où collision
-                view.stopGame()
+                player.setState(state: .LOSE)
             }
         }
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
-            view.stopGame()
+            player.setState(state: .LOSE)
         }
     }
     

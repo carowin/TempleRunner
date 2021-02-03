@@ -70,7 +70,7 @@ class ScoreView: UIView {
         buttonPlayAgain.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromScoreView), for: .touchUpInside)
 
         buttonSaveScore.createCustomButton(title:"SAVE SCORE", width: sizeButton)
-        buttonSaveScore.addTarget(self.superview, action: #selector(vc!.fetchScoreFromBDD), for: .touchUpInside)
+        buttonSaveScore.addTarget(self.superview, action: #selector(vc!.storeScoreOnBDD), for: .touchUpInside)
         
         buttonBack.createCustomButton(title:"BACK", width: sizeButton)
         buttonBack.addTarget(self.superview, action: #selector(vc!.removeScoreView), for: .touchUpInside)
@@ -100,17 +100,17 @@ class ScoreView: UIView {
     }
 
 
-      func viewWillAppear() {
+    func viewWillAppear() {
        
         let padding = (UIScreen.main.bounds.width/8)
         let reduceFrameWidth = UIScreen.main.bounds.width - padding
         self.transform = CGAffineTransform.identity
         self.frame = CGRect(x: 0, y: 0, width: reduceFrameWidth - padding, height: 0 - UIScreen.main.bounds.height)
-       
+
         UIView.animate(withDuration: 1, animations: {
             self.transform = CGAffineTransform(translationX:0, y: UIScreen.main.bounds.height)
         }) { _ in
-            // Do Nothing
+            // do nothing
         }
     }
 
@@ -119,7 +119,8 @@ class ScoreView: UIView {
         UIView.animate(withDuration: 1, animations: {
             self.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
         }) { _ in
-            self.hideScoreView()
+            //self.hideScoreView()
+            // do nothing
         }
     }
     

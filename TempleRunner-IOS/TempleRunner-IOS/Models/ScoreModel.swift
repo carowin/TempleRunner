@@ -16,7 +16,7 @@ class ScoreModel {
     private var currentCoins = 0
     
 
-    let urlFetch = "http://templerunnerpmm.pythonanywhere.com/chat/fetch"
+    let urlFetch = "http://templerunnerppm.pythonanywhere.com/chat/storeScore/"
     struct Response: Codable {
         let value: String
     }
@@ -37,8 +37,9 @@ class ScoreModel {
 
 
 
-    func fetchScore() {
-        let task = URLSession.shared.dataTask(with: URL(string:urlFetch)!, completionHandler: {data, response, error in 
+    func storeHighScore() {
+        print(urlFetch+Identifier.getId()+"/"+String(self.hightScore))
+        let task = URLSession.shared.dataTask(with: URL( string:urlFetch+Identifier.getId()+"/"+String(self.hightScore) )!, completionHandler: {data, response, error in 
         
             if let error = error {
                 print("Error accessing url: \(error)")
@@ -64,8 +65,6 @@ class ScoreModel {
                 print("data is nil")
                 return 
             }
-
-            self.hightScore = Int(json.value)!
         
         })
 
