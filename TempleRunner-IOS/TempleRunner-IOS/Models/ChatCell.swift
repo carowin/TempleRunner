@@ -33,7 +33,6 @@ class ChatCell: UITableViewCell, UITextViewDelegate {
         stackView.alignment = .leading
         stackView.spacing = 3.0
         
-        print(message.frame.height)
         //message.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50)
         //message.frame.size.width =  UIScreen.main.bounds.width
         //stackView.frame.size.width = UIScreen.main.bounds.width
@@ -57,7 +56,6 @@ class ChatCell: UITableViewCell, UITextViewDelegate {
         //let fixedWidth = message.frame.size.width
         //let newSize = message.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         //message.frame.size = CGSize(width: (newSize.width > fixedWidth ? newSize.width : fixedWidth            ), height: newSize.height)
-        print(message.text , message.frame.height)
         stackView.frame.size.height =  message.frame.height + name.frame.height
         return stackView.frame.height
     }

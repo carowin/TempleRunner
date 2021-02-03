@@ -17,6 +17,8 @@ class FirstView: UIView {
     var playButtonBacklightTimer : Timer?
     var buttonPlay = UIButton(type: .custom) //bouton play
     var buttonScore = UIButton(type: .custom) //bouton score
+    var buttonChat = UIButton(type: .custom) //bouton chat
+    var buttonSize : CGFloat!
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     
     init(frame : CGRect, viewc : ViewController){
@@ -29,10 +31,14 @@ class FirstView: UIView {
         buttonPlay.setImage(UIImage(named: "playButton"), for: .normal)
         buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromFirstView), for: .touchUpInside)
         
-        buttonScore.createCustomButton(title:"SCORES", width: CGFloat(150))
+        buttonSize = frame.size.width/2 - 2*30
+        buttonSize = (buttonSize > 150 ? 150 : buttonSize)
+        
+        buttonScore.createCustomButton(title:"SCORES", width: CGFloat(buttonSize))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
         
-        
+        buttonChat.createCustomButton(title:"CHAT", width: CGFloat(buttonSize))
+        buttonChat.addTarget(self.superview, action: #selector(vc!.displayChatViewFromFirstView), for: .touchUpInside)
        
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -45,6 +51,7 @@ class FirstView: UIView {
         self.addSubview(playButtonBacklight)
         self.addSubview(buttonPlay)
         self.addSubview(buttonScore)
+        self.addSubview(buttonChat)
         self.addSubview(blurEffectView!)
          self.drawInSize(frame)
     }
@@ -58,8 +65,8 @@ class FirstView: UIView {
         backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 100)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
         buttonPlay.frame = CGRect(x: frame.size.width/2-50, y: frame.size.height*3/4, width: 100, height: 100)
-        buttonScore.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*9/10, width: 150, height: 50)
-        
+        buttonScore.frame = CGRect(x: 30, y: frame.size.height*9/10, width: buttonSize, height: 50)
+        buttonChat.frame = CGRect(x: frame.size.width - buttonSize - 30, y: frame.size.height*9/10, width: buttonSize, height: 50)
         
     }
     
