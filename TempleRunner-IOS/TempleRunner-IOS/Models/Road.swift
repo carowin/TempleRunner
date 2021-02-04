@@ -237,7 +237,7 @@ class Road {
     
     /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
     public func detectCollision(player: Player){
-     /*   var res = false
+       var res = false
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
             if res == true{//cas où collision
@@ -247,7 +247,7 @@ class Road {
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
              player.setState(state: .LOSE)
         }
-         */
+        
     }
     
     
