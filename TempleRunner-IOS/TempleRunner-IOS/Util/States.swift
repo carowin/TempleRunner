@@ -8,6 +8,18 @@
 
 import Foundation
 
+
+enum Powers {
+    case ACCELERATION
+    case INVNCIBILITER
+}
+
+enum LatPosition {
+    case GAUCHE
+    case DROIT
+    case MILIEU
+}
+
 enum StatePlayer {
     case RUNNING
     case JUMPING
@@ -36,8 +48,10 @@ enum Difficulty  {
     case IMPOSSIBLE
 }
 
+
 struct CurrentDifficulty {
     private static var lvl  = Difficulty.EASY
+    private static var currentPower = Powers.ACCELERATION
     public static func getNextLvl(){
         switch lvl {
         case .EASY:
@@ -50,7 +64,18 @@ struct CurrentDifficulty {
             lvl = Difficulty.EASY
         }
     }
+    
+    public static func setDiff(dif : Difficulty){
+        lvl = dif
+    }
     public static func getDiff() -> Difficulty {
         return lvl
+    }
+    
+    public static func setCurrentPower(p : Powers){
+        currentPower = p
+    }
+    public static func getCurrentPower() -> Powers{
+        return currentPower
     }
 }

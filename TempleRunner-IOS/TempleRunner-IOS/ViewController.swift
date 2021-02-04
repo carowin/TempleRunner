@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController  {
     var gameView: GameView?
     var chatView: ChatView?
     var scoreView: ScoreView?
@@ -162,6 +162,17 @@ class ViewController: UIViewController {
         chatView?.displayChatView()
         
     }
+    
+    @objc func changePower(sender : UIButton){
+        if(sender.currentTitle == "Acceleration"){
+            sender.setTitle("Invincibiliter", for : .normal )
+            CurrentDifficulty.setCurrentPower(p: Powers.INVNCIBILITER)
+        }else {
+            sender.setTitle("Acceleration", for : .normal )
+            CurrentDifficulty.setCurrentPower(p: Powers.ACCELERATION)
+        }
+        
+    }
 
     /* Affichage la page des scores a partir de la game view  */
     @objc func displayScoreViewFromGameView() {
@@ -169,7 +180,7 @@ class ViewController: UIViewController {
         gameView?.beginPauseGame()
         self.view.bringSubviewToFront(scoreView!)
         scoreModel?.setCurrentScore(val:(gameView?.getPlayer().getCurrentScore())!) // Mock, should set to gameModel.getCurrentScore()
-        scoreModel?.setCurrentCoins(val:(gameView?.getPlayer().getCurrentCoinsScore())!) // Mock, should set to gameModel.getCurrentCoins()
+        scoreModel?.setCurrentCoins(val:(gameView?.getCurrentCoinsScore())!) // Mock, should set to gameModel.getCurrentCoins()
         let currentScore = scoreModel?.getCurrentScore()
         let currentCoins = scoreModel?.getCurrentCoins()
         scoreView?.setLabelsOnPauseGame(currentScore : currentScore!, currentCoins : currentCoins!)
@@ -207,4 +218,7 @@ class ViewController: UIViewController {
         return true
     }
 
+
+  
+    
 }

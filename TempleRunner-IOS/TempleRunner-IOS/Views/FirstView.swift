@@ -19,8 +19,12 @@ class FirstView: UIView {
     var buttonScore = UIButton(type: .custom) //bouton score
     var buttonChat = UIButton(type: .custom) //bouton chat
     var buttonSize : CGFloat!
+    var buttonPower = UIButton(type: .custom) //bouton play
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     var identifierPlayer : UILabel?
+    
+
+
     
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
@@ -28,7 +32,7 @@ class FirstView: UIView {
         playButtonBacklight.frame.size.height = frame.size.height/4
         
         super.init(frame: frame)
-
+        
         buttonPlay.addTarget(self.superview, action:  #selector(vc!.displayGameViewFromFirstView), for: .touchUpInside)
         buttonPlay.alpha = 0.3
         buttonPlay.backgroundColor = .red
@@ -37,11 +41,17 @@ class FirstView: UIView {
         //buttonSize = (buttonSize > 150 ? 150 : buttonSize)
         buttonSize = 150
         
+      
+        
         buttonScore.createCustomButton(title:"SCORES", width: CGFloat(buttonSize))
         buttonScore.addTarget(self.superview, action: #selector(vc!.displayScoreViewFromFirstView), for: .touchUpInside)
         
         buttonChat.createCustomButton(title:"CHAT", width: CGFloat(buttonSize))
         buttonChat.addTarget(self.superview, action: #selector(vc!.displayChatViewFromFirstView), for: .touchUpInside)
+        
+        
+        buttonPower.createCustomButton(title:"Acceleration", width: CGFloat(buttonSize))
+        buttonPower.addTarget(self.superview, action: #selector(vc!.changePower), for: .touchUpInside)
        
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -53,9 +63,10 @@ class FirstView: UIView {
         identifierPlayer?.backgroundColor = .white
         identifierPlayer?.text = Identifier.getId()
 
-
+        
         self.addSubview(backgroundImage)
         self.addSubview(playButtonBacklight)
+        self.addSubview(buttonPower)
         self.addSubview(buttonPlay)
         self.addSubview(buttonScore)
         self.addSubview(buttonChat)
@@ -73,10 +84,16 @@ class FirstView: UIView {
         backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 100)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
         buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*3.25/4, width: frame.size.width/2.5, height: frame.size.height/12)
-        buttonScore.frame = CGRect(x: frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
+         buttonScore.frame = CGRect(x: frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
         buttonChat.frame = CGRect(x: 3*frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
         identifierPlayer?.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*3/10, width: 150, height: 50)
-            
+        
+        
+        buttonPower.frame = CGRect(x:frame.size.width/2, y: 0, width: 150, height: 50)
+        
+        
+  
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
