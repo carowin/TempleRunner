@@ -20,6 +20,7 @@ class Player {
     private var coinsScore = 0 //nombre de pièces récupérés
     private var lifePoints = 2 // niveau de vie du joueur
     
+    private var isTurning = false
     
     //----------------------- gestion des images du player -----------------------
     private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
@@ -159,6 +160,10 @@ class Player {
         return player!
     }
     
+    func playerTurning() -> Bool {
+        return isTurning
+    }
+    
     
     //----------------------- SETTER -----------------------
     func incrementScore() {
@@ -205,6 +210,10 @@ class Player {
         default:
             player!.image! = playerRun!
         }
+    }
+    
+    func setIsTurning(value: Bool){
+        isTurning = value
     }
     
     func resetScore(){
