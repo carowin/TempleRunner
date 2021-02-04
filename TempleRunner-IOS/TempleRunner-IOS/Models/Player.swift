@@ -32,7 +32,17 @@ class Player {
     private let playerPaused = UIImage(named: "playerMouvement/playerRun1")//image du joueur en pause
     private let playerLose = UIImage(named: "playerMouvement/playerLose")//image du joueur en paus
     
-    
+    // ----------------- creation d'un identifiant unique pour chaque mobile --------
+
+    let urlFetch = "http://templerunnerppm.pythonanywhere.com/chat/fetchNewUsersID"
+    struct Response: Codable {
+        let value: String
+    }
+
+
+    private let rep = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+
+
     init() {
         self.state = .RUNNING
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
@@ -43,6 +53,80 @@ class Player {
         posX = width/2
         posY = height - width/2
         player!.center = CGPoint(x: posX!, y: posY!)
+
+        self.tryToFindIdentifier()
+
+        if (Identifier.getId() == ""){
+            print("Fetch id")
+            self.fetchIdentifier()
+        } else {
+            print("Already there")
+        }
+
+
+    }
+
+    func tryToFindIdentifier() {
+        let thePath = rep[0] + "/backup"
+        if FileManager.default.fileExists(atPath: thePath) {
+            print("File exist")
+            let data = FileManager.default.contents(atPath: thePath)
+            if data != nil {
+                print("Not null")
+                do {
+                    print(data)
+                    let decoder = try NSKeyedUnarchiver(forReadingFrom: data!)
+                    decoder.requiresSecureCoding = false
+                    let d = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data!) as? Identifier
+                    print("value d : %s", d?.aString)
+                    Identifier.setId(s:d!.aString)
+                } catch {
+                    print("error could not read file in directory !!")
+                }
+                
+            }
+        }
+    }
+
+    func saveIdentifier(){
+        let d = Identifier(s: Identifier.getId())
+        let thePath = rep[0] + "/backup"
+        let coder = NSKeyedArchiver(requiringSecureCoding: false)
+        coder.encode(d, forKey: NSKeyedArchiveRootObjectKey)
+        FileManager.default.createFile(atPath: thePath, contents: coder.encodedData, attributes: [:])
+    }
+
+    func fetchIdentifier() {
+        let task = URLSession.shared.dataTask(with: URL(string:urlFetch)!, completionHandler: {data, response, error in 
+            if let error = error {
+                print("Error accessing url: \(error)")
+                return
+            }     
+
+            guard let httpResponse = response as? HTTPURLResponse,(200...299).contains(httpResponse.statusCode) else {
+                print("Error with the response, unexpected status code: \(response)")
+                return
+            }  
+
+            var result: Response?
+
+            do {
+                result = try JSONDecoder().decode(Response.self, from: data!)
+            }
+            catch {
+                print("enable to parse data")
+            }
+
+            guard let json = result else {
+                print("data is nil")
+                return 
+            }
+            print(json.value)
+            Identifier.setId(s:json.value)
+            self.saveIdentifier()
+        })
+
+        task.resume()
     }
     
     
@@ -120,6 +204,8 @@ class Player {
         case .PAUSE:
             player!.image! = playerPaused!
         case .LOSE:
+            player!.image! = playerLose!
+        case .KILL:
             player!.image! = playerLose!
         default:
             player!.image! = playerRun!

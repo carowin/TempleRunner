@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 class SideRock : Block {
     
-    let rocherImage = UIImage(named: "smallRock")
+    let rocherImage = UIImage(named: "sidebranch")
     let rockPlacement : RockPosition
     
     init(x : CGFloat ,y : CGFloat , blockSize : CGFloat , rockPosition : RockPosition) {
@@ -32,9 +32,9 @@ class SideRock : Block {
     
     public override func detectCollision(player:Player) -> Bool{
         let pos = player.getPosition()
-        print(pos)
-        print(x)
-        print (y)
+        //print(pos)
+        //print(x)
+        //print (y)
         if y+blockSize/10<pos.y && pos.y<y+blockSize{
             if player.getCurrentState() == .JUMPING{
                 return false

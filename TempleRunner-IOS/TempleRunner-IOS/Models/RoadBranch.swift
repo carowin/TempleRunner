@@ -25,7 +25,7 @@ class RoadBranch : Block {
             posY = (super.baseView.superview?.frame.origin.y)!
             if posY<player.getPosition().y && player.getPosition().y<posY+blockSize{
                 if player.getCurrentState() != .SLIDING{
-                    print(posY-blockSize," < ", player.getPosition().y," < ",posY)
+                    //print(posY-blockSize," < ", player.getPosition().y," < ",posY)
                     player.setState(state: .LOSE)
                     return true
                 }

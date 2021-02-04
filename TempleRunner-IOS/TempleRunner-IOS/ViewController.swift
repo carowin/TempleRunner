@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ViewController: UIViewController {
     var gameView: GameView?
@@ -15,9 +16,16 @@ class ViewController: UIViewController {
     var firstView: FirstView?
 
     var scoreModel : ScoreModel?
+
+    let urlFetch = "http://templerunnerppm.pythonanywhere.com/chat/fetchScore/"
+    struct Response: Codable {
+        let value: [Int]
+    }
     
     
     let screenSize = UIScreen.main.bounds
+    
+    private var notifyScoreTimer : Timer? //timer pour les notifications des scores
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -41,6 +49,58 @@ class ViewController: UIViewController {
         scoreView?.hideScoreView()
         gameView?.hideGameView()
         firstView?.displayFirstView()
+
+        notifyScoreTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(getNotificationForScore), userInfo: nil, repeats: true)
+
+    }
+
+    @objc func getNotificationForScore(){
+        print(urlFetch+Identifier.getId())
+        let task = URLSession.shared.dataTask(with: URL(string:urlFetch+Identifier.getId())!, completionHandler: {data, response, error in 
+            if let error = error {
+                print("Error accessing url: \(error)")
+                return
+            }     
+
+            guard let httpResponse = response as? HTTPURLResponse,(200...299).contains(httpResponse.statusCode) else {
+                print("Error with the response, unexpected status code: \(response)")
+                return
+            }  
+
+
+            var result: Response?
+
+            do {
+                result = try JSONDecoder().decode(Response.self, from: data!)
+            }
+            catch {
+                print("enable to aprse data")
+            }
+
+            guard let json = result else {
+                print("data is nil")
+                return 
+            }
+
+            for score in (result?.value)! {
+                let center = UNUserNotificationCenter.current()
+                let n = UNMutableNotificationContent()
+                n.title = "New HighScore !"
+                n.body = "There a new hight score from a another player: " + String(score)
+                n.categoryIdentifier = "TempleRunnerScore"
+                n.sound = UNNotificationSound.default
+                n.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
+                let nr = UNNotificationRequest(identifier: UUID().uuidString, content: n, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false))
+                center.add(nr, withCompletionHandler: nil)
+
+            }
+        
+
+            
+        
+        })
+
+        task.resume()
     }
 
     /* Affichage du jeu lorsqu'on est sur la page d'accueil */
@@ -84,6 +144,7 @@ class ViewController: UIViewController {
         firstView?.displayFirstView()
         firstView?.blurFirstView()
         self.view.bringSubviewToFront(scoreView!)
+        scoreModel?.setCurrentScore(val:(gameView?.getPlayer().getCurrentScore())!) // Mock, should set to gameModel.getCurrentScore()
         scoreModel?.updateScores()
         scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
         scoreView?.displayScoreView()
@@ -92,6 +153,15 @@ class ViewController: UIViewController {
         
     }
     
+    /* Affichage la page des chats a partir de la first view  */
+    @objc func displayChatViewFromFirstView(){
+        firstView?.displayFirstView()
+        firstView?.blurFirstView()
+        self.view.bringSubviewToFront(chatView!)
+        
+        chatView?.displayChatView()
+        
+    }
 
     /* Affichage la page des scores a partir de la game view  */
     @objc func displayScoreViewFromGameView() {
@@ -128,11 +198,13 @@ class ViewController: UIViewController {
     }
     
     /* Sauvegarde le nouveau score dans la BDD */
-    @objc func fetchScoreFromBDD(){
-        scoreModel?.fetchScore()
-        scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
+    @objc func storeScoreOnBDD(){
+        scoreModel?.storeHighScore()
+        //scoreView?.setLabelsOnFinishGame(lastScore : (scoreModel?.getCurrentScore())!, hightScore : (scoreModel?.getHightScore())!)
     }
     
-    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
 
 }
