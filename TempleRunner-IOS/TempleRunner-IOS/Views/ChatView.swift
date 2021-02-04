@@ -27,7 +27,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
     init(frame : CGRect, viewc : ViewController){
         self.vc = viewc
         //use device storage ...
-        playerName = "Zoubir"
+        playerName = Identifier.getId()
 
         var top : CGFloat = 0;
         if (UIDevice.current.userInterfaceIdiom == .phone && frame.size.height > 812){
@@ -194,6 +194,7 @@ class ChatView: UIView , UITextFieldDelegate, UITableViewDelegate, UITableViewDa
         textField.resignFirstResponder()
         if textField.text != "" {
             chatModel.storeMessage(sender: playerName!, message: textField.text!)
+            print(playerName!, textField.text!)
             //messages.append(CellInfos(name: "Me", message: textField.text!))
         }
         

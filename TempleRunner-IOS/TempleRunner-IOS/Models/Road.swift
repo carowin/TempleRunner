@@ -50,8 +50,8 @@ class Road {
         /*------------------- Stockage et Créations des obstacles ---------------------*/
 
         for i in 0...2{
-            tabObstacles.append(RoadRock(x:0 ,y:0 ,blockSize: blockSize))
-            tabObstacles.append(RoadBranch(x:0 ,y:0 ,blockSize: blockSize))
+           tabObstacles.append(RoadRock(x:0 ,y:0 ,blockSize: blockSize))
+           tabObstacles.append(RoadBranch(x:0 ,y:0 ,blockSize: blockSize))
             
             //ajout des sideRock
             if(i%2 == 0){
@@ -236,7 +236,12 @@ class Road {
     }
     
     /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
-    public func detectCollision(player: Player){/*
+    public func detectCollision(player: Player){
+        
+        if(player.getCurrentDamageMode() == .NODAMAGE){
+            return
+        }
+        
         var res = false
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
@@ -246,8 +251,8 @@ class Road {
         }
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
 
-            view.stopGame()
-        }*/
+            player.setState(state: .LOSE)
+        }
     }
     
     

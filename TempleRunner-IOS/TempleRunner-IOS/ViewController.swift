@@ -33,10 +33,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        chatView = ChatView(frame: screenSize, viewc: self)
         scoreView = ScoreView(frame: screenSize, viewc: self)
         gameView = GameView(frame: screenSize, viewc: self)
         firstView = FirstView(frame: screenSize, viewc: self)
+        chatView = ChatView(frame: screenSize, viewc: self)
 
         scoreModel = ScoreModel()
         
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         firstView?.displayFirstView()
 
         notifyScoreTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(getNotificationForScore), userInfo: nil, repeats: true)
-
+        MusicPlayer.shared.startBackgroundMusic()
     }
 
     @objc func getNotificationForScore(){

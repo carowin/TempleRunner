@@ -14,6 +14,8 @@ class SideBranch : Block {
   
     let rockPlacement : RockPosition
     
+    var playerHit : Bool
+    
     init(x : CGFloat ,y : CGFloat , blockSize : CGFloat , rockPosition : RockPosition) {
         rockPlacement = rockPosition
         if(rockPlacement == RockPosition.LEFT){
@@ -21,6 +23,7 @@ class SideBranch : Block {
         }else {
             rocherImage = UIImage(named: "branchdroite")
         }
+        playerHit = false
         super.init(x: x, y: y, blockSize: blockSize)
       
         super.baseView = UIImageView(image: rocherImage)
@@ -30,19 +33,25 @@ class SideBranch : Block {
         super.setView(view: view)
     }
     
+    public func setHitPlayer(val: Bool){
+        playerHit = val
+    }
+    
     public override func detectCollision(player:Player) -> Bool{
         let pos = player.getPosition()
-        if y+blockSize/10<pos.y && pos.y<y+blockSize{
-            if player.getCurrentState() == .JUMPING{
-                return false
-            }
-            if(rockPlacement == RockPosition.LEFT){
-                if(pos.x <= x+blockSize/3){
-                    player.decrementLifePoints()
-                }
-            }else  if(pos.x >= x+blockSize/2) {
+        if player.getCurrentState() == .JUMPING{
+            return false
+        }
+        if(rockPlacement == RockPosition.LEFT && playerHit != true){
+            if(pos.x <= x+blockSize/3){
+                print("DANS DETECT COLL +++++++++++++++++++++++++++++++++++")
+                playerHit = true
                 player.decrementLifePoints()
             }
+        }else  if(pos.x >= x+blockSize/2 &&  playerHit != true) {
+            print("DANS DETECT COLL +++++++++++++++++++++++++++++++++++")
+            playerHit = true
+            player.decrementLifePoints()
         }
         return false
     }

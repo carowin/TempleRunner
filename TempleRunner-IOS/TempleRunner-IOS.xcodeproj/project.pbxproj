@@ -34,6 +34,8 @@
 		D686095C25B03B240013AED3 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095B25B03B240013AED3 /* Block.swift */; };
 		D686095E25B03F980013AED3 /* SimpleRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095D25B03F980013AED3 /* SimpleRoad.swift */; };
 		D686096025B076270013AED3 /* RoadRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D686095F25B076270013AED3 /* RoadRock.swift */; };
+		D6DDEF1125CBFE9000EF8E3B /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6DDEF1025CBFE9000EF8E3B /* MusicPlayer.swift */; };
+		D6DDEF1B25CC04AB00EF8E3B /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D6DDEF1A25CC04AB00EF8E3B /* backgroundMusic.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		D686095B25B03B240013AED3 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Block.swift; path = "TempleRunner-IOS/Models/Block.swift"; sourceTree = SOURCE_ROOT; };
 		D686095D25B03F980013AED3 /* SimpleRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleRoad.swift; path = "TempleRunner-IOS/Models/SimpleRoad.swift"; sourceTree = SOURCE_ROOT; };
 		D686095F25B076270013AED3 /* RoadRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoadRock.swift; path = "TempleRunner-IOS/Models/RoadRock.swift"; sourceTree = SOURCE_ROOT; };
+		D6DDEF1025CBFE9000EF8E3B /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		D6DDEF1A25CC04AB00EF8E3B /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = backgroundMusic.mp3; path = ../../../backgroundMusic.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 		A139C05825C2CC6000B251A3 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D6DDEF1025CBFE9000EF8E3B /* MusicPlayer.swift */,
 				D64797D425CBF43000A56925 /* Identifier.swift */,
 				A139C05925C2CC7800B251A3 /* States.swift */,
 			);
@@ -137,6 +142,7 @@
 		D677DA1525A369AF0075C3F7 /* TempleRunner-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				D6DDEF1925CC049E00EF8E3B /* Sounds */,
 				A139C05825C2CC6000B251A3 /* Util */,
 				A180B38725B8546700774DBC /* Models */,
 				A180B38425B8545B00774DBC /* Font */,
@@ -168,6 +174,14 @@
 				D677DA3225A36D5E0075C3F7 /* ScoreView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D6DDEF1925CC049E00EF8E3B /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				D6DDEF1A25CC04AB00EF8E3B /* backgroundMusic.mp3 */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +245,7 @@
 				D677DA2125A369B00075C3F7 /* LaunchScreen.storyboard in Resources */,
 				D677DA1E25A369B00075C3F7 /* Assets.xcassets in Resources */,
 				D677DA1C25A369AF0075C3F7 /* Main.storyboard in Resources */,
+				D6DDEF1B25CC04AB00EF8E3B /* backgroundMusic.mp3 in Resources */,
 				A180B38625B8545B00774DBC /* HanaleiFill-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,6 +259,7 @@
 			files = (
 				A3C8644825C813E3006B62FE /* Coin.swift in Sources */,
 				A139C05A25C2CC7800B251A3 /* States.swift in Sources */,
+				D6DDEF1125CBFE9000EF8E3B /* MusicPlayer.swift in Sources */,
 				D64797DB25CBF44200A56925 /* CellInfos.swift in Sources */,
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
 				A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */,
@@ -411,13 +427,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZJ2KUL6LB4;
+				DEVELOPMENT_TEAM = L99GSY552M;
 				INFOPLIST_FILE = "TempleRunner-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fr.upmc.sar.TempleRunner-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = fr.upmc.sar.templerunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -429,13 +445,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZJ2KUL6LB4;
+				DEVELOPMENT_TEAM = L99GSY552M;
 				INFOPLIST_FILE = "TempleRunner-IOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "fr.upmc.sar.TempleRunner-IOS";
+				PRODUCT_BUNDLE_IDENTIFIER = fr.upmc.sar.templerunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

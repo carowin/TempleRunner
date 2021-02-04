@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum ModeDamagePlayer {
+    case NORMAL
+    case NODAMAGE
+} 
+
 enum StatePlayer {
     case RUNNING
     case JUMPING
