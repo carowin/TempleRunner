@@ -127,8 +127,6 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         
         self.addSubview(backgroundImage!)
         road?.setRoad()
-        road?.setSideRoad()
-        //road?.setObstacles()
         self.addSubview(myPlayer.getView())
         self.addSubview(myMonster.getView())
         self.addSubview(progressView!)
@@ -160,10 +158,12 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         if sender.direction == .left { //left=tourne à gauche
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: .LEFT)
+            road?.rotateRoad(player: myPlayer)
         }
         if sender.direction == .right { //right=tourne à droite
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: .RIGHT)
+            road?.rotateRoad(player: myPlayer)
         }
     }
     

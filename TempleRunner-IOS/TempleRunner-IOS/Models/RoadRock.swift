@@ -16,7 +16,8 @@ class RoadRock : Block {
     }
     
    override public func setView(view : UIView){
-        super.setView(view: view)
+        baseView.frame = CGRect(x: x, y: y, width:blockWidth/3, height: blockSize)
+        view.addSubview(baseView)
     }
     
     public override func detectCollision(player:Player) -> Bool{
