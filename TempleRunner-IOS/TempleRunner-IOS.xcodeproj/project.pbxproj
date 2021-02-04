@@ -14,6 +14,7 @@
 		A180B38B25B874B400774DBC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38A25B874B400774DBC /* Player.swift */; };
 		A1A5267625C2D0B900D8AC15 /* IntersectionRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */; };
 		A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4DDAA25BB889700445DBE /* RoadBranch.swift */; };
+		A3C8644825C813E3006B62FE /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C8644725C813E3006B62FE /* Coin.swift */; };
 		D6524D5B25C82C9100FD8E65 /* SideBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6524D5A25C82C9100FD8E65 /* SideBranch.swift */; };
 		D677DA1725A369AF0075C3F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA1625A369AF0075C3F7 /* AppDelegate.swift */; };
 		D677DA1925A369AF0075C3F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA1825A369AF0075C3F7 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 		A180B38A25B874B400774DBC /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = "TempleRunner-IOS/Models/Player.swift"; sourceTree = SOURCE_ROOT; };
 		A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntersectionRoad.swift; sourceTree = "<group>"; };
 		A1F4DDAA25BB889700445DBE /* RoadBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoadBranch.swift; path = "TempleRunner-IOS/Models/RoadBranch.swift"; sourceTree = SOURCE_ROOT; };
+		A3C8644725C813E3006B62FE /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		D6524D5A25C82C9100FD8E65 /* SideBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBranch.swift; sourceTree = "<group>"; };
 		D677DA1325A369AF0075C3F7 /* TempleRunner-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TempleRunner-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D677DA1625A369AF0075C3F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				A180B38A25B874B400774DBC /* Player.swift */,
 				A152F9DD25BEDE47004C1425 /* Monster.swift */,
 				A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */,
+				A3C8644725C813E3006B62FE /* Coin.swift */,
 				D6524D5A25C82C9100FD8E65 /* SideBranch.swift */,
 			);
 			path = Models;
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C8644825C813E3006B62FE /* Coin.swift in Sources */,
 				A139C05A25C2CC7800B251A3 /* States.swift in Sources */,
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
 				A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */,

@@ -192,7 +192,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
+        coinsLabel!.text = String(myPlayer.getCurrentCoinsScore())
          setProgressBar(amount : 1)
+
 
          if(myPlayer.getCurrentScore() % 120 == 0){
             myPlayer.decrementLifePoints()
@@ -209,6 +211,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         // update roade
         road?.updateRoad()
         road?.detectCollision(player: myPlayer)
+        road?.detectionCoin(player: myPlayer)
 
         if(myPlayer.getCurrentState() == .LOSE){
             //clawDeathScreen.isHidden = false

@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 
-
 class Road {
     
     var mainRoad = [Block]() //stock le road principal(celle qu'on voit)
@@ -36,6 +35,12 @@ class Road {
     var chosenValueIntersect = 1 //pour la génération de la rotation
     
     var isIntersecting = false
+    
+    var nbCoin = 0 //nombre de pièces sur le chemin
+    var maxCoin = 5
+    var coinEncCours = false //mettre une séquence de pièces
+    var tabPos : [String]! // position de la première pièce d'une séquence
+    
     
     init(view : UIView){
         self.view = view as! GameView
@@ -136,11 +141,50 @@ class Road {
         //Filtrage des block sortie du cadre et ajout des block par dessus
         if mainRoad.first!.y > height{ //sortis du cadre?
             mainRoad.first!.setPosY(y: -blockSize) //repositionne en haut
+            
+            let precedent = mainRoad.last //block qui précède le block courant
+            
             let elem = mainRoad.removeFirst()
             mainRoad.append(elem)
             removeObstacleFromBloc(bloc: elem)
             if generateObstacle(bloc: elem) == false{
                 isIntersecting = true
+            }
+            
+            
+            if elem.coinPresent { //si il y a une pièce sur le block qui va sortir le retirer
+                elem.coin?.removeCoin()
+                elem.changeCoinPresent(bool: false)
+            }
+            
+            //vérifier s'il faut finir une séquence de Coin
+            if coinEncCours {
+                generateCoins(block: elem, pos : precedent!.position!)
+            }
+            
+            //si il n'y a pas de séquence en cours et s'assurer que le block précédent n'a pas de pièce
+            if !coinEncCours && !precedent!.coinPresent{
+                
+                let randomCoin = Int.random(in: 1...3) //commencer ou pas une séquence
+                if randomCoin == 1{
+                    nbCoin = 0
+                    
+                    //position de la pièce aléatoire
+                    let randomPosition = Int.random(in: 1...3)
+                    var pos = ""
+                    if randomPosition == 1 {
+                        pos = "gauche"
+                    }
+                    if randomPosition == 2 {
+                        pos = "milieu"
+                    }
+                    if randomPosition == 3 {
+                        pos = "droite"
+                    }
+                    
+                    generateCoins(block: elem, pos : pos)
+                    coinEncCours = true
+                }
             }
         }
         for i in 0...(mainRoad.count-1){//pour chq elem de la road
@@ -174,8 +218,25 @@ class Road {
         return false
     }
     
+    
+    
+    public func generateCoins(block : Block, pos: String){
+        block.position = pos // position de la pièce
+        
+        if  nbCoin < maxCoin {
+            block.setCoin(position: pos)
+            block.changeCoinPresent(bool : true)
+            nbCoin += 1
+        }
+        
+        if nbCoin == maxCoin {
+            coinEncCours = false
+        }
+        
+    }
+    
     /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
-    public func detectCollision(player: Player){
+    public func detectCollision(player: Player){/*
         var res = false
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
@@ -184,7 +245,25 @@ class Road {
             }
         }
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
-            player.setState(state: .LOSE)
+
+            view.stopGame()
+        }*/
+    }
+    
+    
+    public func detectionCoin(player : Player){
+        
+        for elem in mainRoad {
+            if elem.coinPresent {
+                //print("detection piece")
+                if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX) {
+                    elem.coin?.removeCoin()
+                    elem.changeCoinPresent(bool: false)
+                }
+            }
+
+           
+
         }
     }
     
