@@ -114,6 +114,12 @@ class Road {
             bloc.obstaclePresent = false
             bloc.setPosY(y: incrY)
             incrY -= blockSize
+            if bloc.coinPresent {
+                bloc.coin?.removeCoin()
+                bloc.changeCoinPresent(bool: false)
+                nbCoin = 0
+                coinEncCours = false
+            }
         }
         intersectionPresent = false
         self.rightRoad.baseView.removeFromSuperview()
