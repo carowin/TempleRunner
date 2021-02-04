@@ -16,6 +16,8 @@ class Player {
     private var posY : CGFloat? //position Y du player
     //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE","LOSE"]
     private var state : StatePlayer?
+    //état courant des domages du joueur ["NORMAL","NODAMAGE"]
+    private var modeDamage : ModeDamagePlayer?
     private var score = 0 //score actuel du joueur
     private var coinsScore = 0 //nombre de pièces récupérés
     private var lifePoints = 2 // niveau de vie du joueur
@@ -143,6 +145,10 @@ class Player {
         return state!
     }
 
+    func getCurrentDamageMode() ->  ModeDamagePlayer {
+        return modeDamage!
+    }
+
     func getImage() -> UIImage {
         return player!.image!
     }
@@ -183,6 +189,10 @@ class Player {
     func setPosX(val:CGFloat){
         self.posX = val
         player!.center.x = posX!
+    }
+
+    func setDamageMode(mode: ModeDamagePlayer){
+        self.modeDamage = mode
     }
 
     
@@ -237,6 +247,11 @@ class Player {
     /* affiche le player */
     func displayPlayer(){
         player!.isHidden = false
+    }
+
+    /* sert à faire clignoter le player */
+    @objc func blinkPlayer(){
+        player!.isHidden =  !(player!.isHidden) 
     }
     
     /* ajout du player dans la game view et positionne le player */

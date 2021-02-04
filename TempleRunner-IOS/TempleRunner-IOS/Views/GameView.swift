@@ -39,6 +39,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     private var actionTime : Timer? //timer pour remettre le player en position run
     private var tempoTimer : Timer? //timer pour laisser 3 secondes avant de reprendre le jeu
     private var deathTimer : Timer? //timer pour laisser 1 secondes avant de quitter le jeu
+    private var blinkTimer : Timer? //timer pour faire clignoter le joueur 0.1 sec
+    private var noHitTimer : Timer? //timer pour rendre le joueur no touchable pendant 15 secondes
 
     var pauseButton = UIButton(type: .custom) //bouton score
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
@@ -248,6 +250,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.displayPlayer()
         myMonster.displayMonster()
         myPlayer.setState(state: .PAUSE)
+        myPlayer.setDamageMode(mode : .NORMAL)
         myMonster.setState(state: .PAUSE)
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
@@ -315,6 +318,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     func hideGameView() {
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
+        blinkTimer?.invalidate()
         self.isHidden = true
         backgroundImage!.isHidden = true
         myPlayer.hidePlayer()
@@ -401,7 +405,21 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         if(actualCoinCharge >= 100.0){
             actualCoinCharge = 0
             progressView?.progress=0
+            myPlayer.setDamageMode(mode : .NODAMAGE)
+            noHitTimer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(stopNoHit), userInfo: nil, repeats: false)
+            blinkTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(makePlayerBlink), userInfo: nil, repeats: true)
+    
         }
+    }
+
+    @objc func makePlayerBlink(){
+        myPlayer.blinkPlayer()
+    }
+
+    @objc func stopNoHit(){
+        blinkTimer?.invalidate()
+        myPlayer.setDamageMode(mode : .NORMAL)
+        myPlayer.displayPlayer()
     }
     
     //------------------ Gestion de l'activation du super pouvoir -----------------------------------

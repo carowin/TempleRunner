@@ -21,6 +21,11 @@ class RoadRock : Block {
     }
     
     public override func detectCollision(player:Player) -> Bool{
+        
+         if(player.getCurrentDamageMode() == .NODAMAGE){
+            return false
+        }
+        
         var posY:CGFloat
         if super.baseView.superview != nil{
             posY = (super.baseView.superview?.frame.origin.y)!

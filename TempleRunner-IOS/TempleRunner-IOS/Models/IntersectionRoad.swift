@@ -27,6 +27,7 @@ class IntersectionRoad : Block {
         s'il dépasse un petit peu mais qu'il est en train de changer de road alors la collision n'est pas détectée
      */
     public override func detectCollision(player:Player) -> Bool{
+        
         if super.baseView.superview != nil{
             let posY = (super.baseView.superview?.frame.origin.y)!
             
