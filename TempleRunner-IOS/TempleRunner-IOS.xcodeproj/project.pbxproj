@@ -15,6 +15,11 @@
 		A1A5267625C2D0B900D8AC15 /* IntersectionRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */; };
 		A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4DDAA25BB889700445DBE /* RoadBranch.swift */; };
 		A3C8644825C813E3006B62FE /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C8644725C813E3006B62FE /* Coin.swift */; };
+		D64797D525CBF43000A56925 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D425CBF43000A56925 /* Identifier.swift */; };
+		D64797DA25CBF44200A56925 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D625CBF44200A56925 /* ChatModel.swift */; };
+		D64797DB25CBF44200A56925 /* CellInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D725CBF44200A56925 /* CellInfos.swift */; };
+		D64797DC25CBF44200A56925 /* SideRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D825CBF44200A56925 /* SideRock.swift */; };
+		D64797DD25CBF44200A56925 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D925CBF44200A56925 /* ChatCell.swift */; };
 		D6524D5B25C82C9100FD8E65 /* SideBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6524D5A25C82C9100FD8E65 /* SideBranch.swift */; };
 		D677DA1725A369AF0075C3F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA1625A369AF0075C3F7 /* AppDelegate.swift */; };
 		D677DA1925A369AF0075C3F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D677DA1825A369AF0075C3F7 /* ViewController.swift */; };
@@ -40,6 +45,11 @@
 		A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntersectionRoad.swift; sourceTree = "<group>"; };
 		A1F4DDAA25BB889700445DBE /* RoadBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoadBranch.swift; path = "TempleRunner-IOS/Models/RoadBranch.swift"; sourceTree = SOURCE_ROOT; };
 		A3C8644725C813E3006B62FE /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		D64797D425CBF43000A56925 /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
+		D64797D625CBF44200A56925 /* ChatModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		D64797D725CBF44200A56925 /* CellInfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellInfos.swift; sourceTree = "<group>"; };
+		D64797D825CBF44200A56925 /* SideRock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideRock.swift; sourceTree = "<group>"; };
+		D64797D925CBF44200A56925 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		D6524D5A25C82C9100FD8E65 /* SideBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBranch.swift; sourceTree = "<group>"; };
 		D677DA1325A369AF0075C3F7 /* TempleRunner-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TempleRunner-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D677DA1625A369AF0075C3F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +82,7 @@
 		A139C05825C2CC6000B251A3 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D64797D425CBF43000A56925 /* Identifier.swift */,
 				A139C05925C2CC7800B251A3 /* States.swift */,
 			);
 			path = Util;
@@ -88,6 +99,10 @@
 		A180B38725B8546700774DBC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D64797D725CBF44200A56925 /* CellInfos.swift */,
+				D64797D925CBF44200A56925 /* ChatCell.swift */,
+				D64797D625CBF44200A56925 /* ChatModel.swift */,
+				D64797D825CBF44200A56925 /* SideRock.swift */,
 				A180B38825B8546700774DBC /* ScoreModel.swift */,
 				D686095925B03A670013AED3 /* Road.swift */,
 				D686095B25B03B240013AED3 /* Block.swift */,
@@ -229,18 +244,23 @@
 			files = (
 				A3C8644825C813E3006B62FE /* Coin.swift in Sources */,
 				A139C05A25C2CC7800B251A3 /* States.swift in Sources */,
+				D64797DB25CBF44200A56925 /* CellInfos.swift in Sources */,
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
 				A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */,
+				D64797DC25CBF44200A56925 /* SideRock.swift in Sources */,
 				A180B38925B8546700774DBC /* ScoreModel.swift in Sources */,
 				D686095C25B03B240013AED3 /* Block.swift in Sources */,
 				D677DA1925A369AF0075C3F7 /* ViewController.swift in Sources */,
+				D64797DD25CBF44200A56925 /* ChatCell.swift in Sources */,
 				A180B38B25B874B400774DBC /* Player.swift in Sources */,
 				A152F9DE25BEDE47004C1425 /* Monster.swift in Sources */,
 				D677DA2D25A36C7D0075C3F7 /* FirstView.swift in Sources */,
 				D686095A25B03A670013AED3 /* Road.swift in Sources */,
+				D64797D525CBF43000A56925 /* Identifier.swift in Sources */,
 				D6524D5B25C82C9100FD8E65 /* SideBranch.swift in Sources */,
 				D677DA1725A369AF0075C3F7 /* AppDelegate.swift in Sources */,
 				D686096025B076270013AED3 /* RoadRock.swift in Sources */,
+				D64797DA25CBF44200A56925 /* ChatModel.swift in Sources */,
 				D686095E25B03F980013AED3 /* SimpleRoad.swift in Sources */,
 				D677DA3125A36CE60075C3F7 /* GameView.swift in Sources */,
 				A1A5267625C2D0B900D8AC15 /* IntersectionRoad.swift in Sources */,

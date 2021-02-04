@@ -196,11 +196,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
          setProgressBar(amount : 1)
 
 
-         if(myPlayer.getCurrentScore() % 120 == 0){
-            myPlayer.decrementLifePoints()
-            self.updatePosMonster()
-        }
-        
+        self.updatePosMonster()
+       
         if cmMngr.deviceMotion !== nil {
             let newX = myPlayer.getPosition().x + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
             //A changer avec la limite de la route
