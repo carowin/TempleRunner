@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         firstView?.displayFirstView()
 
         notifyScoreTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(getNotificationForScore), userInfo: nil, repeats: true)
-
+        MusicPlayer.shared.startBackgroundMusic()
     }
 
     @objc func getNotificationForScore(){
