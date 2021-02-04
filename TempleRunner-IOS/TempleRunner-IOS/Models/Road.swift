@@ -278,6 +278,7 @@ class Road {
                 if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX!) {
                     elem.coin?.removeCoin()
                     elem.changeCoinPresent(bool: false)
+                    view.activateCollectCoinSound()
                 }
             }
         }

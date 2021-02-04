@@ -13,6 +13,12 @@
 		A180B38925B8546700774DBC /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38825B8546700774DBC /* ScoreModel.swift */; };
 		A180B38B25B874B400774DBC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180B38A25B874B400774DBC /* Player.swift */; };
 		A1A5267625C2D0B900D8AC15 /* IntersectionRoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */; };
+		A1DF828F25CC6661003FE7D9 /* jumpSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF828E25CC6660003FE7D9 /* jumpSound.mp3 */; };
+		A1DF829125CC6BC9003FE7D9 /* punchSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF829025CC6BC8003FE7D9 /* punchSound.mp3 */; };
+		A1DF829325CC6BF4003FE7D9 /* slipSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF829225CC6BF4003FE7D9 /* slipSound.mp3 */; };
+		A1DF829525CC6EBD003FE7D9 /* turnSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF829425CC6EBD003FE7D9 /* turnSound.mp3 */; };
+		A1DF829725CC717E003FE7D9 /* collectCoinSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF829625CC717E003FE7D9 /* collectCoinSound.mp3 */; };
+		A1DF829A25CC766F003FE7D9 /* coinSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1DF829925CC766F003FE7D9 /* coinSound.mp3 */; };
 		A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4DDAA25BB889700445DBE /* RoadBranch.swift */; };
 		A3C8644825C813E3006B62FE /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C8644725C813E3006B62FE /* Coin.swift */; };
 		D64797D525CBF43000A56925 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64797D425CBF43000A56925 /* Identifier.swift */; };
@@ -43,6 +49,12 @@
 		A180B38825B8546700774DBC /* ScoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
 		A180B38A25B874B400774DBC /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = "TempleRunner-IOS/Models/Player.swift"; sourceTree = SOURCE_ROOT; };
 		A1A5267525C2D0B900D8AC15 /* IntersectionRoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntersectionRoad.swift; sourceTree = "<group>"; };
+		A1DF828E25CC6660003FE7D9 /* jumpSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = jumpSound.mp3; sourceTree = "<group>"; };
+		A1DF829025CC6BC8003FE7D9 /* punchSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = punchSound.mp3; sourceTree = "<group>"; };
+		A1DF829225CC6BF4003FE7D9 /* slipSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = slipSound.mp3; sourceTree = "<group>"; };
+		A1DF829425CC6EBD003FE7D9 /* turnSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = turnSound.mp3; sourceTree = "<group>"; };
+		A1DF829625CC717E003FE7D9 /* collectCoinSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = collectCoinSound.mp3; sourceTree = "<group>"; };
+		A1DF829925CC766F003FE7D9 /* coinSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coinSound.mp3; sourceTree = "<group>"; };
 		A1F4DDAA25BB889700445DBE /* RoadBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoadBranch.swift; path = "TempleRunner-IOS/Models/RoadBranch.swift"; sourceTree = SOURCE_ROOT; };
 		A3C8644725C813E3006B62FE /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		D64797D425CBF43000A56925 /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
@@ -118,6 +130,19 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A1DF828D25CC6628003FE7D9 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				A1DF829925CC766F003FE7D9 /* coinSound.mp3 */,
+				A1DF829625CC717E003FE7D9 /* collectCoinSound.mp3 */,
+				A1DF829425CC6EBD003FE7D9 /* turnSound.mp3 */,
+				A1DF829225CC6BF4003FE7D9 /* slipSound.mp3 */,
+				A1DF829025CC6BC8003FE7D9 /* punchSound.mp3 */,
+				A1DF828E25CC6660003FE7D9 /* jumpSound.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		D677DA0A25A369AF0075C3F7 = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +165,7 @@
 				A139C05825C2CC6000B251A3 /* Util */,
 				A180B38725B8546700774DBC /* Models */,
 				A180B38425B8545B00774DBC /* Font */,
+				A1DF828D25CC6628003FE7D9 /* Sounds */,
 				D677DA2925A36BE90075C3F7 /* Views */,
 				D677DA2825A36BD70075C3F7 /* Data */,
 				D677DA1625A369AF0075C3F7 /* AppDelegate.swift */,
@@ -229,7 +255,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D677DA2125A369B00075C3F7 /* LaunchScreen.storyboard in Resources */,
+				A1DF829125CC6BC9003FE7D9 /* punchSound.mp3 in Resources */,
 				D677DA1E25A369B00075C3F7 /* Assets.xcassets in Resources */,
+				A1DF828F25CC6661003FE7D9 /* jumpSound.mp3 in Resources */,
+				A1DF829725CC717E003FE7D9 /* collectCoinSound.mp3 in Resources */,
+				A1DF829A25CC766F003FE7D9 /* coinSound.mp3 in Resources */,
+				A1DF829325CC6BF4003FE7D9 /* slipSound.mp3 in Resources */,
+				A1DF829525CC6EBD003FE7D9 /* turnSound.mp3 in Resources */,
 				D677DA1C25A369AF0075C3F7 /* Main.storyboard in Resources */,
 				A180B38625B8545B00774DBC /* HanaleiFill-Regular.ttf in Resources */,
 			);
