@@ -151,9 +151,7 @@ class Road {
     public func updateRoad(){
         if mainRoad.first!.y > height{ //sortis du cadre?
             mainRoad.first!.setPosY(y: -blockSize) //repositionne en haut
-            
             let precedent = mainRoad.last //block qui précède le block courant
-            
             let elem = mainRoad.removeFirst()
             mainRoad.append(elem)
             removeObstacleFromBloc(bloc: elem)
@@ -197,6 +195,7 @@ class Road {
                 }
             }
         }
+        
         for i in 0...(mainRoad.count-1){//pour chq elem de la road
             mainRoad[i].updatePosition(view : view)
         }
@@ -258,7 +257,7 @@ class Road {
     
   
     /* détecte une collision entre les obstacles et le joueur (appelée dans gameview) */
-    public func detectCollision(player: Player){/*
+    public func detectCollision(player: Player){
         var res = false
         for obst in obstacleInRoad{//pour chaque obstacle présent
             res = obst.detectCollision(player: player)
@@ -267,9 +266,8 @@ class Road {
             }
         }
         if leftRoad.detectCollision(player: player) || rightRoad.detectCollision(player: player){
-
             view.stopGame()
-        }*/
+        }
     }
     
     
@@ -277,7 +275,7 @@ class Road {
         for elem in mainRoad {
             if elem.coinPresent {
                 //print("detection piece")
-                if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX) {
+                if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX!) {
                     elem.coin?.removeCoin()
                     elem.changeCoinPresent(bool: false)
                 }
@@ -306,6 +304,7 @@ class Road {
             self.displayRoad(road: mainRoadDown)
             self.displayRoad(road: mainRoadLeft)
             self.displayRoad(road: mainRoadRight)
+            
             if player.getCurrentState() == .LEFT{ //cas où le joueur veut tourner à gauche
                 state = .LEFT
                 player.setIsTurning(value: true)
@@ -314,8 +313,8 @@ class Road {
                     self.rightRoad.baseView.removeFromSuperview()
                     self.view.backgroundImage?.transform = (self.view.backgroundImage?.transform.rotated(by: .pi/2))!
                 })
-                
             }
+            
             if player.getCurrentState() == .RIGHT{ //cas où le joueur veut tourner à droite
                 state = .RIGHT
                 player.setIsTurning(value: true)
@@ -325,9 +324,9 @@ class Road {
                     self.view.backgroundImage?.transform = (self.view.backgroundImage?.transform.rotated(by: -.pi/2))!
                 })
             }
+            
             //timer appelé une fois que la rotation est terminée
             Timer.scheduledTimer(withTimeInterval: 0.6, repeats: false, block: {_ in
-                self.displayRoad(road: self.mainRoad)
                 self.resetRoad()
                 player.setIsTurning(value: false)
                 if state == .LEFT{
