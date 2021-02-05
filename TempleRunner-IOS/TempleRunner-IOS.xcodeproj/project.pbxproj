@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A12B937E25CD3F12002696BB /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12B937D25CD3F12002696BB /* MusicPlayer.swift */; };
+		A12B938025CD3F22002696BB /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A12B937F25CD3F22002696BB /* backgroundMusic.mp3 */; };
 		A139C05A25C2CC7800B251A3 /* States.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139C05925C2CC7800B251A3 /* States.swift */; };
 		A152F9DE25BEDE47004C1425 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152F9DD25BEDE47004C1425 /* Monster.swift */; };
 		A180B38625B8545B00774DBC /* HanaleiFill-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */; };
@@ -43,6 +45,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A12B937D25CD3F12002696BB /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		A12B937F25CD3F22002696BB /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		A139C05925C2CC7800B251A3 /* States.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = States.swift; sourceTree = "<group>"; };
 		A152F9DD25BEDE47004C1425 /* Monster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
 		A180B38525B8545B00774DBC /* HanaleiFill-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HanaleiFill-Regular.ttf"; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				D64797D425CBF43000A56925 /* Identifier.swift */,
+				A12B937D25CD3F12002696BB /* MusicPlayer.swift */,
 				A139C05925C2CC7800B251A3 /* States.swift */,
 			);
 			path = Util;
@@ -133,6 +138,7 @@
 		A1DF828D25CC6628003FE7D9 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				A12B937F25CD3F22002696BB /* backgroundMusic.mp3 */,
 				A1DF829925CC766F003FE7D9 /* coinSound.mp3 */,
 				A1DF829625CC717E003FE7D9 /* collectCoinSound.mp3 */,
 				A1DF829425CC6EBD003FE7D9 /* turnSound.mp3 */,
@@ -254,6 +260,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A12B938025CD3F22002696BB /* backgroundMusic.mp3 in Resources */,
 				D677DA2125A369B00075C3F7 /* LaunchScreen.storyboard in Resources */,
 				A1DF829125CC6BC9003FE7D9 /* punchSound.mp3 in Resources */,
 				D677DA1E25A369B00075C3F7 /* Assets.xcassets in Resources */,
@@ -276,6 +283,7 @@
 			files = (
 				A3C8644825C813E3006B62FE /* Coin.swift in Sources */,
 				A139C05A25C2CC7800B251A3 /* States.swift in Sources */,
+				A12B937E25CD3F12002696BB /* MusicPlayer.swift in Sources */,
 				D64797DB25CBF44200A56925 /* CellInfos.swift in Sources */,
 				D677DA2F25A36C9F0075C3F7 /* ChatView.swift in Sources */,
 				A1F4DDAB25BB889700445DBE /* RoadBranch.swift in Sources */,

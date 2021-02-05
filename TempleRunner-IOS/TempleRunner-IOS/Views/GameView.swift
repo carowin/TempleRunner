@@ -55,12 +55,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     private var bigFrame : CGFloat
     
     private var actualCoinCharge : Float
-    
-    var jumpSound : AVAudioPlayer?
-    var slideSound : AVAudioPlayer?
-    var turnSound : AVAudioPlayer?
-    var lostSound : AVAudioPlayer?
-    var coinSound : AVAudioPlayer?
+
     
     init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
@@ -183,7 +178,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             myPlayer.setState(state: .RIGHT)
             road?.rotateRoad(player: myPlayer)
         }
-        self.activateMouvementSound()
+        MusicPlayer.shared.activateMouvementSound(myPlayer: myPlayer)
     }
     
     /* appelé par le timer pour mettre le player et le monster en position running */
@@ -221,7 +216,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         if(myPlayer.getCurrentState() == .LOSE){
             //clawDeathScreen.isHidden = false
-            self.activateLostSound()
+            MusicPlayer.shared.activateLostSound()
             updateTimer?.invalidate()
             myMonster.hideMonster()
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)    
@@ -439,69 +434,5 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     public func setProgressBar(amount :Float){
         actualCoinCharge = actualCoinCharge + amount
         progressView?.setProgress( actualCoinCharge/100, animated: true)
-    }
-    
-    
-    
-    
-    //__________________ Ajout de sons dans le jeu __________________
-    public func activateCollectCoinSound(){
-        let url = Bundle.main.url(forResource:"coinSound", withExtension:"mp3")
-        if url != nil {
-            do{
-                coinSound = try AVAudioPlayer(contentsOf: url!)
-                coinSound?.play()
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    public func activateLostSound(){
-        let url = Bundle.main.url(forResource:"punchSound", withExtension:"mp3")
-        if url != nil {
-            do{
-                lostSound = try AVAudioPlayer(contentsOf: url!)
-                lostSound?.play()
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    public func activateMouvementSound(){
-        if myPlayer.getCurrentState() == .JUMPING{
-            let url = Bundle.main.url(forResource:"jumpSound", withExtension:"mp3")
-            if url != nil {
-                do{
-                    jumpSound = try AVAudioPlayer(contentsOf: url!)
-                    jumpSound?.play()
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        if myPlayer.getCurrentState() == .SLIDING{
-            let url = Bundle.main.url(forResource:"slipSound", withExtension:"mp3")
-            if url != nil {
-                do{
-                    slideSound = try AVAudioPlayer(contentsOf: url!)
-                    slideSound?.play()
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        if myPlayer.getCurrentState() == .LEFT || myPlayer.getCurrentState() == .RIGHT{
-            let url = Bundle.main.url(forResource:"turnSound", withExtension:"mp3")
-            if url != nil {
-                do{
-                    turnSound = try AVAudioPlayer(contentsOf: url!)
-                    turnSound?.play()
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-        }
     }
 }
