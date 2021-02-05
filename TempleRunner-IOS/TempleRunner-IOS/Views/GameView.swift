@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreMotion
-
+import AVFoundation
 
 /* Vue sur le jeu */
 class GameView: UIView, UIGestureRecognizerDelegate {
@@ -56,7 +56,11 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     private var actualCoinCharge : Float
     
-    
+    var jumpSound : AVAudioPlayer?
+    var slideSound : AVAudioPlayer?
+    var turnSound : AVAudioPlayer?
+    var lostSound : AVAudioPlayer?
+    var coinSound : AVAudioPlayer?
     
     init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
@@ -179,6 +183,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
             myPlayer.setState(state: .RIGHT)
             road?.rotateRoad(player: myPlayer)
         }
+        self.activateMouvementSound()
     }
     
     /* appelé par le timer pour mettre le player et le monster en position running */
@@ -195,16 +200,18 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
         coinsLabel!.text = String(myPlayer.getCurrentCoinsScore())
-         setProgressBar(amount : 1)
+        setProgressBar(amount : 1)
 
 
         self.updatePosMonster()
        
         if cmMngr.deviceMotion !== nil {
-            let newX = myPlayer.getPosition().x + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
-            //A changer avec la limite de la route
+            let newX = myPlayer.getPosition().x + CGFloat(10*(cmMngr.deviceMotion?.gravity.x)!)
+
             if width/3<newX && newX<2*width/3 {
                 myPlayer.setPosX(val: newX)
+            }else{
+                myPlayer.setState(state: .LOSE)
             }
         }
         // update roade
@@ -214,6 +221,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         if(myPlayer.getCurrentState() == .LOSE){
             //clawDeathScreen.isHidden = false
+            self.activateLostSound()
             updateTimer?.invalidate()
             myMonster.hideMonster()
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)    
@@ -238,6 +246,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     func beginNewgame() {
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
+        cmMngr.startAccelerometerUpdates()
+        cmMngr.startDeviceMotionUpdates()
+        myPlayer.resetPosition()
         myPlayer.resetScore()
         myPlayer.resetCoinsScore()
         myPlayer.resetLifePoints()
@@ -262,6 +273,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     @objc func stopGame(){
         //TO BE COMPLETED
         cmMngr.stopAccelerometerUpdates()
+        cmMngr.stopGyroUpdates()
         cmMngr.stopDeviceMotionUpdates()
         self.hideGameView()
         vc?.displayScoreViewFromFirstView()
@@ -311,7 +323,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         coinsLabel?.isHidden = false
         pauseButton.isHidden = false
         road?.isHidden(value : false)
-
+        
     }
     
     /* fonction appelé par le viewController pour cacher la vue du jeu */
@@ -423,10 +435,73 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     }
     
     //------------------ Gestion de l'activation du super pouvoir -----------------------------------
-    /** a la division car ont doit ajouter a chaque ajout d'une piece il
-*/
+    /** a la division car ont doit ajouter a chaque ajout d'une piece il */
     public func setProgressBar(amount :Float){
         actualCoinCharge = actualCoinCharge + amount
         progressView?.setProgress( actualCoinCharge/100, animated: true)
+    }
+    
+    
+    
+    
+    //__________________ Ajout de sons dans le jeu __________________
+    public func activateCollectCoinSound(){
+        let url = Bundle.main.url(forResource:"coinSound", withExtension:"mp3")
+        if url != nil {
+            do{
+                coinSound = try AVAudioPlayer(contentsOf: url!)
+                coinSound?.play()
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    public func activateLostSound(){
+        let url = Bundle.main.url(forResource:"punchSound", withExtension:"mp3")
+        if url != nil {
+            do{
+                lostSound = try AVAudioPlayer(contentsOf: url!)
+                lostSound?.play()
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    public func activateMouvementSound(){
+        if myPlayer.getCurrentState() == .JUMPING{
+            let url = Bundle.main.url(forResource:"jumpSound", withExtension:"mp3")
+            if url != nil {
+                do{
+                    jumpSound = try AVAudioPlayer(contentsOf: url!)
+                    jumpSound?.play()
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        if myPlayer.getCurrentState() == .SLIDING{
+            let url = Bundle.main.url(forResource:"slipSound", withExtension:"mp3")
+            if url != nil {
+                do{
+                    slideSound = try AVAudioPlayer(contentsOf: url!)
+                    slideSound?.play()
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        if myPlayer.getCurrentState() == .LEFT || myPlayer.getCurrentState() == .RIGHT{
+            let url = Bundle.main.url(forResource:"turnSound", withExtension:"mp3")
+            if url != nil {
+                do{
+                    turnSound = try AVAudioPlayer(contentsOf: url!)
+                    turnSound?.play()
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }

@@ -11,6 +11,9 @@ import UIKit
 
 /* classe donnant des informations sur le joueur */
 class Player {
+    let width = UIScreen.main.bounds.width
+    let height = UIScreen.main.bounds.height
+    
     private var player : UIImageView?
     private var posX : CGFloat? //position X du player
     private var posY : CGFloat? //position Y du player
@@ -50,8 +53,6 @@ class Player {
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
         
         player = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
         posX = width/2
         posY = height - width/2
         player!.center = CGPoint(x: posX!, y: posY!)
@@ -236,6 +237,13 @@ class Player {
 
     func resetLifePoints(){
         self.lifePoints = 2
+    }
+    
+    func resetPosition(){
+        self.posX = width/2
+        self.posY = height - width/2
+        player!.center.x = posX!
+        player!.center.y = posY!
     }
     
     

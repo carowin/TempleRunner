@@ -49,8 +49,8 @@ class Coin {
             posY = block.y - block.blockSize/3 // détection trop tôt à corriger !
             posX = block.x
             
-            let playerG = player.getPosition().x// - player.getView().frame.width/2
-            let playerD = player.getPosition().x// + player.getView().frame.width/2
+            let playerG = player.getPosition().x - player.getView().frame.width/2
+            let playerD = player.getPosition().x + player.getView().frame.width/2
             
             if posY < player.getPosition().y && player.getPosition().y < posY+block.blockSize{
 
