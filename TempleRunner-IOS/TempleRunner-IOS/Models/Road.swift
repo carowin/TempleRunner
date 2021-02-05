@@ -156,7 +156,7 @@ class Road {
         On filtre les blocks sortis du cadre et on ajoute les obstacles.. par dessus */
     public func updateRoad(){
         if mainRoad.first!.y > height{ //sortis du cadre?
-            mainRoad.first!.setPosY(y: -blockSize) //repositionne en haut
+            mainRoad.first!.setPosY(y: mainRoad.last!.y-blockSize) //repositionne en haut
             let precedent = mainRoad.last //block qui précède le block courant
             let elem = mainRoad.removeFirst()
             mainRoad.append(elem)
