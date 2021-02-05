@@ -47,7 +47,7 @@ class Coin {
 
         if block.baseView.superview != nil{
             posY = block.y - block.blockSize/3 // détection trop tôt à corriger !
-            posX = block.x - screenOriginX
+            posX = block.x
             
             let playerG = player.getPosition().x - player.getView().frame.width/2
             let playerD = player.getPosition().x + player.getView().frame.width/2

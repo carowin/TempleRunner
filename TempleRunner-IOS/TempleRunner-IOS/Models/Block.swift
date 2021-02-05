@@ -66,7 +66,7 @@ class Block {
         return true
     }
     
-    private func incrementSpeed(y : CGFloat) -> CGFloat {
+    public func incrementSpeed(y : CGFloat) -> CGFloat {
         switch CurrentDifficulty.getDiff() {
         case .EASY:
             return y + 10

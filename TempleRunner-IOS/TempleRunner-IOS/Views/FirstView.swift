@@ -81,10 +81,12 @@ class FirstView: UIView {
         if (UIDevice.current.userInterfaceIdiom == .phone && frame.size.height > 812){
             top = 30
         }
-        backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top + 100)
+        backgroundImage.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - top)
         playButtonBacklight.center = CGPoint(x: frame.size.width/2, y: frame.size.height*2/3)
-        buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*3.25/4, width: frame.size.width/2.5, height: frame.size.height/12)
-         buttonScore.frame = CGRect(x: frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
+
+        buttonPlay.frame = CGRect(x: frame.size.width/3.5, y: frame.size.height*2.8/4, width: frame.size.width/2.5, height: frame.size.height/12)
+        buttonScore.frame = CGRect(x: frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
+
         buttonChat.frame = CGRect(x: 3*frame.size.width/4-75, y: frame.size.height*4/10, width: 150, height: 50)
         identifierPlayer?.frame = CGRect(x: frame.size.width/2-75, y: frame.size.height*3/10, width: 150, height: 50)
         

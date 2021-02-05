@@ -11,17 +11,22 @@ import UIKit
 
 /* classe donnant des informations sur le joueur */
 class Player {
+    let width = UIScreen.main.bounds.width
+    let height = UIScreen.main.bounds.height
+    
     private var player : UIImageView?
     private var posX : CGFloat? //position X du player
     private var posY : CGFloat? //position Y du player
     //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE","LOSE"]
     private var state : StatePlayer?
-    
 
-    
+    //état courant des domages du joueur ["NORMAL","NODAMAGE"]
+    private var modeDamage : ModeDamagePlayer?
+
     private var score = 0 //score actuel du joueur
     private var lifePoints = 2 // niveau de vie du joueur
     
+    private var isTurning = false
     
     //----------------------- gestion des images du player -----------------------
     private let playerRunGif = [UIImage(named: "playerMouvement/playerRun1"),UIImage(named: "playerMouvement/playerRun2")]//gif du joueur en train de courir
@@ -50,8 +55,6 @@ class Player {
         
         
         player = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
         posX = width/2
         posY = height - width/2
         player!.center = CGPoint(x: posX!, y: posY!)
@@ -142,6 +145,10 @@ class Player {
         return state!
     }
 
+    func getCurrentDamageMode() ->  ModeDamagePlayer {
+        return modeDamage!
+    }
+
     func getImage() -> UIImage {
         return player!.image!
     }
@@ -157,6 +164,10 @@ class Player {
     
     func getView() -> UIImageView {
         return player!
+    }
+    
+    func playerTurning() -> Bool {
+        return isTurning
     }
     
     
@@ -175,6 +186,10 @@ class Player {
     func setPosX(val:CGFloat){
         self.posX = val
         player!.center.x = posX!
+    }
+
+    func setDamageMode(mode: ModeDamagePlayer){
+        self.modeDamage = mode
     }
 
     
@@ -204,12 +219,23 @@ class Player {
         }
     }
     
+    func setIsTurning(value: Bool){
+        isTurning = value
+    }
+    
     func resetScore(){
         self.score = 0
     }
     
     func resetLifePoints(){
         self.lifePoints = 2
+    }
+    
+    func resetPosition(){
+        self.posX = width/2
+        self.posY = height - width/2
+        player!.center.x = posX!
+        player!.center.y = posY!
     }
     
     
@@ -221,6 +247,11 @@ class Player {
     /* affiche le player */
     func displayPlayer(){
         player!.isHidden = false
+    }
+
+    /* sert à faire clignoter le player */
+    @objc func blinkPlayer(){
+        player!.isHidden =  !(player!.isHidden) 
     }
     
     /* ajout du player dans la game view et positionne le player */

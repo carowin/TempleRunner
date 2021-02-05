@@ -31,6 +31,12 @@ class SideRock : Block {
     }
     
     public override func detectCollision(player:Player) -> Bool{
+        
+        
+         if(player.getCurrentDamageMode() == .NODAMAGE){
+            return false
+        }
+        
         let pos = player.getPosition()
         //print(pos)
         //print(x)

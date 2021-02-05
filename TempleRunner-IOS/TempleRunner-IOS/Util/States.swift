@@ -9,6 +9,7 @@
 import Foundation
 
 
+
 enum Powers {
     case ACCELERATION
     case INVNCIBILITER
@@ -19,6 +20,13 @@ enum LatPosition {
     case DROIT
     case MILIEU
 }
+
+enum ModeDamagePlayer {
+    case NORMAL
+    case NODAMAGE
+} 
+
+
 
 enum StatePlayer {
     case RUNNING

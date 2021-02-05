@@ -16,10 +16,16 @@ class RoadRock : Block {
     }
     
    override public func setView(view : UIView){
-        super.setView(view: view)
+        baseView.frame = CGRect(x: x, y: y, width:blockWidth/3, height: blockSize)
+        view.addSubview(baseView)
     }
     
     public override func detectCollision(player:Player) -> Bool{
+        
+         if(player.getCurrentDamageMode() == .NODAMAGE){
+            return false
+        }
+        
         var posY:CGFloat
         if super.baseView.superview != nil{
             posY = (super.baseView.superview?.frame.origin.y)!

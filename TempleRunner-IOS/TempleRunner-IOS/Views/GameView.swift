@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreMotion
-
+import AVFoundation
 
 /* Vue sur le jeu */
 class GameView: UIView, UIGestureRecognizerDelegate {
@@ -39,6 +39,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     private var actionTime : Timer? //timer pour remettre le player en position run
     private var tempoTimer : Timer? //timer pour laisser 3 secondes avant de reprendre le jeu
     private var deathTimer : Timer? //timer pour laisser 1 secondes avant de quitter le jeu
+    private var blinkTimer : Timer? //timer pour faire clignoter le joueur 0.1 sec
+    private var noHitTimer : Timer? //timer pour rendre le joueur no touchable pendant 15 secondes
 
     var pauseButton = UIButton(type: .custom) //bouton score
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
@@ -55,12 +57,14 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     private var bigFrame : CGFloat
     
     private var actualCoinCharge : Float
+
     //charge max de la bar
     private let MAX_COIN : Float
     
     private var coinsScore = 0
     
     private var isPowerInUse = false
+
     
     init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
@@ -142,8 +146,6 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         
         self.addSubview(backgroundImage!)
         road?.setRoad()
-        road?.setSideRoad()
-        //road?.setObstacles()
         self.addSubview(myPlayer.getView())
         self.addSubview(myMonster.getView())
         self.addSubview(progressView!)
@@ -182,11 +184,14 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         if sender.direction == .left { //left=tourne à gauche
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: .LEFT)
+            road?.rotateRoad(player: myPlayer)
         }
         if sender.direction == .right { //right=tourne à droite
             actionTime = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(resetRunningMode), userInfo: nil, repeats: false)
             myPlayer.setState(state: .RIGHT)
+            road?.rotateRoad(player: myPlayer)
         }
+        MusicPlayer.shared.activateMouvementSound(myPlayer: myPlayer)
     }
     
     /* appelé par le timer pour mettre le player et le monster en position running */
@@ -202,6 +207,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
+
         coinsLabel!.text = String(getCurrentCoinsScore())
         
 
@@ -209,10 +215,12 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         self.updatePosMonster()
        
         if cmMngr.deviceMotion !== nil {
-            let newX = myPlayer.getPosition().x + CGFloat(12*(cmMngr.deviceMotion?.gravity.x)!)
-            //A changer avec la limite de la route
+            let newX = myPlayer.getPosition().x + CGFloat(10*(cmMngr.deviceMotion?.gravity.x)!)
+
             if width/3<newX && newX<2*width/3 {
                 myPlayer.setPosX(val: newX)
+            }else{
+                myPlayer.setState(state: .LOSE)
             }
         }
         // update roade
@@ -222,6 +230,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         if(myPlayer.getCurrentState() == .LOSE){
             //clawDeathScreen.isHidden = false
+            MusicPlayer.shared.activateLostSound()
             updateTimer?.invalidate()
             myMonster.hideMonster()
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.stopGame), userInfo: nil, repeats: false)    
@@ -263,6 +272,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     func beginNewgame() {
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
+        cmMngr.startAccelerometerUpdates()
+        cmMngr.startDeviceMotionUpdates()
+        myPlayer.resetPosition()
         myPlayer.resetScore()
         resetCoinsScore()
         myPlayer.resetLifePoints()
@@ -275,6 +287,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         myPlayer.displayPlayer()
         myMonster.displayMonster()
         myPlayer.setState(state: .PAUSE)
+        myPlayer.setDamageMode(mode : .NORMAL)
         myMonster.setState(state: .PAUSE)
         cptTemporisation = 3
         tempoLabel.text = String(cptTemporisation)
@@ -286,6 +299,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     @objc func stopGame(){
         //TO BE COMPLETED
         cmMngr.stopAccelerometerUpdates()
+        cmMngr.stopGyroUpdates()
         cmMngr.stopDeviceMotionUpdates()
         self.hideGameView()
         vc?.displayScoreViewFromFirstView()
@@ -335,13 +349,14 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         coinsLabel?.isHidden = false
         pauseButton.isHidden = false
         road?.isHidden(value : false)
-
+        
     }
     
     /* fonction appelé par le viewController pour cacher la vue du jeu */
     func hideGameView() {
         updateTimer?.invalidate()
         tempoTimer?.invalidate()
+        blinkTimer?.invalidate()
         self.isHidden = true
         backgroundImage!.isHidden = true
         myPlayer.hidePlayer()
@@ -425,20 +440,38 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     // gestionDoubleTape
     @objc func doubleTapped() {
         //print(actualCoinCharge)
+
         if(actualCoinCharge >= MAX_COIN){
             isPowerInUse = true
             switch(CurrentDifficulty.getCurrentPower()){
                 case .ACCELERATION:
                     CurrentDifficulty.setDiff(dif: Difficulty.MEDIUM)
                 default:
-                print("nada")
+                  actualCoinCharge = 0
+                  progressView?.progress=0
+                  myPlayer.setDamageMode(mode : .NODAMAGE)
+                  noHitTimer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(stopNoHit), userInfo: nil, repeats: false)
+                  blinkTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(makePlayerBlink), userInfo: nil, repeats: true)
+    
                 
             }
+
         }
+    }
+
+    @objc func makePlayerBlink(){
+        myPlayer.blinkPlayer()
+    }
+
+    @objc func stopNoHit(){
+        blinkTimer?.invalidate()
+        myPlayer.setDamageMode(mode : .NORMAL)
+        myPlayer.displayPlayer()
     }
     
     //------------------ Gestion de l'activation du super pouvoir -----------------------------------
     /** a la division car ont doit ajouter a chaque ajout d'une piece il */
+
     private func setProgressBar(amount :Float){
         if(!isPowerInUse && actualCoinCharge <= MAX_COIN){
             actualCoinCharge = actualCoinCharge + amount
