@@ -41,7 +41,7 @@ class Coin {
         self.coinView.removeFromSuperview()
     }
     
-    public func detectionCoin(player: Player, screenOriginX : CGFloat ) -> Bool{
+    public func detectionCoin(player: Player, screenOriginX : CGFloat , gameView : GameView) -> Bool{
         var posY : CGFloat
         var posX : CGFloat
 
@@ -59,7 +59,8 @@ class Coin {
                 if self.position == "gauche" && playerG < posX + block.blockSize/3 {
                     print("COORD PIECE : ", posX,",",  posX + block.blockSize/3 )
                     print("cote gauche du joueur", playerG)
-                    player.incrementCoinsScore()
+                    gameView.incrementCoinsScore()
+
                     print("detection piece gauche score =", player.getCurrentScore())
                     return true
                 }
@@ -67,14 +68,16 @@ class Coin {
                 
                 if self.position == "milieu" && playerG < posX + (block.blockSize/2 + block.blockSize/3)  &&  posX + (block.blockSize/2) < playerD {
                     print("detection piece milieu score =", player.getCurrentScore())
-                    player.incrementCoinsScore()
+                    gameView.incrementCoinsScore()
+
                     
                     return true
                 }
                 
                 if self.position == "droite" && playerG < (block.blockWidth/3) && posX + ( block.blockWidth/3 - block.blockSize/3) <  playerD {
                     print("detection piece droite score =", player.getCurrentScore())
-                    player.incrementCoinsScore()
+                    gameView.incrementCoinsScore()
+
                     return true
                 }
             }

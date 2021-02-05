@@ -45,6 +45,8 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     var pauseButton = UIButton(type: .custom) //bouton score
     var blurEffectView : UIVisualEffectView? // blur effect when score view is shown
     
+    
+    
     private var  road : Road?
 
     private var life = 2
@@ -56,17 +58,28 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     private var actualCoinCharge : Float
 
+    //charge max de la bar
+    private let MAX_COIN : Float
+    
+    private var coinsScore = 0
+    
+    private var isPowerInUse = false
+
     
     init(frame: CGRect, viewc: ViewController){
         self.vc = viewc
         bigFrame = 2*(height-width)+width
         actualCoinCharge=0
+        
+        //Pour changer la progress barre
+        MAX_COIN = 25
+        
         super.init(frame: frame)
         
         backgroundImage = UIImageView(image: UIImage.animatedImage(with: seaGif as! [UIImage], duration: 2.0))
         
         progressView = UIProgressView(progressViewStyle: .bar)
-        progressView!.progress = 0.1 //attention max progressView=1 (incrémentation: +0.1)
+        progressView!.progress = 0 //attention max progressView=1 (incrémentation: +0.1)
         progressView!.progressViewStyle = .bar
         progressView!.backgroundColor = .lightGray
         progressView!.progressTintColor = UIColor.yellow
@@ -83,7 +96,7 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         scoreLabel?.textColor = .white
         
         coinsLabel = UILabel()
-        coinsLabel?.createCustomLabel(text:String(myPlayer.getCurrentCoinsScore()), sizeFont:sizeFontNumeric)
+        coinsLabel?.createCustomLabel(text:String(getCurrentCoinsScore()), sizeFont:sizeFontNumeric)
         coinsLabel?.textColor = .white
 
         tempoLabel.createCustomLabel(text:String(cptTemporisation), sizeFont: sizeFontNumeric*1.5)
@@ -194,8 +207,9 @@ class GameView: UIView, UIGestureRecognizerDelegate {
 
         myPlayer.incrementScore() //incrémentation du score (1points/ms à changer peut être)
         scoreLabel!.text = String(myPlayer.getCurrentScore())
-        coinsLabel!.text = String(myPlayer.getCurrentCoinsScore())
-        setProgressBar(amount : 1)
+
+        coinsLabel!.text = String(getCurrentCoinsScore())
+        
 
 
         self.updatePosMonster()
@@ -228,7 +242,24 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         }
 
         //mise en place du joueur au dessu si nul ça fait boum
-
+        if(isPowerInUse){
+            if(actualCoinCharge != 0){
+            actualCoinCharge = actualCoinCharge - 1
+             progressView?.setProgress( actualCoinCharge/MAX_COIN, animated: true)
+                
+            }else {
+                isPowerInUse = false
+                progressView?.setProgress( actualCoinCharge/MAX_COIN, animated: true)
+                switch(CurrentDifficulty.getCurrentPower()){
+                case .ACCELERATION:
+                    CurrentDifficulty.setDiff(dif: Difficulty.EASY)
+                default:
+                    print("nada")
+                    
+                }
+            }
+        }
+        //------------
         self.bringSubviewToFront(myPlayer.getView())
         self.bringSubviewToFront(myMonster.getView())
 
@@ -245,10 +276,10 @@ class GameView: UIView, UIGestureRecognizerDelegate {
         cmMngr.startDeviceMotionUpdates()
         myPlayer.resetPosition()
         myPlayer.resetScore()
-        myPlayer.resetCoinsScore()
+        resetCoinsScore()
         myPlayer.resetLifePoints()
         scoreLabel?.text = String(myPlayer.getCurrentScore())
-        coinsLabel?.text = String(myPlayer.getCurrentCoinsScore())
+        coinsLabel?.text = String(getCurrentCoinsScore())
         myMonster.setPosY(val:17*height/18)
         myMonster.resetTransform()
         clawDeathScreen.isHidden = true
@@ -409,13 +440,22 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     // gestionDoubleTape
     @objc func doubleTapped() {
         //print(actualCoinCharge)
-        if(actualCoinCharge >= 100.0){
-            actualCoinCharge = 0
-            progressView?.progress=0
-            myPlayer.setDamageMode(mode : .NODAMAGE)
-            noHitTimer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(stopNoHit), userInfo: nil, repeats: false)
-            blinkTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(makePlayerBlink), userInfo: nil, repeats: true)
+
+        if(actualCoinCharge >= MAX_COIN){
+            isPowerInUse = true
+            switch(CurrentDifficulty.getCurrentPower()){
+                case .ACCELERATION:
+                    CurrentDifficulty.setDiff(dif: Difficulty.MEDIUM)
+                default:
+                  actualCoinCharge = 0
+                  progressView?.progress=0
+                  myPlayer.setDamageMode(mode : .NODAMAGE)
+                  noHitTimer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(stopNoHit), userInfo: nil, repeats: false)
+                  blinkTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(makePlayerBlink), userInfo: nil, repeats: true)
     
+                
+            }
+
         }
     }
 
@@ -431,8 +471,23 @@ class GameView: UIView, UIGestureRecognizerDelegate {
     
     //------------------ Gestion de l'activation du super pouvoir -----------------------------------
     /** a la division car ont doit ajouter a chaque ajout d'une piece il */
-    public func setProgressBar(amount :Float){
-        actualCoinCharge = actualCoinCharge + amount
-        progressView?.setProgress( actualCoinCharge/100, animated: true)
+
+    private func setProgressBar(amount :Float){
+        if(!isPowerInUse && actualCoinCharge <= MAX_COIN){
+            actualCoinCharge = actualCoinCharge + amount
+            progressView?.setProgress( actualCoinCharge/MAX_COIN, animated: true)
+        }
+    }
+    
+    func resetCoinsScore(){
+        self.coinsScore = 0
+        
+    }
+    func incrementCoinsScore() {
+        coinsScore = coinsScore + 1
+        setProgressBar(amount: 1)
+    }
+    func getCurrentCoinsScore() -> Int {
+        return coinsScore
     }
 }

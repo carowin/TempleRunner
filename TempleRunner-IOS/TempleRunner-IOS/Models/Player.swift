@@ -19,10 +19,11 @@ class Player {
     private var posY : CGFloat? //position Y du player
     //état courant du joueur ["RUNNING","JUMPING","SLIDING","LEFT","RIGHT","PAUSE","LOSE"]
     private var state : StatePlayer?
+
     //état courant des domages du joueur ["NORMAL","NODAMAGE"]
     private var modeDamage : ModeDamagePlayer?
+
     private var score = 0 //score actuel du joueur
-    private var coinsScore = 0 //nombre de pièces récupérés
     private var lifePoints = 2 // niveau de vie du joueur
     
     private var isTurning = false
@@ -51,6 +52,7 @@ class Player {
     init() {
         self.state = .RUNNING
         playerRun = UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.5)
+        
         
         player = UIImageView(image: UIImage.animatedImage(with: playerRunGif as! [UIImage], duration: 0.4))
         posX = width/2
@@ -137,10 +139,7 @@ class Player {
     func getCurrentScore() -> Int {
         return score
     }
-    
-    func getCurrentCoinsScore() -> Int {
-        return coinsScore
-    }
+
     
     func getCurrentState() -> StatePlayer {
         return state!
@@ -177,10 +176,7 @@ class Player {
         score = score + 1
     }
     
-    func incrementCoinsScore() {
-        coinsScore = coinsScore + 1
-    }
-
+    
      func decrementLifePoints() {
         if(lifePoints != 0){
             lifePoints = lifePoints - 1
@@ -231,10 +227,6 @@ class Player {
         self.score = 0
     }
     
-    func resetCoinsScore(){
-        self.coinsScore = 0
-    }
-
     func resetLifePoints(){
         self.lifePoints = 2
     }

@@ -39,7 +39,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         road = new Road(screenX,screenY);
 
-
+    this.invalidate();
     }
 
     @Override
@@ -52,15 +52,22 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void drawBackgroud(){
          if(getHolder().getSurface().isValid()){
-
              Canvas canvas =  getHolder().lockCanvas();
              canvas.drawColor(Color.WHITE);
              road.upDateRoad(canvas);
-
              canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
              currentBG++;
              getHolder().unlockCanvasAndPost(canvas);
          }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        Log.d("myTag", "ICI");
+
+        canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
+
     }
 
     public void resume(){
