@@ -16,14 +16,14 @@ public abstract class Block {
 
     // util pour implanter les colision par la suite
     private Rect rect;
-    private Paint paint;
+    protected Paint paint;
     private Bitmap pave;
     private static int cpt =0;
     private final int id ;
     private final int blockSize;
     private int screenY;
 
-    private int x,y;
+    protected int x,y;
 
     /**
      *
@@ -46,7 +46,7 @@ public abstract class Block {
         this.blockSize=blockSize;
         pave = BitmapFactory.decodeResource(res, R.drawable.road);
 
-        BitmapFactory.Options o = new BitmapFactory.Options();
+       // BitmapFactory.Options o = new BitmapFactory.Options();
         pave=Bitmap.createScaledBitmap(pave, blockSize, blockSize, true);
     }
 
