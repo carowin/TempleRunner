@@ -21,8 +21,8 @@ public class Road {
       //  Log.d("myTag", "X = " +screenX);
        // Log.d("myTag", "Y = " +screenY);
         BlockSize = screenY /diviseur;
-        for (int pos =0;pos<screenY;pos+=BlockSize)
-            mainRoad.add(new SimpleRoad(screenX/2,pos,BlockSize, Color.YELLOW,res));
+        for (int pos =-BlockSize;pos<screenY;pos+=BlockSize)
+            mainRoad.add(new SimpleRoad(screenX/3,pos,BlockSize, screenY,res));
     }
 
 

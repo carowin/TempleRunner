@@ -14,9 +14,14 @@ import com.sar.templerunner_android.Util.CurrentDifficulty;
 
 public abstract class Block {
 
+    // util pour implanter les colision par la suite
     private Rect rect;
     private Paint paint;
     private Bitmap pave;
+    private static int cpt =0;
+    private final int id ;
+    private final int blockSize;
+    private int screenY;
 
     private int x,y;
 
@@ -28,19 +33,19 @@ public abstract class Block {
      * screen on the Y positions
      *
      * Position of the top of rectangle
-     * @param color color of the pain to use exemple Color.YELLOW
+     * @param screenY taille de l'ecan vers le bas
      *
      */
-    public Block(int x, int y, int blockSize, int color , Resources res){
-      //  int centerY = screenY/2;
-        paint = new Paint(color);
+    public Block(int x, int y, int blockSize, int screenY , Resources res){
+        paint = new Paint();
         rect = new Rect();
-    //    rect.top = topOfRect;
-     //   rect.left = centerY - (blockSize/2);
-     //   rect.right= centerY + (blockSize/2);
-      //  rect.bottom  = topOfRect + blockSize;
+        id = cpt++;
+        this.x=x;
+        this.y=y;
+        this.screenY=screenY;
+        this.blockSize=blockSize;
+        pave = BitmapFactory.decodeResource(res, R.drawable.road);
 
-        pave=BitmapFactory.decodeResource(res, R.drawable.road);
         BitmapFactory.Options o = new BitmapFactory.Options();
         pave=Bitmap.createScaledBitmap(pave, blockSize, blockSize, true);
     }
@@ -54,12 +59,11 @@ public abstract class Block {
 
 
     public void updatePosition(Canvas c){
-       /// rect.top = incrementSpeed(rect.top);
         y++;
+        if(y>=screenY)
+            y= -blockSize;
         c.drawBitmap(pave,x,y, paint);
     }
-
-  //  private void DrawOnCanvas(Canvas c){ }
 
     protected int incrementSpeed(int y){
         switch (CurrentDifficulty.getDDiff()){
@@ -74,9 +78,20 @@ public abstract class Block {
         }
     }
 
-
-
     public Rect getRect() {
         return rect;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
 }

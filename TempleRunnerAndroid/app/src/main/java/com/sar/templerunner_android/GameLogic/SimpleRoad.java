@@ -7,10 +7,10 @@ public class SimpleRoad extends Block {
 
 
     /**
-     * @param color color of the pain to use exemple Color.YELLOW
+     * @param screenY color of the pain to use exemple Color.YELLOW
      */
-    public SimpleRoad(int x, int y, int blockSize, int color , Resources res) {
-        super(x, y, blockSize , color,res);
+    public SimpleRoad(int x, int y, int blockSize, int screenY , Resources res) {
+        super(x, y, blockSize , screenY,res);
     }
 
     @Override
