@@ -35,11 +35,10 @@ public class GameView extends SurfaceView implements Runnable{
          backgroundArray = new Background[6];
          nbBackground = backgroundArray.length;
         for(int i = 0;i<nbBackground;i++)
-            backgroundArray[i]= new Background(screenX, screenY, getResources(), i);
+            backgroundArray[i]= new Background(screenX, screenY, this.getResources(), i);
 
-        road = new Road(screenX,screenY);
+        road = new Road(screenX,screenY,this.getResources());
 
-    this.invalidate();
     }
 
     @Override
@@ -49,13 +48,18 @@ public class GameView extends SurfaceView implements Runnable{
                 sleep();
             }
     }
-
+Paint p = new Paint();
     private void drawBackgroud(){
          if(getHolder().getSurface().isValid()){
              Canvas canvas =  getHolder().lockCanvas();
-             canvas.drawColor(Color.WHITE);
+             canvas.drawColor(Color.BLUE);
              road.upDateRoad(canvas);
-             canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
+
+
+
+            // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
+
+
              currentBG++;
              getHolder().unlockCanvasAndPost(canvas);
          }
@@ -117,7 +121,7 @@ public class GameView extends SurfaceView implements Runnable{
                 default:
                     background= BitmapFactory.decodeResource(res,R.drawable.water_5);
             }
-            background = Bitmap.createScaledBitmap(background,screenX,screenY,false);
+            background = Bitmap.createScaledBitmap(background,screenX-20,screenY-20,false);
             this.paint = new Paint();
         }
 
