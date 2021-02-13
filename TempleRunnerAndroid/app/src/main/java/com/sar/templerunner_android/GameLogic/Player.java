@@ -1,14 +1,26 @@
 package com.sar.templerunner_android.GameLogic;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
+
+import com.sar.templerunner_android.R;
 
 public class Player {
     private Point position;
     private PlayerStates state;
-    public Player(Point pos, PlayerStates state){
+
+    private Bitmap image;
+
+    public Player(Point pos, PlayerStates state , Resources res){
         position=pos;
         this.state=state;
+        image = BitmapFactory.decodeResource(res, R.drawable.branch);
+       // image=Bitmap.createScaledBitmap(obstacle, blockSize, blockSize, true);
     }
+
+
     public Point getPosition() {
         return position;
     }
