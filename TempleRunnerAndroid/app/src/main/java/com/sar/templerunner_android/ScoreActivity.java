@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sar.templerunner_android.MainActivity;
 
 import org.json.JSONObject;
 
@@ -60,17 +61,17 @@ public class ScoreActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            String url = "https://templerunnerppm.pythonanywhere.com/chat/storeScore/User1/100";
-            System.out.println("Ask !!!!!");
+            String url = "https://templerunnerppm.pythonanywhere.com/chat/storeScore/";
+            System.out.println("Ask for : " + url + MainActivity.getUserId() + "/" + "100");
             RequestQueue queue = Volley.newRequestQueue(ScoreActivity.this.getApplicationContext());
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    (Request.Method.GET, url + MainActivity.getUserId() + "/" + "100", null, new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
                             System.out.println("Reponse !!!!!");
-                            //my_score_label.setText("Response: " + response.toString());
+                            //my_score_label.setText("Response: " + MainActivity.getUserId());
                         }
                     }, new Response.ErrorListener() {
 
