@@ -131,7 +131,7 @@ public class MessageActivity extends AppCompatActivity {
             public void run() {
                 handler.postDelayed(runnable, delay);
                 try {
-                    readMessage("Deafault");
+                    readMessage("Default");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
