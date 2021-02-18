@@ -1,13 +1,38 @@
 package com.sar.templerunner_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +44,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button scoresView  = findViewById(R.id.button_scores);
         scoresView.setOnClickListener(scooresOnClickListener);
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("scoreChannel","scoreChannel", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(runnable, delay);
+                String url = "https://templerunnerppm.pythonanywhere.com/chat/fetchScore/User1";
+                System.out.println("Ask !!!!!");
+                RequestQueue queue = Volley.newRequestQueue(MainActivity.this.getApplicationContext());
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                System.out.println("Reponse !!!!!");
+                                JSONArray list_scores = new JSONArray();
+                                try {
+                                    list_scores =   response.getJSONArray("value");
+                                    System.out.println("Size array :" + list_scores.length());
+
+                                    for (int i=0 ; i<list_scores.length(); i++) {
+
+                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this.getApplicationContext(),"scoreChannel")
+                                                .setSmallIcon(R.drawable.rocher)
+                                                .setContentTitle("New High score from another player")
+                                                .setContentText(list_scores.get(i).toString())
+                                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                                        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this.getApplicationContext());
+                                        notificationManagerCompat.notify(1,builder.build());
+
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO: Handle error
+                                System.out.println("Error :" + error.getMessage());
+
+                            }
+                        });
+
+                queue.add(jsonObjectRequest);
+            }
+        }, delay);
+        super.onResume();
     }
 
     /* fonction callback du button_Play qui lance le jeu */
