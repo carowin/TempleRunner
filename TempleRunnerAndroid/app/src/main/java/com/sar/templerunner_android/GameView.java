@@ -111,22 +111,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-         switch (event.getAction()){
-             case MotionEvent.ACTION_DOWN:
-                 Log.d("myTag", "Action down" );
-                 break;
-             case MotionEvent.ACTION_UP:
-                 Log.d("myTag", "Action UP" );
-                break;
-             case MotionEvent.ACTION_MOVE:
-                 Log.d("myTag", "Action MOVE" );
-                 break;
-             default:
-                 return false;
-         }
+    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
+    private float previousX;
+    private float previousY;
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        // MotionEvent reports input details from the touch screen
+        // and other input controls. In this case, you are only
+        // interested in events where the touch position changed.
+        float x = e.getX();
+        float y = e.getY();
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.d("myTag", "cur = Y ="+y+ " X = "+x );
+
+            case MotionEvent.ACTION_MOVE:
+                float dx = x - previousX;
+                float dy = y - previousY;
+
+                if (y > previousY ) {
+                    Log.d("myTag", "Swip bas" );
+                }
+                if (x < previousX) {
+                    Log.d("myTag", "Swip gauche" );
+                }
+        }
+
+        previousX = x;
+        previousY = y;
         return true;
     }
 
