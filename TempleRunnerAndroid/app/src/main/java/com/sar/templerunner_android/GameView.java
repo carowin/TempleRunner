@@ -34,7 +34,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     private Player player;
     private Road road;
 
-     public GameView(Context context, int screenX, int screenY) {
+
+    private static int decal=0;
+
+
+    private boolean MOVE_RIGHT=false;
+    private boolean MOVE_LEFT=false;
+    private boolean MOVE_UP=false;
+    private boolean MOVE_DOWN=false;
+
+    public GameView(Context context, int screenX, int screenY) {
         super(context);
          this.screenX = screenX;
          this.screenY = screenY;
@@ -101,7 +110,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         }
     }
 
-    
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
          switch (event.getAction()){
@@ -114,6 +123,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
              case MotionEvent.ACTION_MOVE:
                  Log.d("myTag", "Action MOVE" );
                  break;
+             default:
+                 return false;
          }
 
         return true;
