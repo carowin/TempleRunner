@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.Util;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

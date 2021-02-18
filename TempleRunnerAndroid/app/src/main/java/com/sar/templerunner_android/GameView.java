@@ -7,16 +7,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
-import android.view.SurfaceHolder;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
-
-import androidx.annotation.NonNull;
-
+import android.view.View;
+import com.sar.templerunner_android.GameLogic.Player;
+import com.sar.templerunner_android.GameLogic.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
+import android.view.View.OnTouchListener;
 
-public class GameView extends SurfaceView implements Runnable{
+
+public class GameView extends SurfaceView implements OnTouchListener,Runnable{
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -25,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable{
     private int currentBG =0;
     private final int  nbBackground;
 
-
+    private Player player;
     private Road road;
 
      public GameView(Context context, int screenX, int screenY) {
@@ -36,9 +37,9 @@ public class GameView extends SurfaceView implements Runnable{
          nbBackground = backgroundArray.length;
         for(int i = 0;i<nbBackground;i++)
             backgroundArray[i]= new Background(screenX, screenY, this.getResources(), i);
-
         road = new Road(screenX,screenY,this.getResources());
 
+        player = new Player(screenX/3 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
     }
 
     @Override
@@ -48,17 +49,15 @@ public class GameView extends SurfaceView implements Runnable{
                 sleep();
             }
     }
-Paint p = new Paint();
+
     private void drawBackgroud(){
          if(getHolder().getSurface().isValid()){
              Canvas canvas =  getHolder().lockCanvas();
              canvas.drawColor(Color.BLUE);
              road.upDateRoad(canvas);
-
-
+             player.update(canvas);
 
             // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
-
 
              currentBG++;
              getHolder().unlockCanvasAndPost(canvas);
@@ -96,6 +95,25 @@ Paint p = new Paint();
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+         switch (event.getAction()){
+             case MotionEvent.ACTION_DOWN:
+                 Log.d("myTag", "Action down" );
+                 break;
+             case MotionEvent.ACTION_UP:
+                 Log.d("myTag", "Action UP" );
+                break;
+
+         }
+
+
+        return false;
+    }
+
+
+
 
 
     public static class Background {
