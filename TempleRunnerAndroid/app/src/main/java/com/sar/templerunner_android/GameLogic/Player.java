@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.sar.templerunner_android.R;
+import com.sar.templerunner_android.Util.PlayerStates;
+
 import java.util.ArrayList;
 import java.util.List;
 

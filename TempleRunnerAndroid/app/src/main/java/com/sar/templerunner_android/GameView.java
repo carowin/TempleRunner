@@ -7,18 +7,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
-import android.view.SurfaceHolder;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
-
-import androidx.annotation.NonNull;
-
+import android.view.View;
 import com.sar.templerunner_android.GameLogic.Player;
-import com.sar.templerunner_android.GameLogic.PlayerStates;
-import com.sar.templerunner_android.GameLogic.Road;
+import com.sar.templerunner_android.Util.PlayerStates;
+import com.sar.templerunner_android.GameLogic.coins.Road;
+import android.view.View.OnTouchListener;
 
-public class GameView extends SurfaceView implements Runnable{
+
+public class GameView extends SurfaceView implements OnTouchListener,Runnable{
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -39,7 +38,8 @@ public class GameView extends SurfaceView implements Runnable{
         for(int i = 0;i<nbBackground;i++)
             backgroundArray[i]= new Background(screenX, screenY, this.getResources(), i);
         road = new Road(screenX,screenY,this.getResources());
-        player = new Player(screenX/2 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
+
+        player = new Player(screenX/3 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
     }
 
     @Override
@@ -94,6 +94,11 @@ public class GameView extends SurfaceView implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 
 

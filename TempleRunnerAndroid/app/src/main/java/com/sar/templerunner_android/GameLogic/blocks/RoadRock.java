@@ -1,13 +1,14 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.blocks;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.R;
 
-public class branch extends Block {
+public class RoadRock extends Block{
     private Bitmap obstacle;
     /**
      * screen on the x positions
@@ -22,14 +23,15 @@ public class branch extends Block {
      * @param screenY   taille de l'ecan vers le bas
      * @param res
      */
-    public branch(int x, int y, int blockSize, int screenY, Resources res) {
+    public RoadRock(int x, int y, int blockSize, int screenY, Resources res) {
         super(x, y, blockSize, screenY, res);
-        obstacle = BitmapFactory.decodeResource(res, R.drawable.branch);
+        obstacle = BitmapFactory.decodeResource(res, R.drawable.rocher);
         obstacle=Bitmap.createScaledBitmap(obstacle, blockSize, blockSize, true);
     }
 
     @Override
     public boolean detectCollision(Player p) {
+        //TO DO
         return false;
     }
 

@@ -1,9 +1,14 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.coins;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.Log;
+
+import com.sar.templerunner_android.GameLogic.SimpleCoin;
+import com.sar.templerunner_android.GameLogic.blocks.Block;
+import com.sar.templerunner_android.GameLogic.blocks.RoadRock;
+import com.sar.templerunner_android.GameLogic.blocks.SimpleRoad;
+import com.sar.templerunner_android.GameLogic.blocks.branch;
 
 import java.util.ArrayList;
 import java.util.List;
