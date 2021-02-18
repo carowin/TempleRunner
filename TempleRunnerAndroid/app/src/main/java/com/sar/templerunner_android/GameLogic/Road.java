@@ -43,7 +43,7 @@ public class Road {
 
 
     public void upDateRoad(Canvas c){
-        Log.d("myTag", "Y = " +mainRoad.size());
+       // Log.d("myTag", "Y = " +mainRoad.size());
         for (Block b : mainRoad)
             b.updatePosition(c);
 

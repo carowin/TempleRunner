@@ -98,8 +98,22 @@ public class GameView extends SurfaceView implements OnTouchListener,Runnable{
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+         switch (event.getAction()){
+             case MotionEvent.ACTION_DOWN:
+                 Log.d("myTag", "Action down" );
+                 break;
+             case MotionEvent.ACTION_UP:
+                 Log.d("myTag", "Action UP" );
+                break;
+
+         }
+
+
         return false;
     }
+
+
+
 
 
     public static class Background {
