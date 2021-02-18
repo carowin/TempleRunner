@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic.blocks;
+package com.sar.templerunner_android.GameLogic;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,7 +9,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.DropBoxManager;
 
-import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.R;
 import com.sar.templerunner_android.Util.CurrentDifficulty;
 

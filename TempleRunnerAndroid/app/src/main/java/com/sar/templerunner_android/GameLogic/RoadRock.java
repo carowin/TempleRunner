@@ -1,14 +1,13 @@
-package com.sar.templerunner_android.GameLogic.blocks;
+package com.sar.templerunner_android.GameLogic;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
-import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.R;
 
-public class SideBranch extends Block{
+public class RoadRock extends Block{
     private Bitmap obstacle;
     /**
      * screen on the x positions
@@ -23,9 +22,9 @@ public class SideBranch extends Block{
      * @param screenY   taille de l'ecan vers le bas
      * @param res
      */
-    public SideBranch(int x, int y, int blockSize, int screenY, Resources res) {
+    public RoadRock(int x, int y, int blockSize, int screenY, Resources res) {
         super(x, y, blockSize, screenY, res);
-        obstacle = BitmapFactory.decodeResource(res, R.drawable.sidebranch);
+        obstacle = BitmapFactory.decodeResource(res, R.drawable.rocher);
         obstacle=Bitmap.createScaledBitmap(obstacle, blockSize, blockSize, true);
     }
 

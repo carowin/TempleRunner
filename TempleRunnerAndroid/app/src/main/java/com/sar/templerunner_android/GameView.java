@@ -12,8 +12,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import com.sar.templerunner_android.GameLogic.Player;
-import com.sar.templerunner_android.Util.PlayerStates;
-import com.sar.templerunner_android.GameLogic.coins.Road;
+import com.sar.templerunner_android.GameLogic.PlayerStates;
+import com.sar.templerunner_android.GameLogic.Road;
 import android.view.View.OnTouchListener;
 
 

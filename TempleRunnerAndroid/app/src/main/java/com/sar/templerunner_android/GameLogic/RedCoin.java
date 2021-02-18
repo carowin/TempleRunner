@@ -1,8 +1,6 @@
-package com.sar.templerunner_android.GameLogic.coins;
+package com.sar.templerunner_android.GameLogic;
 
 import android.content.res.Resources;
-
-import com.sar.templerunner_android.GameLogic.Player;
 
 public class RedCoin extends Coin{
 
