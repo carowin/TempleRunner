@@ -9,15 +9,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+
 import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.GameLogic.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
+
 import android.view.View.OnTouchListener;
 
 
-public class GameView extends SurfaceView implements OnTouchListener,Runnable{
+public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -96,8 +101,9 @@ public class GameView extends SurfaceView implements OnTouchListener,Runnable{
         }
     }
 
+    
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
          switch (event.getAction()){
              case MotionEvent.ACTION_DOWN:
                  Log.d("myTag", "Action down" );
@@ -105,14 +111,29 @@ public class GameView extends SurfaceView implements OnTouchListener,Runnable{
              case MotionEvent.ACTION_UP:
                  Log.d("myTag", "Action UP" );
                 break;
-
+             case MotionEvent.ACTION_MOVE:
+                 Log.d("myTag", "Action MOVE" );
+                 break;
          }
 
-
-        return false;
+        return true;
     }
 
 
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+
+    }
 
 
 
