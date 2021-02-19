@@ -8,18 +8,23 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class Road {
     private List<Block> mainRoad = new ArrayList<>();
     private List<Block> sideRoad = new ArrayList<>();
+
+    private Stack<Block> obstacles = new Stack<>();
+
     private List<Coin> coins = new ArrayList<>();
+
     /** size of one blocks */
     private int BlockSize;
     private final int NB_COIN = 10;
     // a tester pour le découpage de l'ecran
     private final int diviseur = 10;
-    private Random r = new Random();
     private boolean done = false;
+    private Random r = new Random();
     Resources res;
     private int screenX, screenY;
     public Road(int screenX, int screenY , Resources res){
@@ -30,31 +35,37 @@ public class Road {
         this.screenY = screenY;
         BlockSize = screenY /diviseur;
         int x = screenX/3;
-        for (int pos =-BlockSize;pos<screenY;pos+=BlockSize)
-            if(r.nextBoolean())
-                mainRoad.add(new SimpleRoad(screenX/3,pos,BlockSize, screenY,res));
-            else if(r.nextBoolean())
-                mainRoad.add(new RoadRock(screenX/3,pos,BlockSize, screenY,res));
-                else
-                mainRoad.add(new branch(screenX/3,pos,BlockSize, screenY,res));
-          for (int i= 0 ;i < NB_COIN ; i++){
-            if(i%2 == 0)
+
+        for (int pos =-BlockSize;pos<screenY;pos+=BlockSize) {
+            mainRoad.add(new SimpleRoad(x, pos, BlockSize, screenY, res));
+         }
+
+        // Ajout des obstacles
+        obstacles.add(new RoadRock(x,0,BlockSize, screenY,res));
+        obstacles.add(new Branch(x,0,BlockSize, screenY,res));
+        obstacles.add(new SideBranch(x,0,BlockSize, screenY,false,res));
+        obstacles.add(new SideBranch(x,0,BlockSize, screenY,true,res));
+
+
+        obstacles.get()
+        //Ajout des pieces
+          for (int i= 0 ;i < NB_COIN ; i++)
                 coins.add(new SimpleCoin(x,0,BlockSize/4,screenY,res));
-            else
-                coins.add(new RedCoin(x,0,BlockSize/4,screenY,res));
-        }
+
+
 
     }
     /** 
-        c.save(Canvas.MATRIX_SAVE_FLAG); 
-
-
-
+        c.save(Canvas.MATRIX_SAVE_FLAG);
     */
+
 
     public void upDateRoad(Canvas c){
        // Log.d("myTag", "Y = " +mainRoad.size());
-        Log.d("int", ""+r.nextInt(100));
+        //Log.d("int", ""+r.nextInt(100));
+
+        AddObstacles();
+
         if (!done && r.nextInt(800) == 0){
             //cree deux route gauche / droite
             //mettre le boolean a true
@@ -79,5 +90,27 @@ public class Road {
         for (Block b : sideRoad)
             b.updatePosition(c);
         //c.restore();
+    }
+
+    private void AddObstacles(){
+        //utiliser un iterator
+        boolean isOutObstacle = false;
+        for (Block b: mainRoad) {
+            if(b.getY()+1 >= screenY && !(b instanceof SimpleRoad)){
+                b.setY(0);
+                obstacles.add(mainRoad.get(mainRoad.indexOf(b)));
+                mainRoad.remove(b);
+                isOutObstacle = true;
+                break;
+            }
+        }
+        if(!isOutObstacle){
+            return;
+        }
+        //Ajouter une chance d'avoir un obstacles
+        if (r.nextInt(1) == 0){
+            Block b = obstacles.pop();
+            mainRoad.add(b);
+        }
     }
 }
