@@ -31,7 +31,8 @@ public class Branch extends Block {
 
     @Override
     public boolean detectCollision(Player p) {
-        return getRect().intersect(p.getRect());
+        Rect r = p.getRect();
+        return getRect().intersect(r.left, r.top, r.right, r.bottom);
     }
 
     @Override

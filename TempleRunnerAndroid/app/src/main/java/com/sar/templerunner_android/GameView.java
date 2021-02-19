@@ -151,6 +151,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     private void detectCollision() {
         for(Block b : road.getObstacles()) {
             if (b.detectCollision(player)){
+                //perdu
                 isPlaying = false;
                 break;
             }
