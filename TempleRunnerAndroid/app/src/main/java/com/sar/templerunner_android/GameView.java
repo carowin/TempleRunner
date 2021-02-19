@@ -78,7 +78,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     }
 
-    public void resume(){
+    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
+    private float previousX;
+    private float previousY;
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        float x = e.getX();
+        float y = e.getY();
+        try {
+            switch (e.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("myTag", "cur = Y =" + y + " X = " + x);
+
+                case MotionEvent.ACTION_MOVE:
+                    float dx = x - previousX;
+                    float dy = y - previousY;
+
+                    if (y > previousY) {
+                        Log.d("myTag", "Swip bas");
+                        return true;
+                    }
+                    if (x < previousX) {
+                        Log.d("myTag", "Swip gauche");
+                        return true;
+                    }
+            }
+        } finally {
+            previousX = x;
+            previousY = y;
+        }
+        return false;
+    }
+
+        public void resume(){
          isPlaying = true;
          thread = new Thread(this);
          thread.start();

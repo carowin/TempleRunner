@@ -92,4 +92,6 @@ public abstract class Block {
         return y;
     }
 
+    public void setY(int value ) { y = value; }
+
 }

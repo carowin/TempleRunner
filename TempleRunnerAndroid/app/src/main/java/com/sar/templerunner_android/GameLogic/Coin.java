@@ -9,7 +9,7 @@ import android.graphics.Rect;
 
 public abstract class Coin {
     private int x,y;
-    private Bitmap coinImage;
+    protected Bitmap coinImage;
     private int screenY;
     protected Paint paint;
     private Rect rect;
@@ -19,6 +19,7 @@ public abstract class Coin {
         rect = new Rect();
         this.x=x;
         this.y=y;
+        this.screenY = screenY;
     }
 
 
@@ -29,6 +30,6 @@ public abstract class Coin {
         y++;
      //   if(y>=screenY)
     //        y= -blockSize;
-    //    c.drawBitmap(pave,x,y, paint);
+       c.drawBitmap(coinImage,x,y, paint);
     }
 }

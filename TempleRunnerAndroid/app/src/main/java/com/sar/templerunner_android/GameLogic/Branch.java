@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 
 import com.sar.templerunner_android.R;
 
-public class branch extends Block {
+public class Branch extends Block {
     private Bitmap obstacle;
     /**
      * screen on the x positions
@@ -22,7 +22,7 @@ public class branch extends Block {
      * @param screenY   taille de l'ecan vers le bas
      * @param res
      */
-    public branch(int x, int y, int blockSize, int screenY, Resources res) {
+    public Branch(int x, int y, int blockSize, int screenY, Resources res) {
         super(x, y, blockSize, screenY, res);
         obstacle = BitmapFactory.decodeResource(res, R.drawable.branch);
         obstacle=Bitmap.createScaledBitmap(obstacle, blockSize, blockSize, true);

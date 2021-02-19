@@ -22,7 +22,7 @@ public class SideBranch extends Block{
      * @param screenY   taille de l'ecan vers le bas
      * @param res
      */
-    public SideBranch(int x, int y, int blockSize, int screenY, Resources res) {
+    public SideBranch(int x, int y, int blockSize, int screenY,boolean side, Resources res) {
         super(x, y, blockSize, screenY, res);
         obstacle = BitmapFactory.decodeResource(res, R.drawable.sidebranch);
         obstacle=Bitmap.createScaledBitmap(obstacle, blockSize, blockSize, true);

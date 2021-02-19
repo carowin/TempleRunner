@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sar.templerunner_android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,17 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TempleRunnerAndroid">
-        <activity android:name=".GameActivity"
-            android:theme="@style/Theme.Design.NoActionBar"
+        <activity android:name=".Util.ChatFragment"></activity>
+        <activity android:name=".Chat" />
+        <activity android:name=".MessageAdapter" />
+        <activity android:name=".MessageActivity" />
+        <activity
+            android:name=".GameActivity"
             android:screenOrientation="portrait"
-            ></activity>
-        <activity android:name=".ScoreActivity"
-            android:theme="@style/Theme.Design.NoActionBar"
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity
+            android:name=".ScoreActivity"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.Design.NoActionBar"
-            android:screenOrientation="portrait">
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

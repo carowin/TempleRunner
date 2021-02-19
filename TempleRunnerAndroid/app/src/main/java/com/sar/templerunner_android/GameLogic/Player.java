@@ -19,6 +19,8 @@ public class Player {
     private Paint paint;
     private List<Bitmap> images = new ArrayList<>();
 
+
+
     private boolean l = true;
     public Player(int x, int y , int screenY , PlayerStates state , Resources res){
         paint = new Paint();
