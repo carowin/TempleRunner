@@ -47,7 +47,7 @@ public class Road {
         obstacles.add(new SideBranch(x,0,BlockSize, screenY,true,res));
 
 
-        obstacles.get()
+        //obstacles.get();
         //Ajout des pieces
           for (int i= 0 ;i < NB_COIN ; i++)
                 coins.add(new SimpleCoin(x,0,BlockSize/4,screenY,res));
