@@ -46,21 +46,7 @@ public class Player {
         images.add(tmp3);
     }
 
-    private boolean isSet = false ;
-    private long lastPoint = 0;
-    private long endPoint ;
     public void update(Canvas c){
-
-        if(isSet){
-            lastPoint =  System.nanoTime();
-            endPoint = lastPoint + 1000;
-            isSet =true;
-        }else if(endPoint >= System.nanoTime())
-            isSet =false;
-        else
-            return;
-
-
         if(isLeft) {
             isLeft = false;
             c.drawBitmap(images.get(0), x, y, paint);
