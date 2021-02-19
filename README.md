@@ -1,7 +1,7 @@
 # TempleRunner
 TempleRunner est un jeu mobile qui met en scène un personnage qui doit survivre à l’attaque d’un monstre. Cette application pouvant être déployée sur des terminaux iOS et Android, permet également aux utilisateurs de pouvoir échanger entre eux via une section de chat. 
  
- ![L'uml du jeux](./assets/game_uml.png)
+
  
 # PARTIE IOS
  
@@ -13,6 +13,8 @@ Le code de la partie IOS est divisé en 3 Package :
 ## Utilisation de button et d’une font personnalisée
 Utilisation d’extension pour définir une méthode générique pour personnaliser un bouton ou un label 
  
+![L'uml du jeux](./assets/game_uml.png)
+
  
 ## Player:
  
