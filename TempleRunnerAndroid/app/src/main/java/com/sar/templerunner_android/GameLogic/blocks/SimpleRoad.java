@@ -2,7 +2,7 @@ package com.sar.templerunner_android.GameLogic.blocks;
 
 import android.content.res.Resources;
 
-import com.sar.templerunner_android.GameLogic.Player;
+import com.sar.templerunner_android.GameLogic.player.Player;
 
 
 public class SimpleRoad extends Block {

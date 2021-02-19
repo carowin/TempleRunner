@@ -15,7 +15,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import com.sar.templerunner_android.GameLogic.blocks.Block;
-import com.sar.templerunner_android.GameLogic.Player;
+import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.Util.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
 
@@ -62,8 +62,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
              player.update(canvas);
 
             // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
-
              currentBG++;
+
              getHolder().unlockCanvasAndPost(canvas);
          }
     }

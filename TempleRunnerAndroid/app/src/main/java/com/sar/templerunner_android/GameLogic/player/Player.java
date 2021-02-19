@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.player;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -23,7 +23,10 @@ public class Player {
 
 
 
-    private boolean l = true;
+
+    private boolean isLeft = true;
+
+
     public Player(int x, int y , int screenY , PlayerStates state , Resources res){
         int size = 60;
         paint = new Paint();
@@ -43,17 +46,30 @@ public class Player {
         images.add(tmp3);
     }
 
-
+    private boolean isSet = false ;
+    private long lastPoint = 0;
+    private long endPoint ;
     public void update(Canvas c){
-        if(l) {
-            l = false;
+
+        if(isSet){
+            lastPoint =  System.nanoTime();
+            endPoint = lastPoint + 1000;
+            isSet =true;
+        }else if(endPoint >= System.nanoTime())
+            isSet =false;
+        else
+            return;
+
+
+        if(isLeft) {
+            isLeft = false;
             c.drawBitmap(images.get(0), x, y, paint);
         }else {
-            l = true;
+            isLeft = true;
             c.drawBitmap(images.get(1), x, y, paint);
-
         }
     }
+
 
     public PlayerStates getState() {
         return state;
@@ -66,4 +82,5 @@ public class Player {
     public Rect getRect(){
         return rect;
     }
+
 }

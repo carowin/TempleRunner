@@ -64,9 +64,6 @@ public class Road {
 
 
     }
-    /** 
-        c.save(Canvas.MATRIX_SAVE_FLAG);
-    */
 
 
     public void upDateRoad(Canvas c){
@@ -124,30 +121,31 @@ public class Road {
         boolean isOutObstacle = false;
         for (Block b: mainRoad) {
             if(b.getY()+1 >= screenY && !(b instanceof SimpleRoad)){
-                b.setY(0);
                 obstacles.add(mainRoad.get(mainRoad.indexOf(b)));
                 mainRoad.remove(b);
                 isOutObstacle = true;
                 break;
             }
         }
-        if(!isOutObstacle){
+        if(isOutObstacle){
             return;
         }
         //Ajouter une chance d'avoir un obstacles
         if (r.nextInt(1) == 0){
-            Block b = obstacles.pop();
+            Block b = obstacles.get(r.nextInt(1));
             int min =getMinPos();
-
+            obstacles.remove(b);
             b.setY(min-BlockSize);
+            mainRoad.add(b);
+
+            isOutObstacle=false;
+
+            //b.setY(min-BlockSize);
             mainRoad.add(b);
 
         }
     }
 
-    private void putRemovePutBlock(){
-
-    }
 
     private int getMinPos(){
         int min =0;

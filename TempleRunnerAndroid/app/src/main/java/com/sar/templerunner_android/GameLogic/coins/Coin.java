@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.sar.templerunner_android.GameLogic.Player;
+import com.sar.templerunner_android.GameLogic.player.Player;
 
 public abstract class Coin {
     private int x,y;
