@@ -117,11 +117,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
         float x = e.getX();
         float y = e.getY();
+       try{
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.d("myTag", "cur = Y ="+y+ " X = "+x );
@@ -132,15 +130,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
                 if (y > previousY ) {
                     Log.d("myTag", "Swip bas" );
+                    return true;
                 }
                 if (x < previousX) {
                     Log.d("myTag", "Swip gauche" );
+                    return true;
                 }
         }
+       }finally {
+           previousX = x;
+           previousY = y;
+       }
 
-        previousX = x;
-        previousY = y;
-        return true;
+
+        return false;
     }
 
 
