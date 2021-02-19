@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import androidx.annotation.Nullable;
+
 import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.R;
 import com.sar.templerunner_android.Util.CurrentDifficulty;
@@ -74,6 +76,19 @@ public abstract class Block {
 
     public void setImage(Canvas c){
         c.drawBitmap(pave,x,y, paint);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        // If the object is compared with itself then return true
+        if (!(obj instanceof Block)) {
+            return false;
+        }
+        Block other = (Block) obj;
+        if (other.id == id)
+            return true;
+        else
+            return false;
     }
 
     public Rect getRect() {
