@@ -13,6 +13,8 @@ Le code de la partie IOS est divisé en 3 Package :
 ## Utilisation de button et d’une font personnalisée
 Utilisation d’extension pour définir une méthode générique pour personnaliser un bouton ou un label 
  
+## Architecture du jeu
+
 ![L'uml du jeux](./assets/game_uml.png)
 
  
