@@ -1,0 +1,36 @@
+@startuml uml
+
+abstract class Block  {
+	+void updateBlock()
+	+boolean isCollision()
+}
+
+class Road {
+	+void updateRoad()
+}
+class Player {
+	-int pv
+}
+
+class ScoreModel{
+	-int lastScore
+    -int hightScore
+   	-int currentScore
+    -int currentCoins 
+}
+
+GameView -->  "1" Road
+GameView -->  "1" ScoreModel
+GameView --> "1" Player
+GameView --> "1" Monster
+
+Road --> "*" Coin
+Road  --> "*"  Block
+
+Block <|--  RoadBlock 
+Block <|--  Branch
+Block <|--  SideRock
+Block <|--  SimpleRoad
+Block <|-- IntersectionRoad
+
+@enduml
