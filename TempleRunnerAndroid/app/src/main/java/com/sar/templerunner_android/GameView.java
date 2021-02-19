@@ -12,6 +12,13 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+
+import androidx.annotation.NonNull;
+
+import com.sar.templerunner_android.GameLogic.blocks.Block;
+import com.sar.templerunner_android.GameLogic.player.Player;
+import com.sar.templerunner_android.Util.PlayerStates;
+
 import android.view.View;
 import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.GameLogic.PlayerStates;
@@ -78,10 +85,11 @@ public class GameView extends SurfaceView implements Runnable{
             player.update(canvas);
 
             // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
+             currentBG++;
 
-            currentBG++;
-            getHolder().unlockCanvasAndPost(canvas);
-        }
+             getHolder().unlockCanvasAndPost(canvas);
+         }
+
     }
 
     @Override

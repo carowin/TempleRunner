@@ -3,9 +3,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.DropBoxManager;
+
+import com.sar.templerunner_android.GameLogic.player.Player;
 
 import com.sar.templerunner_android.R;
 import com.sar.templerunner_android.Util.CurrentDifficulty;
@@ -55,11 +55,9 @@ public abstract class Block {
 
 
 
-    public void updatePosition(Canvas c){
-        y++;
-        if(y>=screenY)
-            y= -blockSize;
-        c.drawBitmap(pave,x,y, paint);
+    public void updatePosition(){
+        y+=5;
+
     }
 
     protected int incrementSpeed(int y){

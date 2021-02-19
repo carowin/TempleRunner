@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.sar.templerunner_android.GameLogic.Player;
+import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.R;
 
 public class RedCoin extends Coin{
