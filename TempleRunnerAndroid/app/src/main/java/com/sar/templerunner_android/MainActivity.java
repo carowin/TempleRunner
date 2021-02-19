@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void createNewPersitanteId() {
-        System.out.println("--------------------------------");
         String url = "https://templerunnerppm.pythonanywhere.com/chat/fetchNewUsersID";
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this.getApplicationContext());
 
@@ -174,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MainActivity.this,ScoreActivity.class);
+            intent.putExtra("DATA_CHANGE", false);
             startActivity(intent);
         }
     };

@@ -44,8 +44,9 @@ public abstract class Block {
         this.y=y;
         this.screenY=screenY;
         this.blockSize=blockSize;
+
         pave = BitmapFactory.decodeResource(res, R.drawable.road);
-        pave=Bitmap.createScaledBitmap(pave, blockSize, blockSize, true);
+        pave = Bitmap.createScaledBitmap(pave, blockSize, blockSize, true);
     }
 
     /**
