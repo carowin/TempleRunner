@@ -1,34 +1,44 @@
 # TempleRunner
 
-- git pull ou fetch sur main
 
-- git branch NomDeLaBranche
+Petit jeu de survie permettant aux utilisateurs de chatter, pouvant être déployé sur des terminaux IOS et Android
 
-- git checkout NomDeLaBranche
-
-- arnold schwarzenegger : Work Hard !!
-
-- git add .
-
-- git commit -m "blabla"
-
-- git push --set-upstream origin NomDeLaBranche pour crée la branch sur git
-
-- une que vous vouler merge votre travaille avec master aller sur ce lien :
-https://github.com/carowin/TempleRunner/branches
-
-- new pull request 
-
-- nous ecrire un jolie message explicatif si vous voulez 
-
-- ont pourras tous lire le code facilement exemple : https://github.com/carowin/TempleRunner/pull/8/files
-
-- si tous est Ok et que l'on peut merge et que personnes ne réagie et ce mets a hurler 
-
-- on merge
-
-- repeat avec une new branch 
+# Partie IOS
 
 
-### dans le cas ou vous voulez juste un ficher 
-git checkout main -- path du fichier
+Le code de la partie IOS est divisait en 3  Package Model contenant l'ensemble 
+de la logique derrier le jeux, Util
+
+## Road :
+
+La route est composer de Blocks qui peuve ou etre des obstacles ou une route simple.
+Tous les block attendre leur tour une fois 
+selectionné il commence a décendre et une fois tous embas ils sont remis en haut et attende d'etre selectionnée pour décendre
+
+## Generation de Pièces:
+Ajouter et retirer des pièces sur le chemin, et détection des pièces pour permettre  l'incrémentation du score lorsque le joueur
+collect les pièces.
+
+
+## ScoreView : 
+
+Menu permettant de jouer à une nouvelle partie ou à envoyer son hight score aux autre joueurs. 
+Sert aussi de menu de pause du jeu. Menu apparaissant au dessus d'une autre vue avec animation.
+
+## Monstre : 
+
+Monstre avec animation poursuivant le joueur à chaque point de vie perdu du joueur, le monstre ce rapproche. 
+Tue le jouer quand ces points sont égal à zéro.
+
+# Partie Android
+
+
+# Backend
+
+## Backend score : 
+
+Ajout des deux appels à une API pour ajouter un score à diffuser aux autres joueurs de l'application et une autre appelée qui regarde si un score doit être notifier au joueur.
+
+## Identifiant user et persistance : 
+
+Appel à l'API à l'ouverture de l'application pour récupérer un identifiant unique pour chaque device. Enregistrement dans un dossier persistant et tester à la prochaine ouverture, utilisation de cet identifiant si présent dans le dossier persistant.
