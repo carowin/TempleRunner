@@ -45,7 +45,12 @@ public class Road {
         }
 
     }
+    /** 
+        c.save(Canvas.MATRIX_SAVE_FLAG); 
 
+
+
+    */
 
     public void upDateRoad(Canvas c){
        // Log.d("myTag", "Y = " +mainRoad.size());
@@ -53,6 +58,8 @@ public class Road {
         if (!done && r.nextInt(800) == 0){
             //cree deux route gauche / droite
             //mettre le boolean a true
+            //c.save(Canvas.MATRIX_SAVE_FLAG);
+            //c.rotate(90);
             done = true;
             for (int i = 0 ; i < screenX/BlockSize + 1 ; i++) {
                 sideRoad.add(new SimpleRoad(i*BlockSize,-BlockSize,BlockSize, screenY,res));
@@ -71,6 +78,6 @@ public class Road {
 
         for (Block b : sideRoad)
             b.updatePosition(c);
-
+        //c.restore();
     }
 }
