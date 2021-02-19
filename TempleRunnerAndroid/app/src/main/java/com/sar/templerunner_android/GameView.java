@@ -20,8 +20,8 @@ import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.Util.PlayerStates;
 
 import android.view.View;
-import com.sar.templerunner_android.GameLogic.Player;
-import com.sar.templerunner_android.GameLogic.PlayerStates;
+import com.sar.templerunner_android.GameLogic.player.Player;
+import com.sar.templerunner_android.Util.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
 import android.widget.TextView;
 
@@ -58,8 +58,8 @@ public class GameView extends SurfaceView implements Runnable{
         road = new Road(screenX,screenY,this.getResources());
 
         player = new Player(screenX/3 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
-
-        button = BitmapFactory.decodeResource(this.getResources(), R.drawable.button);
+        //
+        //button = BitmapFactory.decodeResource(this.getResources(), R.drawable.button);
         button = Bitmap.createScaledBitmap(button, 300, 150, true);
 
 

@@ -1,3 +1,4 @@
+package com.sar.templerunner_android.GameLogic.blocks;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -107,6 +108,10 @@ public abstract class Block {
 
     public int getY() {
         return y;
+    }
+
+    public void setY(int value){
+        y=value;
     }
 
 }
