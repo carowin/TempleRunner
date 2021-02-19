@@ -284,9 +284,7 @@ class Road {
     public func detectionCoin(player : Player){
         for elem in mainRoad {
             if elem.coinPresent {
-                //print("detection piece")
-
-                if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX , gameView: view) {
+                if elem.coin!.detectionCoin(player: player, screenOriginX : screenOriginX! , gameView: view) {
 
                     elem.coin?.removeCoin()
                     elem.changeCoinPresent(bool: false)

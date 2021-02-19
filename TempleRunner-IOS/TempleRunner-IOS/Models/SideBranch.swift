@@ -39,17 +39,12 @@ class SideBranch : Block {
             return false
         }
         
-        let pos = player.getPosition()
-        if y+blockSize/10<pos.y && pos.y<y+blockSize{
-            if player.getCurrentState() == .JUMPING{
+        let posY = (super.baseView.superview?.frame.origin.y)!
+        let posX = (super.baseView.superview?.frame.origin.x)!
+        if(posY<player.getPosition().y && player.getPosition().y<posY+blockSize/2 && alreadyHit==false){
+            if(player.getCurrentState() == .JUMPING){
                 return false
-            }
-            if(rockPlacement == RockPosition.LEFT){
-                if(pos.x <= x+blockSize/3 && alreadyHit == false){
-                    alreadyHit = true
-                    player.decrementLifePoints()
-                }
-            }else  if(pos.x >= x+blockSize/2 && alreadyHit == false) {
+            }else{
                 alreadyHit = true
                 player.decrementLifePoints()
             }
