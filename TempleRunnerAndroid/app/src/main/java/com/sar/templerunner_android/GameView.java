@@ -1,26 +1,25 @@
 package com.sar.templerunner_android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import androidx.annotation.NonNull;
-
-import com.sar.templerunner_android.GameLogic.blocks.Block;
+import android.view.View;
 import com.sar.templerunner_android.GameLogic.Player;
-import com.sar.templerunner_android.Util.PlayerStates;
+import com.sar.templerunner_android.GameLogic.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
+import android.widget.TextView;
 
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
+public class GameView extends SurfaceView implements Runnable{
     private Thread thread;
     private boolean isPlaying = true;
 
@@ -31,49 +30,64 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     private Player player;
     private Road road;
+    private Bitmap button;
+    private Rect rect_button;
+    private Paint paint;
 
-     public GameView(Context context, int screenX, int screenY) {
+    private TextView score;
+    private int score_value;
+
+    public GameView(Context context, int screenX, int screenY) {
         super(context);
-         this.screenX = screenX;
-         this.screenY = screenY;
-         backgroundArray = new Background[6];
-         nbBackground = backgroundArray.length;
+        score = new TextView(context);
+        score_value = 0;
+        this.screenX = screenX;
+        this.screenY = screenY;
+        paint = new Paint();
+        backgroundArray = new Background[6];
+        nbBackground = backgroundArray.length;
         for(int i = 0;i<nbBackground;i++)
             backgroundArray[i]= new Background(screenX, screenY, this.getResources(), i);
         road = new Road(screenX,screenY,this.getResources());
 
         player = new Player(screenX/3 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
+
+        button = BitmapFactory.decodeResource(this.getResources(), R.drawable.button);
+        button = Bitmap.createScaledBitmap(button, 300, 150, true);
+
+
     }
 
     @Override
     public void run() {
-            while (isPlaying){
-                drawBackgroud();
-                detectCollision();
-                sleep();
-            }
+        while (isPlaying){
+            drawBackgroud();
+            sleep();
+        }
     }
 
     private void drawBackgroud(){
-         if(getHolder().getSurface().isValid()){
-             Canvas canvas =  getHolder().lockCanvas();
-             canvas.drawColor(Color.BLUE);
-             road.upDateRoad(canvas);
-             player.update(canvas);
+        if(getHolder().getSurface().isValid()){
+            Canvas canvas =  getHolder().lockCanvas();
+            canvas.drawColor(Color.BLUE);
+            canvas.drawBitmap(button,screenX - 300,screenY - 150,paint);
+            paint.setColor(Color.BLACK);
+            paint.setTextSize(50);
+            canvas.drawText(String.valueOf(score_value), screenX - 100, 150, paint);
+            road.upDateRoad(canvas);
+            player.update(canvas);
 
             // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
 
-             currentBG++;
-             getHolder().unlockCanvasAndPost(canvas);
-         }
+            currentBG++;
+            getHolder().unlockCanvasAndPost(canvas);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Log.d("myTag", "ICI");
-
-        canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
 
     }
 
@@ -88,6 +102,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
             switch (e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     Log.d("myTag", "cur = Y =" + y + " X = " + x);
+                    if(x >= screenX - 300 && y >= screenY - 150){
+                        pause();
+                        //Intent intent = new Intent(GameActivity.this,ScoreActivity.class);
+                        //intent.putExtra("DATA_CHANGE", true);
+                        //intent.putExtra("CURRENT_SCORE", 100);
+                        //intent.putExtra("CURRENT_COINS", 1200);
+                        //startActivity(intent);
+                    }
 
                 case MotionEvent.ACTION_MOVE:
                     float dx = x - previousX;
@@ -109,10 +131,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         return false;
     }
 
-        public void resume(){
-         isPlaying = true;
-         thread = new Thread(this);
-         thread.start();
+    public boolean isPlaying(){
+        return  isPlaying;
+    }
+
+    public void updateLabel(){
+        score_value++;
+        drawBackgroud();
+    }
+
+    public int getCurrentScore(){
+        return score_value;
+    }
+
+    public void resume(){
+        isPlaying = true;
+        thread = new Thread(this);
+        thread.start();
     }
 
     public void pause () {
@@ -133,30 +168,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     }
 
 
-    @Override
-    public void surfaceCreated(@NonNull SurfaceHolder holder) {
 
-    }
-
-    @Override
-    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
-
-    }
-
-    private void detectCollision() {
-        for(Block b : road.getObstacles()) {
-            if (b.detectCollision(player)){
-                //perdu
-                isPlaying = false;
-                break;
-            }
-        }
-    }
 
     public static class Background {
         Bitmap background;
