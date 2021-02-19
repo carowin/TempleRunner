@@ -12,16 +12,9 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-import android.content.Intent;
-import androidx.annotation.NonNull;
-import android.graphics.Rect;
-import com.sar.templerunner_android.GameLogic.blocks.Block;
 import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.Util.PlayerStates;
 
-import android.view.View;
-import com.sar.templerunner_android.GameLogic.player.Player;
-import com.sar.templerunner_android.Util.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
 import android.widget.TextView;
 
@@ -85,6 +78,7 @@ public class GameView extends SurfaceView implements Runnable{
             paint.setTextSize(50);
             canvas.drawText(String.valueOf(score_value), screenX - 100, 150, paint);
             road.upDateRoad(canvas);
+
             player.update(canvas);
 
             // canvas.drawBitmap(backgroundArray[currentBG%nbBackground].background, screenX,screenY,backgroundArray[currentBG%nbBackground].paint);
@@ -98,13 +92,13 @@ public class GameView extends SurfaceView implements Runnable{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("myTag", "ICI");
 
     }
 
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private float previousX;
     private float previousY;
+
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         float x = e.getX();

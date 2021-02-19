@@ -2,6 +2,7 @@ package com.sar.templerunner_android.GameLogic;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.sar.templerunner_android.GameLogic.blocks.Block;
 import com.sar.templerunner_android.GameLogic.blocks.Branch;
@@ -53,95 +54,53 @@ public class Road {
         obstacles.add(new SideBranch(x,-BlockSize,BlockSize, screenY,false,res));
         obstacles.add(new SideBranch(x,-BlockSize,BlockSize, screenY,true,res));
 
-
-        Block b = obstacles.get(r.nextInt(3));
-        obstacles.remove(b);
-        mainRoad.add(b);
+        //mainRoad.add(obstacles.pop());
         //Ajout des pieces
           for (int i= 0 ;i < NB_COIN ; i++)
                 coins.add(new SimpleCoin(x,0,BlockSize/4,screenY,res));
-
 
 
     }
 
 
     public void upDateRoad(Canvas c){
-       // Log.d("myTag", "Y = " +mainRoad.size());
-        //Log.d("int", ""+r.nextInt(100));
-
         addObstacles();
 
         for (Block b : mainRoad)
             b.updatePosition();
 
-        int posMin = getMinPos();
+      /*  int posMin = getMinPos();
         for (Block b: mainRoad) {
             if(b.getY() > screenY+BlockSize)
                 b.setY(posMin-BlockSize);
-        }
+        }*/
 
         for (Block b : mainRoad)
             b.setImage(c);
-
-
-
-
-
-
-
-       /* if (!done && r.nextInt(800) == 0){
-            //cree deux route gauche / droite
-            //mettre le boolean a true
-            //c.save(Canvas.MATRIX_SAVE_FLAG);
-            //c.rotate(90);
-            done = true;
-            for (int i = 0 ; i < screenX/BlockSize + 1 ; i++) {
-                sideRoad.add(new SimpleRoad(i*BlockSize,-BlockSize,BlockSize, screenY,res));
-            }
-        }
-        if (done){
-            for (Block b : mainRoad){
-                if (b.y >= sideRoad.get(0).y)
-                    b.updatePosition(c);
-            }
-
-        } else {
-            for (Block b : mainRoad)
-                b.updatePosition(c);
-        }
-
-        for (Block b : sideRoad)
-            b.updatePosition(c);*/
-        //c.restore();
     }
 
     private void addObstacles(){
-        //utiliser un iterator
-        boolean isOutObstacle = false;
+
+      boolean isOutObstacle = false;
         for (Block b: mainRoad) {
-            if(b.getY()+1 >= screenY && !(b instanceof SimpleRoad)){
+            if(b.getY() >= screenY && !(b instanceof SimpleRoad)){
+                Log.d("myTag", "Y = " +obstacles.size());
                 obstacles.add(mainRoad.get(mainRoad.indexOf(b)));
                 mainRoad.remove(b);
                 isOutObstacle = true;
                 break;
             }
         }
-        if(isOutObstacle){
+
+        if(isOutObstacle)
             return;
-        }
+
         //Ajouter une chance d'avoir un obstacles
-        if (r.nextInt(1) == 0){
+        if (r.nextInt(10) == 0 && obstacles.size() ==3){
             Block b = obstacles.pop();
             int min =getMinPos();
-            b.setY(min-BlockSize);
+            b.setY(min);
             mainRoad.add(b);
-
-            isOutObstacle=false;
-
-            //b.setY(min-BlockSize);
-            mainRoad.add(b);
-
         }
     }
 

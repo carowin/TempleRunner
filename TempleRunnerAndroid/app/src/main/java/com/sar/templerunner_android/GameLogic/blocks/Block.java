@@ -59,8 +59,9 @@ public abstract class Block {
 
 
     public void updatePosition(){
-        y+=5;
-
+        y++;
+        if(y >= screenY )
+            y=0;
     }
 
     protected int incrementSpeed(int y){
