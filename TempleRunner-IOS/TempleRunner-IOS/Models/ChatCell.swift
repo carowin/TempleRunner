@@ -63,7 +63,7 @@ class ChatCell: UITableViewCell, UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
-        textView.frame.size.height = estimatedSize.height + 5
+        textView.frame.size.height = estimatedSize.height //+ 5
         print("estimated",estimatedSize.height )
         print("name size",name.frame.height )
         stackView.frame.size.height =  estimatedSize.height  + name.frame.height
