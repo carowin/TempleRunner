@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MainActivity.this,ScoreActivity.class);
+            intent.putExtra("DATA_CHANGE", false);
             startActivity(intent);
         }
     };

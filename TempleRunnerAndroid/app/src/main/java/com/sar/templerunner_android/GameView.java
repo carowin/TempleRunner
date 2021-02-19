@@ -12,9 +12,9 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-
+import android.content.Intent;
 import androidx.annotation.NonNull;
-
+import android.graphics.Rect;
 import com.sar.templerunner_android.GameLogic.blocks.Block;
 import com.sar.templerunner_android.GameLogic.player.Player;
 import com.sar.templerunner_android.Util.PlayerStates;
@@ -53,13 +53,16 @@ public class GameView extends SurfaceView implements Runnable{
         paint = new Paint();
         backgroundArray = new Background[6];
         nbBackground = backgroundArray.length;
+        score = new TextView(context);
+        score_value = 0;
+
         for(int i = 0;i<nbBackground;i++)
             backgroundArray[i]= new Background(screenX, screenY, this.getResources(), i);
         road = new Road(screenX,screenY,this.getResources());
 
         player = new Player(screenX/3 , screenY - screenY/10,screenY, PlayerStates.RUNNING,this.getResources());
         //
-        //button = BitmapFactory.decodeResource(this.getResources(), R.drawable.button);
+        button = BitmapFactory.decodeResource(this.getResources(), R.drawable.button);
         button = Bitmap.createScaledBitmap(button, 300, 150, true);
 
 

@@ -185,8 +185,7 @@ public class MessageActivity extends AppCompatActivity {
                             }
                             messageAdapter = new MessageAdapter(MessageActivity.this, mChat, "default");
                             recyclerView.setAdapter(messageAdapter);
-                            notifyNewMesssage();
-                        } catch (JSONException e) {
+                            } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -224,7 +223,10 @@ public class MessageActivity extends AppCompatActivity {
                         if(nb_messages - message_already_read <= 0){
                             return;
                         } else {
+                            int temp = nb_messages;
                             nb_messages = nb_messages - message_already_read;
+                            message_already_read = temp;
+                            notifyNewMesssage(nb_messages);
                         }
                         String url_fecth_messages ="https://templerunnerppm.pythonanywhere.com/chat/fetchMessages/"+nb_messages;
                         accesListMessage(url_fecth_messages);
@@ -247,14 +249,14 @@ public class MessageActivity extends AppCompatActivity {
         accesNbMessage(url);
     }
 
-    private void notifyNewMesssage() {
+    private void notifyNewMesssage(int nb_mess) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel notificationChannel = new NotificationChannel("My Notification","NotificationChannel",NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        String message = "Vous avez des nouveaux messages";
+        String message = "Vous avez "+nb_mess+" nouveaux messages";
         NotificationCompat.Builder buillder = new NotificationCompat.Builder(MessageActivity.this,"My Notification");
         buillder.setContentTitle("Nouveau Message");
         buillder.setContentText(message);
