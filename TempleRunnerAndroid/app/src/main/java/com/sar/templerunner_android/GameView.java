@@ -11,15 +11,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.sar.templerunner_android.GameLogic.blocks.Block;
 import com.sar.templerunner_android.GameLogic.Player;
-import com.sar.templerunner_android.GameLogic.PlayerStates;
+import com.sar.templerunner_android.Util.PlayerStates;
 import com.sar.templerunner_android.GameLogic.Road;
-
-import android.view.View.OnTouchListener;
 
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable{
@@ -51,6 +49,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     public void run() {
             while (isPlaying){
                 drawBackgroud();
+                detectCollision();
                 sleep();
             }
     }
@@ -133,24 +132,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         }
     }
 
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-         switch (event.getAction()){
-             case MotionEvent.ACTION_DOWN:
-                 Log.d("myTag", "Action down" );
-                 break;
-             case MotionEvent.ACTION_UP:
-                 Log.d("myTag", "Action UP" );
-                break;
-             case MotionEvent.ACTION_MOVE:
-                 Log.d("myTag", "Action MOVE" );
-                 break;
-         }
-
-        return true;
-    }
-
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
@@ -167,7 +148,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     }
 
-
+    private void detectCollision() {
+        for(Block b : road.getObstacles()) {
+            if (b.detectCollision(player)){
+                isPlaying = false;
+                break;
+            }
+        }
+    }
 
     public static class Background {
         Bitmap background;

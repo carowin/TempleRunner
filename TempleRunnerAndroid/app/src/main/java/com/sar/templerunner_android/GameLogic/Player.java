@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.sar.templerunner_android.R;
+import com.sar.templerunner_android.Util.PlayerStates;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +25,13 @@ public class Player {
 
     private boolean l = true;
     public Player(int x, int y , int screenY , PlayerStates state , Resources res){
+        int size = 60;
         paint = new Paint();
-        rect = new Rect();
+        rect = new Rect(x, y, x + size, y + size);
         this.x=x;
         this.y=y;
         this.screenY=screenY;
         this.state=state;
-        int size = 60;
         Bitmap tmp = BitmapFactory.decodeResource(res, R.drawable.player_run1);
         tmp=Bitmap.createScaledBitmap(tmp, size, size, true);
         images.add(tmp);
@@ -61,5 +63,7 @@ public class Player {
         this.state = state;
     }
 
-
+    public Rect getRect(){
+        return rect;
+    }
 }

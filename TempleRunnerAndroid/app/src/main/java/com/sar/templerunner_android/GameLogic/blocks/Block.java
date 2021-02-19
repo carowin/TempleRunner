@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.blocks;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.DropBoxManager;
 
+import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.R;
 import com.sar.templerunner_android.Util.CurrentDifficulty;
 
@@ -38,7 +39,7 @@ public abstract class Block {
      */
     public Block(int x, int y, int blockSize, int screenY , Resources res){
         paint = new Paint();
-        rect = new Rect();
+        rect = new Rect(x, y, x + blockSize, y+ blockSize);
         id = cpt++;
         this.x=x;
         this.y=y;
@@ -56,11 +57,8 @@ public abstract class Block {
 
 
 
-    public void updatePosition(Canvas c){
-        y++;
-        if(y>=screenY)
-            y= -blockSize;
-        c.drawBitmap(pave,x,y, paint);
+    public void updatePosition(){
+        y+=10;
     }
 
     protected int incrementSpeed(int y){
@@ -74,6 +72,10 @@ public abstract class Block {
             default:
                 return y + 40;
         }
+    }
+
+    public void setImage(Canvas c){
+        c.drawBitmap(pave,x,y, paint);
     }
 
     public Rect getRect() {

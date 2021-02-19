@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.Util;
 
 public enum PlayerStates {
     RUNNING,
