@@ -1,10 +1,11 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.blocks;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import com.sar.templerunner_android.GameLogic.Player;
 import com.sar.templerunner_android.R;
 
 public class SideBranch extends Block{
@@ -31,12 +32,13 @@ public class SideBranch extends Block{
     @Override
     public boolean detectCollision(Player p) {
         //TO DO
-        return false;
+        return  getRect().intersect(p.getRect());
     }
 
+
     @Override
-    public void updatePosition(Canvas c) {
-        super.updatePosition(c);
+    public void setImage(Canvas c) {
+        super.setImage(c);
         c.drawBitmap(obstacle,x,y, paint);
     }
 }

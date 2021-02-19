@@ -1,4 +1,4 @@
-package com.sar.templerunner_android.GameLogic;
+package com.sar.templerunner_android.GameLogic.coins;
 
 
 import android.content.res.Resources;
@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import com.sar.templerunner_android.GameLogic.Player;
 
 public abstract class Coin {
     private int x,y;
