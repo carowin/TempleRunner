@@ -1,9 +1,12 @@
+package com.sar.templerunner_android.GameLogic.blocks;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import androidx.annotation.Nullable;
 
 import com.sar.templerunner_android.GameLogic.player.Player;
 
@@ -73,6 +76,24 @@ public abstract class Block {
         }
     }
 
+    public void setImage(Canvas c){
+        c.drawBitmap(pave,x,y, paint);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        // If the object is compared with itself then return true
+        if (!(obj instanceof Block)) {
+            return false;
+        }
+        Block other = (Block) obj;
+        if (other.id == id)
+            return true;
+        else
+            return false;
+    }
+
+
     public Rect getRect() {
         return rect;
     }
@@ -87,6 +108,10 @@ public abstract class Block {
 
     public int getY() {
         return y;
+    }
+
+    public void setY(int value){
+        y=value;
     }
 
 }

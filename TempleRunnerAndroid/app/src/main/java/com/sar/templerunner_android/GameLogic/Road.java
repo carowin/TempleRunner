@@ -132,9 +132,8 @@ public class Road {
         }
         //Ajouter une chance d'avoir un obstacles
         if (r.nextInt(1) == 0){
-            Block b = obstacles.get(r.nextInt(1));
+            Block b = obstacles.pop();
             int min =getMinPos();
-            obstacles.remove(b);
             b.setY(min-BlockSize);
             mainRoad.add(b);
 
