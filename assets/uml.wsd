@@ -1,28 +1,53 @@
 @startuml uml
+class ChatView #fec89a {}
 
-abstract class Block  {
+class ChatModel #fec89a {}
+ChatView --> ChatModel
+abstract class Block #90e0ef {
+	
 	+void updateBlock()
 	+boolean isCollision()
 }
 
-class Road {
+class Road #90e0ef{
 	+void updateRoad()
 }
-class Player {
+class Player #90e0ef {
 	-int pv
 }
+class Monster #90e0ef {}
 
-class ScoreModel{
+class GameView #90e0ef {}
+
+class Coin #90e0ef {}
+
+class RoadBlock #90e0ef {}
+
+class Branch #90e0ef {}
+
+class SideRock #90e0ef {}
+
+class SimpleRoad #90e0ef {}
+
+class IntersectionRoad #90e0ef {}
+
+class ScoreView #7bf1a8 {}
+
+class ScoreModel #7bf1a8 {
 	-int lastScore
     -int hightScore
    	-int currentScore
     -int currentCoins 
 }
 
-GameView -->  "1" Road
+
+
+GameView   -->  "1" Road
 GameView -->  "1" ScoreModel
 GameView --> "1" Player
 GameView --> "1" Monster
+ScoreView "1" -- "1" GameView
+ScoreView  --> "1" ScoreModel
 
 Road --> "*" Coin
 Road  --> "*"  Block
