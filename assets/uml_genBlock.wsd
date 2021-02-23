@@ -1,24 +1,7 @@
 @startuml uml
-class ChatView #fec89a {}
-
-class ChatModel #fec89a {}
-ChatView --> ChatModel
-
-class ScoreView #7bf1a8 {}
-
-class ScoreModel #7bf1a8 {
-	-int lastScore
-    -int hightScore
-   	-int currentScore
-    -int currentCoins 
-}
-
-ScoreView  --> "1" ScoreModel
-GameView -->  "1" ScoreModel
 
 abstract class Block #90e0ef {
 	+void updateBlock()
-	+boolean isCollision()
 }
 
 class Road #90e0ef{
@@ -28,16 +11,15 @@ class Road #90e0ef{
 	+Boolean generateObstacle(bloc : Block)
 	+void displayRoad(road: [Block])
 }
-class Player #90e0ef {
-	-int pv
-}
-class Monster #90e0ef {}
+
 
 class GameView #90e0ef {
 	+ void update()
 }
 
-class Coin #90e0ef {}
+class Coin #90e0ef {
+	+ void updateCoin()
+}
 
 class RoadBlock #90e0ef {}
 
@@ -55,9 +37,6 @@ class IntersectionRoad #90e0ef {}
 
 GameView   -->  "1" Road
 
-GameView --> "1" Player
-GameView --> "1" Monster
-ScoreView "1" -- "1" GameView
 
 Road --> "*" Coin
 Road  --> "*"  Block
