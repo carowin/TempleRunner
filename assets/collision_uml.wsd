@@ -1,7 +1,14 @@
 @startuml uml
+class Player #fec89a {
+	-int pv
+}
+class Monster #fec89a {}
+GameView --> "1" Player
+GameView --> "1" Monster
 
 abstract class Block #90e0ef {
 	+void updateBlock()
+    +Boolean isCollision()
 }
 
 class Road #90e0ef{
@@ -10,22 +17,25 @@ class Road #90e0ef{
 	+void removeObstacleFromBloc(bloc : Block)
 	+Boolean generateObstacle(bloc : Block)
     +void generateIntersection(bloc : Block)
+    +void detectCollision(player : Player)
 }
 
 
 class GameView #90e0ef {
 	+ void update()
+    + void stopGame()
 }
 
-class Coin #fec89a {
+class Coin #90e0ef {
 	+ void updateCoin()
+    +Boolean isCollision()
 }
 
-class RoadBlock #fec89a {}
+class RoadBlock #90e0ef {}
 
-class Branch #fec89a {}
+class Branch #90e0ef {}
 
-class SideRock #fec89a {}
+class SideRock #90e0ef {}
 
 class SimpleRoad #90e0ef {}
 
@@ -43,5 +53,16 @@ Block <|--  Branch
 Block <|--  SideRock
 Block <|--  SimpleRoad
 Block <|-- IntersectionRoad
+
+enum PlayerStates #fec89a {
+    RUNNING
+    JUMPING
+    SLIDING
+    LEFT
+    RIGHT
+    PAUSE
+    LOSE
+    KILL
+}
 
 @enduml

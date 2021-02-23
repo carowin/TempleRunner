@@ -5,42 +5,23 @@ abstract class Block #90e0ef {
 }
 
 class Road #90e0ef{
-	+void updateRoad() 
+	+void updateRoad()
 	+void resetRoad()
-	+void removeObstacleFromBloc(bloc : Block)
-	+Boolean generateObstacle(bloc : Block)
     +void generateIntersection(bloc : Block)
 }
-
 
 class GameView #90e0ef {
 	+ void update()
 }
 
-class Coin #fec89a {
-	+ void updateCoin()
-}
-
-class RoadBlock #fec89a {}
-
-class Branch #fec89a {}
-
-class SideRock #fec89a {}
-
 class SimpleRoad #90e0ef {}
 
 class IntersectionRoad #90e0ef {}
 
-
 GameView   -->  "1" Road
 
-
-Road --> "*" Coin
 Road  --> "*"  Block
 
-Block <|--  RoadBlock 
-Block <|--  Branch
-Block <|--  SideRock
 Block <|--  SimpleRoad
 Block <|-- IntersectionRoad
 
